@@ -3,20 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MasterClass Pedagogía | Guía Interactiva</title>
+    <title>Guía de Estudio Completa | Pedagogía</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Outfit:wght@500;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            /* Paleta de Colores Profesional */
-            --primary: #2563eb;       /* Azul Royal */
-            --primary-dark: #1e40af;
-            --accent: #f59e0b;        /* Ámbar para resaltar */
-            --success: #10b981;       /* Verde esmeralda */
-            --bg-body: #f3f4f6;
+            --primary: #0f172a;       /* Azul noche serio */
+            --primary-light: #334155;
+            --accent-safety: #ea580c; /* Naranja seguridad */
+            --accent-policy: #2563eb; /* Azul política */
+            --bg-body: #f8fafc;
             --bg-card: #ffffff;
-            --text-main: #1f2937;
-            --text-light: #6b7280;
-            --shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --text-main: #1e293b;
+            --text-light: #64748b;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
         }
 
         body {
@@ -24,187 +23,150 @@
             background-color: var(--bg-body);
             color: var(--text-main);
             margin: 0;
-            line-height: 1.6;
+            line-height: 1.7; /* Mayor legibilidad */
         }
 
-        /* --- HEADER HERO --- */
+        /* --- HEADER --- */
         header {
-            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
             color: white;
-            padding: 3rem 1.5rem;
+            padding: 3rem 1.5rem 5rem 1.5rem; /* Padding extra abajo para los tabs */
             text-align: center;
             position: relative;
-            clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
-            margin-bottom: 2rem;
         }
 
         header h1 {
             font-family: 'Outfit', sans-serif;
-            font-size: 2.5rem;
+            font-size: 2.2rem;
             margin: 0;
-            letter-spacing: -1px;
         }
 
-        header p { opacity: 0.9; font-weight: 300; margin-top: 0.5rem; }
+        header p { opacity: 0.8; font-weight: 300; margin-top: 10px; }
 
         .back-btn {
             position: absolute;
-            top: 20px;
-            left: 20px;
-            background: rgba(255,255,255,0.2);
+            top: 20px; left: 20px;
+            background: rgba(255,255,255,0.1);
             color: white;
             text-decoration: none;
             padding: 8px 16px;
             border-radius: 50px;
             font-size: 0.85rem;
             font-weight: 600;
-            backdrop-filter: blur(5px);
             transition: 0.3s;
         }
-        .back-btn:hover { background: rgba(255,255,255,0.4); }
+        .back-btn:hover { background: rgba(255,255,255,0.2); }
 
-        /* --- NAVEGACIÓN (TABS) --- */
+        /* --- TABS --- */
         .tabs-container {
             display: flex;
             justify-content: center;
-            gap: 15px;
-            margin-top: -3.5rem; /* Subir para superponer al header */
+            gap: 20px;
+            margin-top: -40px;
             padding: 0 1rem;
-            position: relative;
-            z-index: 10;
         }
 
         .tab-btn {
             background: white;
-            padding: 1rem 2rem;
+            padding: 1.2rem 2.5rem;
             border: none;
             border-radius: 12px;
             font-family: 'Outfit', sans-serif;
-            font-weight: 600;
+            font-weight: 700;
             font-size: 1rem;
             color: var(--text-light);
             cursor: pointer;
-            box-shadow: var(--shadow);
+            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
             transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 8px;
         }
 
-        .tab-btn:hover { transform: translateY(-3px); color: var(--primary); }
+        .tab-btn:hover { transform: translateY(-2px); }
 
         .tab-btn.active {
             background: var(--primary);
             color: white;
             transform: translateY(-5px);
-            box-shadow: 0 20px 25px -5px rgba(37, 99, 235, 0.4);
+            box-shadow: 0 20px 25px -5px rgba(15, 23, 42, 0.3);
         }
+
+        .tab-btn.active.safety { background: var(--accent-safety); }
+        .tab-btn.active.policy { background: var(--accent-policy); }
 
         /* --- CONTENIDOS --- */
         .container {
-            max-width: 1000px;
+            max-width: 900px;
             margin: 3rem auto;
             padding: 0 1.5rem;
         }
 
         .content-section {
             display: none;
-            animation: slideUp 0.5s ease-out;
+            animation: fadeIn 0.5s ease;
         }
         .content-section.active { display: block; }
+        
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        @keyframes slideUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* --- ESTILOS DE TARJETAS --- */
-        .section-title {
-            font-family: 'Outfit', sans-serif;
-            color: var(--primary-dark);
-            border-left: 5px solid var(--accent);
-            padding-left: 15px;
-            margin-bottom: 1.5rem;
-        }
-
-        .card-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-        }
-
-        .info-card {
+        /* --- TARJETAS --- */
+        .card {
             background: var(--bg-card);
-            padding: 1.5rem;
             border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
             box-shadow: var(--shadow);
-            border: 1px solid #f0f0f0;
+            border: 1px solid #e2e8f0;
         }
 
-        .info-card h3 { margin-top: 0; color: var(--primary); }
-
-        /* Estilos específicos: Definiciones */
-        .concept-box {
-            background: #eff6ff;
-            border-radius: 12px;
-            padding: 1.5rem;
-            margin-bottom: 1rem;
-            border-left: 4px solid var(--primary);
-        }
-        .concept-title { font-weight: bold; color: var(--primary-dark); display: block; margin-bottom: 5px; }
-
-        /* Estilos específicos: NOMs */
-        .nom-card {
-            background: white;
-            border-radius: 16px;
-            overflow: hidden;
-            box-shadow: var(--shadow);
+        h2 {
+            font-family: 'Outfit', sans-serif;
+            color: var(--primary);
+            font-size: 1.5rem;
+            margin-top: 0;
+            border-bottom: 2px solid #f1f5f9;
+            padding-bottom: 1rem;
             margin-bottom: 1.5rem;
         }
-        .nom-header {
-            background: var(--text-main);
-            color: white;
-            padding: 10px 20px;
-            font-weight: bold;
-            font-family: 'Outfit', sans-serif;
-        }
-        .nom-body { padding: 20px; }
 
-        /* Estilos específicos: Ciclo PDCA */
-        .pdca-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
+        h3 {
+            font-family: 'Outfit', sans-serif;
+            color: var(--primary-light);
+            font-size: 1.2rem;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
             gap: 10px;
         }
-        .pdca-item {
-            padding: 15px;
-            border-radius: 8px;
-            color: white;
-            font-weight: bold;
-            text-align: center;
-        }
-        .p-plan { background: #3b82f6; }
-        .p-do { background: #f59e0b; }
-        .p-check { background: #10b981; }
-        .p-act { background: #ef4444; }
 
-        /* Estilos políticas */
-        .timeline-item {
-            position: relative;
-            padding-left: 30px;
-            margin-bottom: 20px;
-            border-left: 3px solid #e5e7eb;
+        /* Elementos destacados */
+        .highlight-box {
+            background: #f8fafc;
+            border-left: 4px solid var(--primary);
+            padding: 1.5rem;
+            border-radius: 0 8px 8px 0;
+            margin: 1rem 0;
         }
-        .timeline-item::before {
-            content: '';
-            position: absolute;
-            left: -9px;
-            top: 5px;
-            width: 15px;
-            height: 15px;
-            background: var(--accent);
-            border-radius: 50%;
+
+        .highlight-box.safety { border-color: var(--accent-safety); background: #fff7ed; }
+        .highlight-box.policy { border-color: var(--accent-policy); background: #eff6ff; }
+
+        .quote-box {
+            font-style: italic;
+            color: var(--text-main);
+            border-left: 4px solid #cbd5e1;
+            padding-left: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        ul, ol { padding-left: 20px; }
+        li { margin-bottom: 10px; }
+        strong { color: var(--text-main); font-weight: 700; }
+
+        /* Tablas simples */
+        .data-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
         }
 
         .footer {
@@ -212,30 +174,31 @@
             padding: 3rem;
             color: var(--text-light);
             font-size: 0.9rem;
-            border-top: 1px solid #e5e7eb;
-            margin-top: 3rem;
+            border-top: 1px solid #e2e8f0;
         }
 
-        /* Responsive */
-        @media (max-width: 600px) {
-            .tabs-container { flex-direction: column; margin-top: -2rem; }
-            header { clip-path: none; padding-bottom: 3rem; }
+        /* Estilos específicos para Glosario */
+        .glossary-item {
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px dashed #e2e8f0;
         }
+        .glossary-term { color: var(--accent-safety); font-weight: bold; font-family: 'Outfit', sans-serif; }
     </style>
 </head>
 <body>
 
 <header>
-    <a href="index.html" class="back-btn">← Menú Principal</a>
-    <h1>Pedagogía Profesional</h1>
-    <p>Seguridad Laboral & Políticas Públicas | México 2026</p>
+    <a href="index.html" class="back-btn">← Volver al Menú</a>
+    <h1>Guía de Estudio Profesional</h1>
+    <p>Licenciatura en Pedagogía | Contexto México</p>
 </header>
 
 <div class="tabs-container">
-    <button class="tab-btn active" onclick="openTab(event, 'seguridad')">
-        🛡️ Seguridad y Riesgos
+    <button class="tab-btn safety active" onclick="openTab(event, 'seguridad')">
+        🦺 Seguridad y Riesgos
     </button>
-    <button class="tab-btn" onclick="openTab(event, 'politicas')">
+    <button class="tab-btn policy" onclick="openTab(event, 'politicas')">
         🏛️ Políticas Públicas
     </button>
 </div>
@@ -244,141 +207,189 @@
 
     <section id="seguridad" class="content-section active">
         
-        <h2 class="section-title">Marco Legal y Fundamentos</h2>
-        
-        <div class="info-card" style="border-left: 5px solid var(--accent);">
-            <h3>📜 Ley Federal del Trabajo (Art. 473)</h3>
-            <p>Define los <strong>Riesgos de Trabajo</strong> como los accidentes y enfermedades a los que están expuestos los trabajadores en ejercicio o con motivo del trabajo.</p>
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1rem;">
-                <div style="background: #fdf2f8; padding: 10px; border-radius: 8px; color: #be185d;">
-                    <strong>Patrón:</strong> Obligado a dar seguridad y equipo.
-                </div>
-                <div style="background: #f0fdf4; padding: 10px; border-radius: 8px; color: #15803d;">
-                    <strong>Trabajador:</strong> Obligado a usar el equipo.
-                </div>
+        <div class="card">
+            <h2>1. Fundamentos Legales en México</h2>
+            <p>Para entender la seguridad, debemos conocer nuestra base legal principal: la <strong>Ley Federal del Trabajo (LFT)</strong>.</p>
+            
+            <div class="highlight-box safety">
+                <strong>Artículo 473:</strong> Define los Riesgos de Trabajo como los accidentes y enfermedades a que están expuestos los trabajadores en ejercicio o con motivo del trabajo.
             </div>
+
+            <ul>
+                <li><strong>Obligación del Patrón:</strong> Proporcionar un entorno seguro, capacitación y el equipo necesario.</li>
+                <li><strong>Obligación del Trabajador:</strong> Seguir las medidas preventivas y usar correctamente el equipo de protección.</li>
+            </ul>
         </div>
 
-        <br>
-
-        <div class="card-grid">
-            <div class="info-card">
-                <h3>⚠️ Peligro</h3>
-                <p>Fuente o situación con <strong>potencial de daño</strong>.</p>
-                <small style="color:var(--text-light)">Ej. Un piso mojado.</small>
-            </div>
-            <div class="info-card">
-                <h3>📉 Riesgo</h3>
-                <p><strong>Probabilidad</strong> de que el peligro se materialice.</p>
-                <small style="color:var(--text-light)">Ej. Probabilidad de resbalar.</small>
-            </div>
-            <div class="info-card">
-                <h3>❤️ Salud Ocupacional</h3>
-                <p>Bienestar completo: <strong>Físico, Mental y Social</strong>.</p>
-            </div>
+        <div class="card">
+            <h2>2. Conceptos Clave (Diferenciación Pedagógica)</h2>
+            <p>Es vital que como pedagoga/o sepas explicar estas diferencias a tus futuros capacitados:</p>
+            
+            <ul style="list-style: none; padding: 0;">
+                <li class="highlight-box safety">
+                    <strong>Peligro:</strong> Fuente, situación o acto con potencial de causar daño (ej. un piso mojado).
+                </li>
+                <li class="highlight-box safety">
+                    <strong>Riesgo:</strong> Probabilidad de que el peligro se materialice y cause una lesión (ej. la probabilidad de que alguien resbale).
+                </li>
+                <li class="highlight-box safety">
+                    <strong>Salud Ocupacional:</strong> No es solo "no estar enfermo", es un estado de completo bienestar físico, mental y social.
+                </li>
+            </ul>
         </div>
 
-        <h2 class="section-title">Normas Oficiales Mexicanas (STPS)</h2>
+        <div class="card">
+            <h2>3. Normas Oficiales Mexicanas (NOM)</h2>
+            <p>Las NOM son regulaciones técnicas de observancia obligatoria.</p>
 
-        <div class="nom-card">
-            <div class="nom-header">NOM-017-STPS-2008 (EPP)</div>
-            <div class="nom-body">
-                <p>Establece los requisitos para el Equipo de Protección Personal.</p>
-                <div class="concept-box">
-                    <span class="concept-title">Jerarquía de Control (Vital en Pedagogía):</span>
-                    1. Eliminar Riesgo ➔ 2. Protección Colectiva ➔ <strong>3. EPP (Última opción)</strong>
-                </div>
+            <h3>A. NOM-017-STPS-2008: Equipo de Protección Personal (EPP)</h3>
+            <p><strong>Propósito:</strong> Establecer requisitos para la selección, uso y manejo del EPP.</p>
+            
+            <div style="background: #fff; border: 2px solid var(--accent-safety); padding: 15px; border-radius: 8px; margin: 15px 0;">
+                <strong>⚠️ Jerarquía de Control:</strong> Antes de dar un casco (EPP), debemos intentar eliminar el riesgo o usar <em>Protección Colectiva</em> (barandales, extractores). El EPP es la última línea de defensa.
+            </div>
+            <p><strong>Tipos de EPP:</strong> Protección de cabeza (cascos), ojos (goggles), oídos (tapones), manos (guantes) y pies (calzado de seguridad).</p>
+
+            <h3>B. NOM-035-STPS-2018: Factores de Riesgo Psicosocial</h3>
+            <p><strong>Propósito:</strong> Identificar, analizar y prevenir factores que afecten la salud mental de los trabajadores.</p>
+            <ul>
+                <li><strong>Factores incluidos:</strong> Carga de trabajo excesiva, falta de control, liderazgo negativo y violencia laboral.</li>
+                <li><strong>Entorno Organizacional Favorable:</strong> Promover el sentido de pertenencia y la comunicación.</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h2>4. Gestión y Aplicación Educativa</h2>
+            
+            <h3>El Ciclo PDCA (PHVA)</h3>
+            <p>La seguridad es un sistema dinámico:</p>
+            <ul>
+                <li><strong>Planificar (Plan):</strong> Identificar riesgos y establecer objetivos.</li>
+                <li><strong>Hacer (Do):</strong> Implementar las medidas y capacitar al personal.</li>
+                <li><strong>Verificar (Check):</strong> Realizar auditorías y revisar si hubo accidentes.</li>
+                <li><strong>Actuar (Act):</strong> Corregir fallas y mejorar el sistema.</li>
+            </ul>
+
+            <h3>5. Aplicación en el Ámbito Educativo</h3>
+            <p>Como profesional de la pedagogía, tu rol incluye:</p>
+            <ul>
+                <li><strong>Diseño de Capacitación:</strong> Crear materiales didácticos claros sobre rutas de evacuación y uso de extintores.</li>
+                <li><strong>Análisis de Señalética:</strong> Asegurar que los símbolos (colores de seguridad) sean comprensibles para todos (alumnos, docentes, personal administrativo).</li>
+                <li><strong>Prevención de Emergencias:</strong> Liderar la formación de Brigadas (Primeros Auxilios, Evacuación, Combate de Incendios).</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h2>6. Glosario para el Pedagogo</h2>
+            <div class="glossary-item">
+                <span class="glossary-term">Burnout:</span> Agotamiento emocional y cinismo hacia el trabajo.
+            </div>
+            <div class="glossary-item">
+                <span class="glossary-term">Karoshi:</span> Término japonés para la muerte por exceso de trabajo (estrés extremo).
+            </div>
+            <div class="glossary-item">
+                <span class="glossary-term">Incidente:</span> Suceso que pudo ser un accidente pero no causó lesiones.
+            </div>
+            <div class="glossary-item" style="border:none;">
+                <span class="glossary-term">Ergonomía:</span> Adaptar las máquinas y el entorno al trabajador (ej. sillas adecuadas en el aula).
             </div>
         </div>
-
-        <div class="nom-card">
-            <div class="nom-header">NOM-035-STPS-2018 (Psicosocial)</div>
-            <div class="nom-body">
-                <p>Previene factores de riesgo para la salud mental (Estrés, Violencia, Liderazgo Negativo).</p>
-                <p><strong>Objetivo:</strong> Crear un Entorno Organizacional Favorable.</p>
-            </div>
-        </div>
-
-        <h2 class="section-title">Gestión: Ciclo PDCA</h2>
-        <div class="pdca-grid">
-            <div class="pdca-item p-plan">PLANIFICAR<br><small>Identificar Riesgos</small></div>
-            <div class="pdca-item p-do">HACER<br><small>Capacitar</small></div>
-            <div class="pdca-item p-check">VERIFICAR<br><small>Auditorías</small></div>
-            <div class="pdca-item p-act">ACTUAR<br><small>Mejorar</small></div>
-        </div>
-        
-        <br>
-        
-        <div class="info-card" style="background: linear-gradient(to right, #10b981, #34d399); color: white;">
-            <h3 style="color: white;">🧠 Ejercicio de Reflexión</h3>
-            <p><strong>Pregunta:</strong> ¿Por qué es error dar batas de química sin revisar la ventilación?</p>
-            <p style="background: rgba(255,255,255,0.2); padding: 10px; border-radius: 8px;"><strong>Respuesta:</strong> Porque rompe la jerarquía. La protección colectiva (ventilación) siempre es prioridad antes que la individual (bata).</p>
-        </div>
-
     </section>
+
 
     <section id="politicas" class="content-section">
         
-        <h2 class="section-title">Fundamentos de Política Educativa</h2>
-        
-        <div class="info-card">
-            <h3>¿Qué es una Política Pública?</h3>
-            <p>Son acciones de gobierno con objetivos de interés público, sustentadas en diagnóstico y participación. (Definición: Luis F. Aguilar).</p>
-            <div class="concept-box">
-                <span class="concept-title">La Educación como Bien Público</span>
-                El Estado tiene la responsabilidad ineludible de garantizar su acceso y calidad.
+        <div class="card">
+            <h2>I. Fundamentos de las Políticas Públicas</h2>
+            
+            <h3>1. ¿Qué es lo "Público"?</h3>
+            <p>Es el espacio de interés común que trasciende lo individual o privado. En pedagogía, entendemos la <strong>educación como un bien público</strong>, lo que implica que el Estado tiene la responsabilidad de garantizar su acceso y calidad.</p>
+
+            <h3>2. Definición de Política Pública (P.P.)</h3>
+            <p>Según Luis F. Aguilar Villanueva, las P.P. son:</p>
+            <div class="quote-box">
+                "Acciones de gobierno con objetivos de interés público que surgen de decisiones sustentadas en un proceso de diagnóstico y análisis de factibilidad, donde participa la ciudadanía".
+            </div>
+            <p><strong>Características clave:</strong></p>
+            <ul>
+                <li>Orientación hacia objetivos de beneficio público.</li>
+                <li>Participación ciudadana.</li>
+                <li>Legalidad y legitimidad.</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h2>II. El Ciclo de las Políticas Públicas</h2>
+            <p>Para analizar cualquier programa educativo (como las becas "Benito Juárez"), debemos entender sus etapas:</p>
+            
+            <div class="highlight-box policy">
+                <ol>
+                    <li><strong>Surgimiento del problema y Agenda Pública:</strong> ¿Cómo se decide que un tema es prioritario? (Ej. El rezago educativo post-pandemia).</li>
+                    <li><strong>Diseño y Formulación:</strong> Se establecen metas y se seleccionan instrumentos (leyes, presupuesto, programas).</li>
+                    <li><strong>Implementación:</strong> La puesta en marcha en las escuelas y comunidades.</li>
+                    <li><strong>Evaluación:</strong> Medición de resultados (¿Se redujo la deserción?). En México, instituciones como el CONEVAL y anteriormente el INEE son referentes para este análisis.</li>
+                </ol>
             </div>
         </div>
 
-        <br>
-
-        <h2 class="section-title">El Ciclo de las Políticas</h2>
-        <div class="info-card">
-            <div class="timeline-item">
-                <strong>1. Agenda Pública:</strong> Decidir qué problema es prioritario (ej. Rezago post-pandemia).
-            </div>
-            <div class="timeline-item">
-                <strong>2. Diseño:</strong> Establecer metas, presupuesto y leyes.
-            </div>
-            <div class="timeline-item">
-                <strong>3. Implementación:</strong> Puesta en marcha en las escuelas.
-            </div>
-            <div class="timeline-item" style="border:none;">
-                <strong>4. Evaluación:</strong> Medición de resultados (Instituciones clave: CONEVAL).
-            </div>
-        </div>
-
-        <h2 class="section-title">Panorama Actual (México)</h2>
-        <div class="card-grid">
-            <div class="info-card">
-                <h3>Nueva Escuela Mexicana</h3>
-                <p>Enfoque humanista, inclusivo y comunitario. La escuela no es una isla, trabaja con la comunidad.</p>
-            </div>
-            <div class="info-card">
-                <h3>Programa RECREA (Jalisco)</h3>
-                <p>Refundación educativa basada en "Comunidades de Aprendizaje para la Vida" (CAV).</p>
-            </div>
-            <div class="info-card">
-                <h3>Retos (PISA / Datos)</h3>
-                <p>Aunque hay cobertura en primaria, persisten retos graves en matemáticas y comprensión lectora.</p>
+        <div class="card">
+            <h2>III. Contexto Educativo en México: Datos y Realidad</h2>
+            <p>Para un análisis crítico, es vital observar las cifras oficiales (INEGI/CONEVAL 2020-2022):</p>
+            
+            <div class="data-grid">
+                <div>
+                    <h3>Masificación</h3>
+                    <p>México ha logrado una cobertura casi total en primaria, pero el reto persiste en la Educación Media Superior y Superior.</p>
+                </div>
+                <div>
+                    <h3>Rezago Social</h3>
+                    <p>Según CONEVAL, el rezago educativo afecta desproporcionadamente a grupos indígenas y poblaciones rurales, donde la carencia de infraestructura es más aguda.</p>
+                </div>
+                <div>
+                    <h3>PISA 2018</h3>
+                    <p>Los resultados muestran que México mantiene retos significativos en comprensión lectora y matemáticas, lo que cuestiona la efectividad de las reformas previas.</p>
+                </div>
             </div>
         </div>
 
-        <h2 class="section-title">Herramientas del Pedagogo</h2>
-        <div class="info-card">
-            <h3>🌳 Árbol de Problemas</h3>
-            <p><strong>Raíces:</strong> Causas | <strong>Tronco:</strong> Problema Central | <strong>Ramas:</strong> Efectos.</p>
-            <hr style="border: 0; border-top: 1px solid #eee; margin: 15px 0;">
-            <h3>📊 Matriz de Marco Lógico</h3>
-            <p>Herramienta estándar para planificar objetivos, indicadores y verificación de programas.</p>
+        <div class="card">
+            <h2>IV. Políticas Educativas Actuales (Siglo XXI)</h2>
+            
+            <h3>1. La Nueva Escuela Mexicana (NEM)</h3>
+            <p>Es el paradigma actual que busca la transformación social a través de la educación.</p>
+            <ul>
+                <li><strong>Enfoque:</strong> Humanista, inclusivo, intercultural y de excelencia.</li>
+                <li><strong>Ejes:</strong> Revalorización del magisterio, infraestructura digna, y gobernanza participativa.</li>
+                <li><strong>Vinculación comunitaria:</strong> La escuela ya no es una isla; debe trabajar con el contexto local (Proyectos Escolares Comunitarios).</li>
+            </ul>
+
+            <h3>2. Marco Curricular Común (MCCEMS)</h3>
+            <p>Busca que los jóvenes sean ciudadanos con conciencia histórica y pensamiento crítico, eliminando la visión puramente técnica o de mercado de sexenios anteriores.</p>
+
+            <h3>3. Programa RECREA (Caso Jalisco)</h3>
+            <p>Un ejemplo de política estatal que busca la "Refundación" del sistema educativo, enfocándose en <strong>Comunidades de Aprendizaje para la Vida (CAV)</strong> y el bienestar integral (nutrición y cultura de paz).</p>
         </div>
 
+        <div class="card">
+            <h2>V. Herramientas de Análisis para el Pedagogo</h2>
+            <p>Como profesional de la pedagogía, no solo ejecutas planes, también puedes proponer soluciones.</p>
+
+            <h3>Árbol de Problemas</h3>
+            <ul>
+                <li><strong>Raíces:</strong> Causas del problema (ej. falta de capacitación docente).</li>
+                <li><strong>Tronco:</strong> Problema central (ej. bajo nivel de lectoescritura).</li>
+                <li><strong>Ramas:</strong> Efectos (ej. deserción escolar, desempleo).</li>
+            </ul>
+
+            <h3>Matriz de Marco Lógico</h3>
+            <p>Herramienta para planificar objetivos, indicadores y medios de verificación de un programa educativo.</p>
+        </div>
     </section>
 
 </div>
 
 <div class="footer">
-    <p>Guía de Estudio Desarrollada para Pedagogía | 2026</p>
+    <p>Material de Estudio Unificado | Licenciatura en Pedagogía 2026</p>
 </div>
 
 <script>
@@ -392,20 +403,20 @@
             content[i].classList.remove("active");
         }
         
-        // 2. Desactivar todos los botones
+        // 2. Limpiar clases activas de los botones
         tablinks = document.getElementsByClassName("tab-btn");
         for (i = 0; i < tablinks.length; i++) {
             tablinks[i].className = tablinks[i].className.replace(" active", "");
         }
         
-        // 3. Mostrar el seleccionado y activar botón
+        // 3. Mostrar el seleccionado
         document.getElementById(tabName).style.display = "block";
         
-        // Pequeño truco para reiniciar la animación
+        // Timeout breve para permitir que la animación CSS se ejecute
         setTimeout(() => {
              document.getElementById(tabName).classList.add("active");
         }, 10);
-       
+        
         evt.currentTarget.className += " active";
     }
 </script>
