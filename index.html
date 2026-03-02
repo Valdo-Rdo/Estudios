@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portal de Recursos Pedagógicos</title>
+    <title>Recursos Pedagógicos PRO</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #2c3e50;    /* Azul oscuro serio */
-            --accent: #e67e22;     /* Naranja para resaltar */
-            --bg: #f4f6f7;         /* Gris muy suave de fondo */
+            --primary: #2c3e50;
+            --accent: #27ae60;      /* Verde para educación/crecimiento */
+            --bg: #f4f6f7;
             --card-bg: #ffffff;
             --text: #34495e;
         }
@@ -22,23 +22,18 @@
             padding: 0;
         }
 
-        /* HERO SECTION (Encabezado) */
         header {
-            background: linear-gradient(135deg, var(--primary) 0%, #3498db 100%);
+            background: linear-gradient(135deg, var(--primary) 0%, #2980b9 100%);
             color: white;
             padding: 3rem 1rem;
             text-align: center;
             box-shadow: 0 4px 15px rgba(0,0,0,0.1);
         }
 
-        header h1 { margin: 0; font-size: 2.5rem; letter-spacing: 1px; }
+        header h1 { margin: 0; font-size: 2.5rem; }
         header p { opacity: 0.9; margin-top: 10px; font-weight: 300; }
 
-        /* BUSCADOR */
-        .search-container {
-            margin-top: 20px;
-        }
-
+        .search-container { margin-top: 20px; }
         #searchInput {
             padding: 12px 20px;
             width: 80%;
@@ -48,12 +43,8 @@
             font-size: 1rem;
             box-shadow: 0 4px 6px rgba(0,0,0,0.2);
             outline: none;
-            transition: 0.3s;
         }
 
-        #searchInput:focus { transform: scale(1.05); }
-
-        /* GRID DE TARJETAS */
         .container {
             max-width: 1100px;
             margin: 2rem auto;
@@ -68,31 +59,24 @@
             border-radius: 12px;
             overflow: hidden;
             box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            transition: transform 0.3s ease;
             border-top: 5px solid var(--accent);
             display: flex;
             flex-direction: column;
         }
 
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 12px 20px rgba(0,0,0,0.15);
-        }
-
+        .card:hover { transform: translateY(-5px); }
         .card-body { padding: 1.5rem; flex-grow: 1; }
         
         .tag {
-            background-color: #e8f6f3;
-            color: #1abc9c;
+            background-color: #e8f8f5;
+            color: #16a085;
             padding: 4px 10px;
             border-radius: 20px;
             font-size: 0.8rem;
             font-weight: 600;
             text-transform: uppercase;
         }
-
-        .card h3 { margin: 15px 0 10px; color: var(--primary); }
-        .card p { font-size: 0.9rem; color: #7f8c8d; }
 
         .btn {
             display: block;
@@ -108,25 +92,30 @@
         }
 
         .btn:hover { background-color: var(--accent); }
+        
+        /* Estilo para botones deshabilitados (Próximamente) */
+        .btn.disabled {
+            background-color: #bdc3c7;
+            cursor: not-allowed;
+        }
 
-        /* Footer */
         footer {
             text-align: center;
             padding: 2rem;
             margin-top: 2rem;
-            color: #bdc3c7;
-            font-size: 0.9rem;
+            color: #95a5a6;
+            font-size: 0.8rem;
         }
     </style>
 </head>
 <body>
 
 <header>
-    <h1>Pedagogía Hub</h1>
-    <p>Recursos, guías y herramientas para la Licenciatura</p>
+    <h1>Banco de Recursos: Pedagogía</h1>
+    <p>Guías, plantillas y simuladores de examen</p>
     
     <div class="search-container">
-        <input type="text" id="searchInput" onkeyup="filtrarGuias()" placeholder="🔍 Buscar tema (ej. seguridad, políticas)...">
+        <input type="text" id="searchInput" onkeyup="filtrarRecursos()" placeholder="🔍 Buscar recurso...">
     </div>
 </header>
 
@@ -135,38 +124,38 @@
     <div class="card">
         <div class="card-body">
             <span class="tag">5to Cuatrimestre</span>
-            <h3>Seguridad y Políticas Públicas</h3>
-            <p>Guía unificada que cubre la NOM-017, NOM-035, prevención de riesgos y el ciclo de las políticas educativas en México.</p>
+            <h3>Guía: Seguridad y Políticas</h3>
+            <p>Resumen interactivo de la NOM-017, NOM-035 y el Ciclo de Políticas Públicas Educativas.</p>
         </div>
         <a href="guia_pedagogia.html" class="btn">Abrir Guía</a>
     </div>
 
     <div class="card">
         <div class="card-body">
-            <span class="tag">Proyecto Personal</span>
-            <h3>Tracker de Entrenamiento</h3>
-            <p>Aplicación web para registro de rutinas de gimnasio y seguimiento de progreso con mancuernas.</p>
+            <span class="tag">Práctica</span>
+            <h3>Simulador de Examen</h3>
+            <p>Pon a prueba tus conocimientos con reactivos de opción múltiple sobre Seguridad Escolar.</p>
         </div>
-        <a href="#" onclick="alert('¡Próximamente! Estamos trabajando en ello.')" class="btn" style="background-color: #95a5a6;">Próximamente</a>
+        <a href="#" class="btn disabled">Próximamente</a>
     </div>
 
     <div class="card">
         <div class="card-body">
-            <span class="tag">Recursos</span>
-            <h3>Bibliografía y Enlaces</h3>
-            <p>Repositorio de enlaces a la Ley Federal del Trabajo y documentos de la STPS.</p>
+            <span class="tag">Herramientas</span>
+            <h3>Plantillas Didácticas</h3>
+            <p>Formatos descargables para Planeación de Clases, Cartas Descriptivas y Rubricas.</p>
         </div>
-        <a href="#" class="btn" style="background-color: #95a5a6;">Próximamente</a>
+        <a href="#" class="btn disabled">Próximamente</a>
     </div>
 
 </div>
 
 <footer>
-    <p>Creado por Valdo-Rdo | 2026</p>
+    <p>Plataforma de Estudio Colaborativo | 2026</p>
 </footer>
 
 <script>
-    function filtrarGuias() {
+    function filtrarRecursos() {
         var input, filter, container, cards, h3, i, txtValue;
         input = document.getElementById("searchInput");
         filter = input.value.toUpperCase();
