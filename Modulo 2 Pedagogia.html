@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guía de Estudio Profesional - Pedagogía</title>
+    <style>
+        :root {
+            --primary: #1a5276;
+            --secondary: #2471a3;
+            --accent: #e67e22;
+            --bg: #f8f9f9;
+            --white: #ffffff;
+            --text: #2c3e50;
+            --border: #d5dbdb;
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            line-height: 1.6;
+        }
+
+        header {
+            background-color: var(--primary);
+            color: white;
+            text-align: center;
+            padding: 1.5rem 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        /* Sistema de Pestañas */
+        .tabs {
+            display: flex;
+            justify-content: center;
+            background: var(--white);
+            border-bottom: 2px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .tab-btn {
+            padding: 15px 25px;
+            border: none;
+            background: none;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: bold;
+            color: var(--secondary);
+            transition: 0.3s;
+            border-bottom: 3px solid transparent;
+        }
+
+        .tab-btn.active {
+            color: var(--accent);
+            border-bottom: 3px solid var(--accent);
+        }
+
+        .tab-btn:hover {
+            background-color: #f2f2f2;
+        }
+
+        /* Contenido */
+        .container {
+            max-width: 1000px;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+        }
+
+        .content-section {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .content-section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Estilos de Texto */
+        .card {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            margin-bottom: 2rem;
+        }
+
+        h2 { color: var(--primary); border-left: 5px solid var(--accent); padding-left: 15px; }
+        h3 { color: var(--secondary); margin-top: 1.5rem; }
+        
+        .highlight-box {
+            background: #fdf2e9;
+            border-left: 4px solid var(--accent);
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+        }
+
+        th, td {
+            border: 1px solid var(--border);
+            padding: 12px;
+            text-align: left;
+        }
+
+        th { background: #ebf5fb; color: var(--primary); }
+
+        ul { padding-left: 20px; }
+        li { margin-bottom: 8px; }
+
+        .footer {
+            text-align: center;
+            padding: 2rem;
+            font-size: 0.9rem;
+            color: #7f8c8d;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Centro de Estudio: Pedagogía</h1>
+    <p>Licenciatura - 5to Cuatrimestre</p>
+</header>
+
+<nav class="tabs">
+    <button class="tab-btn active" onclick="openTab(event, 'seguridad')">Seguridad y Riesgos</button>
+    <button class="tab-btn" onclick="openTab(event, 'politicas')">Políticas Públicas</button>
+</nav>
+
+<div class="container">
+    
+    <section id="seguridad" class="content-section active">
+        <div class="card">
+            <h2>Seguridad y Prevención de Riesgos en el Trabajo</h2>
+            <p>Esta guía sintetiza los conceptos fundamentales, el marco legal y las aplicaciones prácticas necesarias para gestionar la seguridad y salud en entornos laborales y educativos.</p>
+
+            <h3>1. Fundamentos Legales en México</h3>
+            <p><strong>Ley Federal del Trabajo (LFT):</strong> Nuestra base legal principal.</p>
+            <ul>
+                <li><strong>Artículo 473:</strong> Define los Riesgos de Trabajo como los accidentes y enfermedades a que están expuestos los trabajadores en ejercicio o con motivo del trabajo.</li>
+                <li><strong>Obligación del Patrón:</strong> Proporcionar un entorno seguro, capacitación y el equipo necesario.</li>
+                <li><strong>Obligación del Trabajador:</strong> Seguir las medidas preventivas y usar correctamente el equipo de protección.</li>
+            </ul>
+
+            <h3>2. Conceptos Clave (Diferenciación Pedagógica)</h3>
+            <div class="highlight-box">
+                <p><strong>Peligro:</strong> Fuente, situación o acto con potencial de causar daño (ej. un piso mojado).</p>
+                <p><strong>Riesgo:</strong> Probabilidad de que el peligro se materialice y cause una lesión (ej. la probabilidad de que alguien resbale).</p>
+                <p><strong>Salud Ocupacional:</strong> No es solo "no estar enfermo", es un estado de completo bienestar físico, mental y social.</p>
+            </div>
+
+            <h3>3. Normas Oficiales Mexicanas (NOM) de la STPS</h3>
+            <h4>A. NOM-017-STPS-2008: Equipo de Protección Personal (EPP)</h4>
+            <p><strong>Jerarquía de Control:</strong> Antes de dar un casco (EPP), debemos intentar eliminar el riesgo o usar Protección Colectiva (barandales, extractores). El EPP es la última línea de defensa.</p>
+            <p><strong>Tipos de EPP:</strong> Protección de cabeza (cascos), ojos (goggles), oídos (tapones), manos (guantes) y pies (calzado de seguridad).</p>
+
+            <h4>B. NOM-035-STPS-2018: Factores de Riesgo Psicosocial</h4>
+            <p><strong>Propósito:</strong> Identificar, analizar y prevenir factores que afecten la salud mental.</p>
+            <p><strong>Factores:</strong> Carga de trabajo excesiva, falta de control, liderazgo negativo y violencia laboral.</p>
+
+            <h3>4. Gestión de Riesgos y Mejora Continua (Ciclo PHVA)</h3>
+            <table>
+                <tr><th>Etapa</th><th>Acción</th></tr>
+                <tr><td><strong>Planificar</strong></td><td>Identificar riesgos y establecer objetivos.</td></tr>
+                <tr><td><strong>Hacer</strong></td><td>Implementar las medidas y capacitar al personal.</td></tr>
+                <tr><td><strong>Verificar</strong></td><td>Realizar auditorías y revisar si hubo accidentes.</td></tr>
+                <tr><td><strong>Actuar</strong></td><td>Corregir fallas y mejorar el sistema.</td></tr>
+            </table>
+
+            <h3>5. Aplicación en el Ámbito Educativo</h3>
+            <ul>
+                <li><strong>Diseño de Capacitación:</strong> Crear materiales didácticos sobre rutas de evacuación.</li>
+                <li><strong>Análisis de Señalética:</strong> Símbolos comprensibles para alumnos y docentes.</li>
+                <li><strong>Prevención de Emergencias:</strong> Liderar la formación de Brigadas.</li>
+            </ul>
+
+            <h3>6. Glosario para el Pedagogo</h3>
+            <ul>
+                <li><strong>Burnout:</strong> Agotamiento emocional y cinismo hacia el trabajo.</li>
+                <li><strong>Karoshi:</strong> Término japonés para la muerte por exceso de trabajo.</li>
+                <li><strong>Incidente:</strong> Suceso que pudo ser un accidente pero no causó lesiones.</li>
+                <li><strong>Ergonomía:</strong> Adaptar las máquinas y el entorno al trabajador.</li>
+            </ul>
+
+            <div class="highlight-box" style="background: #e8f8f5; border-left-color: #1abc9c;">
+                <strong>Ejercicio de Reflexión:</strong> Basándote en la NOM-017, ¿por qué sería un error pedagógico decirle a los maestros de química que solo usen bata sin revisar la ventilación? 
+                <br><em>Pista: Prioridad de Protección Colectiva sobre Individual.</em>
+            </div>
+        </div>
+    </section>
+
+    <section id="politicas" class="content-section">
+        <div class="card">
+            <h2>Políticas Públicas para la Licenciatura en Pedagogía</h2>
+            
+            <h3>I. Fundamentos de las Políticas Públicas</h3>
+            <p><strong>1. ¿Qué es lo "Público"?:</strong> Es el espacio de interés común. La educación es un bien público y el Estado debe garantizar su acceso y calidad.</p>
+            <p><strong>2. Definición (Luis F. Aguilar Villanueva):</strong> "Acciones de gobierno con objetivos de interés público que surgen de decisiones sustentadas en un proceso de diagnóstico y análisis de factibilidad, donde participa la ciudadanía".</p>
+
+            <h3>II. El Ciclo de las Políticas Públicas</h3>
+            <ol>
+                <li><strong>Agenda Pública:</strong> ¿Cómo se decide que un tema es prioritario? (Ej. Rezago post-pandemia).</li>
+                <li><strong>Diseño y Formulación:</strong> Se establecen metas, leyes y presupuesto.</li>
+                <li><strong>Implementación:</strong> La puesta en marcha en las escuelas.</li>
+                <li><strong>Evaluación:</strong> Medición de resultados (Referentes: CONEVAL e INEE).</li>
+            </ol>
+
+            <h3>III. Contexto Educativo en México (Datos 2020-2022)</h3>
+            <ul>
+                <li><strong>Masificación:</strong> Cobertura casi total en primaria; retos en Media Superior y Superior.</li>
+                <li><strong>Rezago Social:</strong> Afecta más a grupos indígenas y zonas rurales (falta de infraestructura).</li>
+                <li><strong>PISA 2018:</strong> Retos significativos en comprensión lectora y matemáticas.</li>
+            </ul>
+
+            <h3>IV. Políticas Educativas Actuales (Siglo XXI)</h3>
+            <p><strong>1. La Nueva Escuela Mexicana (NEM):</strong> Enfoque humanista, inclusivo e intercultural. Revalorización del magisterio y vinculación comunitaria.</p>
+            <p><strong>2. MCCEMS:</strong> Busca ciudadanos con conciencia histórica y pensamiento crítico en bachillerato.</p>
+            <p><strong>3. Programa RECREA (Jalisco):</strong> Refundación del sistema mediante Comunidades de Aprendizaje para la Vida (CAV).</p>
+
+            <h3>V. Herramientas de Análisis para el Pedagogo</h3>
+            <h4>Árbol de Problemas:</h4>
+            <ul>
+                <li><strong>Raíces:</strong> Causas del problema.</li>
+                <li><strong>Tronco:</strong> Problema central.</li>
+                <li><strong>Ramas:</strong> Efectos.</li>
+            </ul>
+            <h4>Matriz de Marco Lógico:</h4>
+            <p>Herramienta para planificar objetivos, indicadores y medios de verificación.</p>
+        </div>
+    </section>
+
+</div>
+
+<div class="footer">
+    <p>Material de estudio exclusivo para Pedagogía | 2026</p>
+</div>
+
+<script>
+    function openTab(evt, tabName) {
+        var i, content, tablinks;
+        content = document.getElementsByClassName("content-section");
+        for (i = 0; i < content.length; i++) {
+            content[i].style.display = "none";
+            content[i].classList.remove("active");
+        }
+        tablinks = document.getElementsByClassName("tab-btn");
+        for (i = 0; i < tablinks.length; i++) {
+            tablinks[i].className = tablinks[i].className.replace(" active", "");
+        }
+        document.getElementById(tabName).style.display = "block";
+        document.getElementById(tabName).classList.add("active");
+        evt.currentTarget.className += " active";
+    }
+</script>
+
+</body>
+</html>
