@@ -1,0 +1,531 @@
+import React, { useState } from 'react';
+import { 
+  BookOpen, 
+  Target, 
+  Zap, 
+  Award, 
+  Search,
+  History,
+  Info,
+  ArrowRight,
+  MousePointerClick,
+  LayoutGrid,
+  GitCommit,
+  ChevronRight
+} from 'lucide-react';
+
+const timelineData = [
+  {
+    id: 1,
+    title: "Institucionalización y Expansión",
+    program: "Principales planes y programas (Cruzada Vasconcelista a Plan de Once Años)",
+    period: "1920 - 1970",
+    context: "Surgimiento del Estado posrevolucionario. México era un país mayoritariamente rural con un 70% de analfabetismo. Necesidad de unidad nacional.",
+    objectives: [
+      "Alfabetización masiva de la población.",
+      "Federalización de la enseñanza.",
+      "Creación de una identidad nacional mestiza.",
+      "Vinculación de la educación con el trabajo técnico y agrícola."
+    ],
+    actions: [
+      "Creación de la SEP (1921) por José Vasconcelos.",
+      "Misiones Culturales para comunidades indígenas.",
+      "Fundación del IPN (1936) y educación socialista.",
+      "Plan de Once Años (1959) y creación de la CONALITEG para libros gratuitos."
+    ],
+    impact: "Reducción drástica del analfabetismo, creación de infraestructura escolar básica en todo el país y consolidación del libro de texto gratuito como derecho.",
+    color: "bg-emerald-600",
+    borderColor: "border-emerald-600",
+    textColor: "text-emerald-600"
+  },
+  {
+    id: 2,
+    title: "Reforma Educativa Echeverrista",
+    program: "Comisión Coordinadora de la Reforma Educativa y Nueva Ley Federal de Educación",
+    period: "1970 - 1976",
+    context: "Crisis de legitimidad tras los movimientos estudiantiles de 1968. Necesidad de modernizar métodos pedagógicos obsoletos.",
+    objectives: [
+      "Renovar los planes y programas de estudio.",
+      "Fomentar una actitud crítica y científica en el alumno.",
+      "Aumentar la eficiencia del sistema educativo."
+    ],
+    actions: [
+      "Promulgación de la Ley Federal de Educación (1973).",
+      "Creación del CCH, Bachilleres, CONACYT, CONAFE y UAM.",
+      "Introducción de la enseñanza por áreas en primaria.",
+      "Actualización masiva de libros de texto."
+    ],
+    impact: "Diversificación de la oferta educativa superior y técnica, y el paso de una pedagogía memorística a una basada en el 'aprender a aprender'.",
+    color: "bg-blue-600",
+    borderColor: "border-blue-600",
+    textColor: "text-blue-600"
+  },
+  {
+    id: 3,
+    title: "Planeación y Desconcentración",
+    program: "Plan Nacional de Educación",
+    period: "1976 - 1982",
+    context: "Crecimiento demográfico explosivo. Se busca profesionalizar la administración pública mediante diagnósticos científicos.",
+    objectives: [
+      "Lograr la educación básica para todos los niños.",
+      "Vincular educación con sistema productivo.",
+      "Mejorar la calidad mediante la profesionalización docente."
+    ],
+    actions: [
+      "Programa 'Primaria para todos los niños'.",
+      "Fundación de la Universidad Pedagógica Nacional (UPN) en 1978.",
+      "Creación del INEA (1981) para atender el rezago en adultos.",
+      "Inicio de la desconcentración administrativa de la SEP."
+    ],
+    impact: "Casi universalización de la matrícula de primaria y creación de un sistema de educación para adultos institucionalizado.",
+    color: "bg-indigo-600",
+    borderColor: "border-indigo-600",
+    textColor: "text-indigo-600"
+  },
+  {
+    id: 4,
+    title: "La Revolución Educativa",
+    program: "Plan Nacional de Desarrollo (Revolución Educativa)",
+    period: "1982 - 1988",
+    context: "Grave crisis económica y de deuda externa. Se prioriza la calidad sobre la cantidad debido a la falta de presupuesto para expandir.",
+    objectives: [
+      "Elevar la calidad educativa a partir de la formación docente.",
+      "Racionalizar el gasto público educativo.",
+      "Descentralizar los servicios educativos a los estados."
+    ],
+    actions: [
+      "Elevación de la educación normal a nivel licenciatura (1984).",
+      "Introducción del concepto de 'Revolución Educativa'.",
+      "Fortalecimiento de la educación técnica terminal."
+    ],
+    impact: "Revalorización académica del magisterio, aunque limitada por la pérdida del poder adquisitivo del salario docente durante la crisis.",
+    color: "bg-rose-600",
+    borderColor: "border-rose-600",
+    textColor: "text-rose-600"
+  },
+  {
+    id: 5,
+    title: "Modernización y Federalización",
+    program: "Programa para la Modernización Educativa (ANMEB)",
+    period: "1988 - 1994",
+    context: "Apertura comercial (TLCAN) y política neoliberal. Necesidad de competitividad internacional.",
+    objectives: [
+      "Mejorar la calidad y pertinencia de la educación básica.",
+      "Transferir el control de las escuelas a los gobiernos estatales.",
+      "Crear incentivos para el desempeño docente."
+    ],
+    actions: [
+      "Firma del Acuerdo Nacional para la Modernización de la Educación Básica (ANMEB) en 1992.",
+      "Creación de Carrera Magisterial.",
+      "Nueva Ley General de Educación (1993).",
+      "Regreso al modelo de enseñanza por asignaturas."
+    ],
+    impact: "Cambio radical en la estructura del sistema (Federalización) y creación del primer sistema de promoción horizontal para maestros.",
+    color: "bg-orange-600",
+    borderColor: "border-orange-600",
+    textColor: "text-orange-600"
+  },
+  {
+    id: 6,
+    title: "Consolidación Institucional",
+    program: "Programa Integrado para la Consolidación Institucional (PIFI)",
+    period: "1994 - 2000 (I)",
+    context: "Era de la evaluación y acreditación. Las universidades públicas necesitaban orden administrativo tras décadas de crecimiento desordenado.",
+    objectives: [
+      "Fortalecer la planeación estratégica en universidades.",
+      "Mejorar la gestión administrativa y académica.",
+      "Vincular el financiamiento al cumplimiento de metas de calidad."
+    ],
+    actions: [
+      "Implementación del PIFI como herramienta de planeación.",
+      "Fomento a la acreditación de programas por organismos externos.",
+      "Desarrollo de sistemas de información integral universitaria."
+    ],
+    impact: "Modernización de la gestión en universidades públicas y establecimiento de una cultura de planeación y rendición de cuentas académica.",
+    color: "bg-cyan-600",
+    borderColor: "border-cyan-600",
+    textColor: "text-cyan-600"
+  },
+  {
+    id: 7,
+    title: "Impulso al Capital Humano",
+    program: "Programa para promover estudios de Posgrado y PROMEP",
+    period: "1994 - 2000 (II)",
+    context: "Reconocimiento de que la investigación y la docencia de alta calidad requieren personal con doctorado y maestría.",
+    objectives: [
+      "Incrementar el número de profesores de tiempo completo con posgrado.",
+      "Fomentar la creación de Cuerpos Académicos.",
+      "Fortalecer el posgrado nacional de excelencia."
+    ],
+    actions: [
+      "Lanzamiento del Programa para el Mejoramiento del Profesorado (PROMEP) en 1996.",
+      "Fortalecimiento de las becas CONACYT para posgrado.",
+      "Programas de movilidad nacional e internacional para académicos."
+    ],
+    impact: "Transformación del perfil del profesor universitario: paso de 'profesores de asignatura' a 'profesores-investigadores' habilitados.",
+    color: "bg-teal-600",
+    borderColor: "border-teal-600",
+    textColor: "text-teal-600"
+  },
+  {
+    id: 8,
+    title: "Calidad en el Siglo XXI",
+    program: "Programa Nacional de Educación 2001-2006",
+    period: "2000 - 2006",
+    context: "Primera alternancia democrática en la presidencia. Enfoque en transparencia, evaluación y tecnología.",
+    objectives: [
+      "Garantizar educación de calidad para todos los niveles.",
+      "Crear mecanismos de evaluación externa e independiente.",
+      "Cerrar la brecha digital en las aulas."
+    ],
+    actions: [
+      "Creación del Instituto Nacional para la Evaluación de la Educación (INEE) en 2002.",
+      "Implementación del programa Enciclomedia.",
+      "Consejo Nacional de Participación Social en la Educación."
+    ],
+    impact: "Institucionalización de la evaluación educativa técnica y primeros esfuerzos masivos por digitalizar el aula pública.",
+    color: "bg-purple-600",
+    borderColor: "border-purple-600",
+    textColor: "text-purple-600"
+  },
+  {
+    id: 9,
+    title: "Reforma de Calidad y Evaluación",
+    program: "Programa Sectorial de Educación 2013-2018",
+    period: "2013 - 2018",
+    context: "Reformas estructurales del 'Pacto por México'. Necesidad de recuperar la rectoría del Estado sobre el sistema educativo.",
+    objectives: [
+      "Garantizar el máximo logro de aprendizaje de los alumnos.",
+      "Establecer el mérito como único camino en la carrera docente.",
+      "Fortalecer la autonomía de gestión de las escuelas."
+    ],
+    actions: [
+      "Reforma Constitucional al Artículo 3°.",
+      "Creación del Servicio Profesional Docente (evaluación obligatoria).",
+      "Modelo Educativo 2016 (aprendizajes clave).",
+      "Programa 'Escuelas al CIEN' para infraestructura."
+    ],
+    impact: "Recuperación de la rectoría estatal frente al sindicato, aunque con alta conflictividad social. Elevación de la calidad a rango constitucional.",
+    color: "bg-amber-600",
+    borderColor: "border-amber-600",
+    textColor: "text-amber-600"
+  }
+];
+
+// Modal Component 
+const DetailModal = ({ data, isOpen, onClose }) => {
+  if (!isOpen || !data) return null;
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm animate-in fade-in duration-300">
+      <div className="bg-white w-full max-w-4xl max-h-[90vh] rounded-3xl overflow-hidden shadow-2xl flex flex-col md:flex-row animate-in zoom-in-95 duration-300">
+        <div className={`w-full md:w-1/3 ${data.color} p-8 text-white flex flex-col justify-center relative overflow-hidden shrink-0`}>
+          <div className="absolute top-0 right-0 p-8 opacity-20 transform translate-x-1/4 -translate-y-1/4 pointer-events-none">
+            <BookOpen size={200} />
+          </div>
+          <p className="text-sm font-bold opacity-80 mb-2 uppercase tracking-widest">{data.period}</p>
+          <h2 className="text-3xl font-black leading-tight mb-4">{data.title}</h2>
+          <p className="text-lg opacity-90">{data.program}</p>
+          <button 
+            onClick={onClose}
+            className="mt-8 md:mt-12 bg-white/20 hover:bg-white/30 text-white px-6 py-2 rounded-full font-bold transition-colors w-fit backdrop-blur-md border border-white/30"
+          >
+            Cerrar Detalles
+          </button>
+        </div>
+        
+        <div className="w-full md:w-2/3 p-6 md:p-8 overflow-y-auto bg-slate-50">
+          <div className="space-y-6 md:space-y-8">
+            <section>
+              <div className="flex items-center gap-2 mb-3">
+                <div className={`p-2 rounded-lg ${data.color} bg-opacity-10`}>
+                  <Info className={`w-5 h-5 ${data.textColor}`} />
+                </div>
+                <h4 className="text-lg font-bold text-slate-800">Contexto Histórico</h4>
+              </div>
+              <p className="text-slate-600 leading-relaxed pl-10 text-sm md:text-base">{data.context}</p>
+            </section>
+
+            <section>
+              <div className="flex items-center gap-2 mb-3">
+                <div className={`p-2 rounded-lg ${data.color} bg-opacity-10`}>
+                  <Target className={`w-5 h-5 ${data.textColor}`} />
+                </div>
+                <h4 className="text-lg font-bold text-slate-800">Objetivos Principales</h4>
+              </div>
+              <ul className="grid grid-cols-1 gap-2 pl-10">
+                {data.objectives.map((obj, i) => (
+                  <li key={i} className="text-slate-600 flex items-start gap-2 text-sm md:text-base">
+                    <span className={`mt-1.5 w-1.5 h-1.5 rounded-full shrink-0 ${data.color}`}></span>
+                    {obj}
+                  </li>
+                ))}
+              </ul>
+            </section>
+
+            <section>
+              <div className="flex items-center gap-2 mb-3">
+                <div className={`p-2 rounded-lg ${data.color} bg-opacity-10`}>
+                  <Zap className={`w-5 h-5 ${data.textColor}`} />
+                </div>
+                <h4 className="text-lg font-bold text-slate-800">Acciones y Estrategias</h4>
+              </div>
+              <ul className="grid grid-cols-1 gap-2 pl-10">
+                {data.actions.map((act, i) => (
+                  <li key={i} className="text-slate-600 flex items-start gap-2 text-sm md:text-base">
+                    <span className={`mt-1.5 w-1.5 h-1.5 rounded-full shrink-0 ${data.color}`}></span>
+                    {act}
+                  </li>
+                ))}
+              </ul>
+            </section>
+
+            <section className={`p-4 md:p-5 rounded-2xl border-2 border-dashed ${data.borderColor} bg-opacity-5`}>
+              <div className="flex items-center gap-2 mb-3">
+                <div className={`p-2 rounded-lg ${data.color} bg-opacity-10`}>
+                  <Award className={`w-5 h-5 ${data.textColor}`} />
+                </div>
+                <h4 className="text-lg font-bold text-slate-800">Impacto y Aportaciones</h4>
+              </div>
+              <p className="text-slate-700 font-medium leading-relaxed pl-10 text-sm md:text-base">{data.impact}</p>
+            </section>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// Componente para la Vista de Línea de Tiempo (Horizontal)
+const TimelineView = ({ data, activeIndex, onNodeClick, searchTerm }) => {
+  return (
+    <div className="flex-grow relative flex flex-col justify-center min-h-[500px]">
+      <div className="absolute top-8 left-0 right-0 text-center z-10 pointer-events-none px-4">
+        <h2 className="text-3xl md:text-4xl font-black text-slate-800 mb-2">Evolución Histórica</h2>
+        <p className="text-slate-500 font-medium flex items-center justify-center gap-2">
+          Desplaza horizontalmente y haz clic en los años para explorar <ArrowRight className="w-4 h-4 animate-pulse hidden md:block" />
+        </p>
+      </div>
+
+      <div className="w-full overflow-x-auto overflow-y-hidden pt-40 md:pt-48 pb-40 md:pb-48 px-6 md:px-20" style={{ scrollSnapType: 'x mandatory' }}>
+        <div className="relative min-w-max flex items-center h-full">
+          {/* Eje Central */}
+          <div className="absolute top-1/2 left-0 right-0 h-2 bg-slate-200 -translate-y-1/2 rounded-full shadow-inner"></div>
+
+          {/* Nodos */}
+          <div className="flex justify-between items-center gap-12 md:gap-24 relative z-10 px-6 md:px-10">
+            {data.map((item, index) => {
+              const isMatch = searchTerm === "" || 
+                item.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
+                item.program.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                item.period.includes(searchTerm);
+
+              const isTop = index % 2 === 0;
+
+              return (
+                <div key={item.id} style={{ scrollSnapAlign: 'center' }} className="relative">
+                  <div 
+                    className={`relative flex flex-col items-center group cursor-pointer transition-opacity duration-500 ${!isMatch ? 'opacity-20' : 'opacity-100'}`} 
+                    onClick={() => onNodeClick(index)}
+                  >
+                    {/* Círculo del Año */}
+                    <div className={`w-24 h-24 md:w-28 md:h-28 rounded-full border-4 border-white shadow-lg flex flex-col items-center justify-center z-10 relative transition-all duration-300 group-hover:scale-110 group-hover:shadow-2xl ${item.color}`}>
+                      <History className="w-4 h-4 md:w-5 md:h-5 text-white/50 mb-1" />
+                      <span className="text-white font-black text-xs md:text-sm text-center px-2 leading-tight">
+                        {item.period}
+                      </span>
+                    </div>
+
+                    {/* Tooltip Emergente */}
+                    <div className={`absolute ${isTop ? 'bottom-full mb-4 md:mb-6' : 'top-full mt-4 md:mt-6'}
+                      w-64 md:w-72 bg-white p-4 md:p-5 rounded-2xl shadow-2xl
+                      opacity-0 invisible group-hover:opacity-100 group-hover:visible
+                      transition-all duration-300 z-20
+                      scale-95 group-hover:scale-100
+                      border-t-4 ${item.borderColor}
+                    `}>
+                      <div className={`absolute left-1/2 -translate-x-1/2 w-4 h-4 bg-white rotate-45 ${isTop ? '-bottom-2 border-r border-b border-slate-100' : '-top-2 border-l border-t border-slate-100'}`}></div>
+
+                      <h3 className="text-base md:text-lg font-black text-slate-800 mb-2 leading-tight">{item.title}</h3>
+                      <p className="text-xs md:text-sm text-slate-500 font-medium mb-4 line-clamp-2">{item.program}</p>
+                      
+                      <div className={`flex items-center text-[10px] md:text-xs font-bold px-3 py-2 rounded-lg bg-slate-50 ${item.textColor}`}>
+                         <MousePointerClick className="w-3 h-3 md:w-4 md:h-4 mr-2" />
+                         Clic para abrir detalles
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// Componente para la Vista de Cuadrícula (Grid)
+const GridView = ({ data, searchTerm, onCardClick }) => {
+  const filteredData = data.filter(item => 
+    item.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
+    item.program.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    item.period.includes(searchTerm)
+  );
+
+  return (
+    <div className="max-w-7xl mx-auto px-6 py-12 w-full">
+      <div className="mb-12 text-center md:text-left">
+        <h2 className="text-3xl md:text-4xl font-black text-slate-800 mb-4 leading-tight">
+          Panoramas Históricos
+        </h2>
+        <p className="text-base md:text-lg text-slate-600 leading-relaxed max-w-3xl">
+          Explora los planes y programas organizados cronológicamente. Haz clic en cada tarjeta para profundizar en los objetivos y el impacto de cada reforma.
+        </p>
+      </div>
+
+      {filteredData.length > 0 ? (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+          {filteredData.map((item) => {
+            const originalIndex = data.findIndex(d => d.id === item.id);
+            return (
+              <div 
+                key={item.id}
+                onClick={() => onCardClick(originalIndex)}
+                className="relative cursor-pointer transition-all duration-300 transform hover:-translate-y-2 hover:shadow-2xl group"
+              >
+                <div className={`p-1 rounded-2xl ${item.color} shadow-lg h-full transition-all duration-300`}>
+                  <div className="bg-white rounded-xl p-6 h-full flex flex-col transition-colors group-hover:bg-slate-50">
+                    <div className="flex justify-between items-start mb-4">
+                      <span className={`px-3 py-1 rounded-full text-white text-xs font-bold shadow-sm ${item.color}`}>
+                        {item.period}
+                      </span>
+                      <History className="text-slate-200 w-5 h-5 transition-colors group-hover:text-slate-300" />
+                    </div>
+                    <h3 className="text-xl font-black text-slate-800 mb-2 leading-tight">
+                      {item.title}
+                    </h3>
+                    <p className="text-sm text-slate-500 font-medium italic mb-4 line-clamp-3">
+                      {item.program}
+                    </p>
+                    <div className={`mt-auto flex items-center text-sm font-bold ${item.textColor} opacity-80 group-hover:opacity-100`}>
+                      Ver detalles <ChevronRight className="ml-1 w-4 h-4 transition-transform group-hover:translate-x-1" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      ) : (
+        <div className="py-20 text-center">
+          <div className="bg-slate-200 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4 text-slate-400">
+            <Search size={32} />
+          </div>
+          <p className="text-slate-500 font-medium text-lg">No se encontraron resultados.</p>
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default function App() {
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [showModal, setShowModal] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [viewMode, setViewMode] = useState('timeline'); // 'timeline' o 'grid'
+
+  const handleNodeClick = (index) => {
+    setActiveIndex(index);
+    setShowModal(true);
+  };
+
+  return (
+    <div className="min-h-screen bg-slate-50 text-slate-900 font-sans flex flex-col">
+      {/* Header Fijo con Controles */}
+      <header className="bg-white border-b border-slate-200 z-40 px-4 md:px-6 py-4 shadow-sm shrink-0 sticky top-0">
+        <div className="max-w-7xl mx-auto flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+          
+          {/* Título */}
+          <div className="flex items-center gap-3">
+            <div className="bg-slate-800 p-2 md:p-3 rounded-xl text-white shadow-md">
+              <BookOpen size={24} />
+            </div>
+            <div>
+              <h1 className="text-lg md:text-xl font-black text-slate-800 tracking-tight leading-none">POLÍTICA EDUCATIVA</h1>
+              <p className="text-[10px] md:text-xs font-bold text-slate-500 tracking-widest uppercase mt-1">Línea del Tiempo (1920 - 2018)</p>
+            </div>
+          </div>
+          
+          {/* Controles: Búsqueda y Selector de Vista */}
+          <div className="flex flex-col sm:flex-row items-center gap-3 md:gap-4 w-full lg:w-auto">
+            
+            <div className="relative group w-full sm:w-auto flex-grow lg:flex-grow-0">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-slate-800 transition-colors" size={16} />
+              <input 
+                type="text" 
+                placeholder="Buscar un plan, año o reforma..."
+                className="pl-9 pr-4 py-2 bg-slate-100 border border-slate-200 rounded-lg text-sm w-full sm:w-64 lg:w-72 focus:outline-none focus:ring-2 focus:ring-slate-800/20 focus:border-slate-800 transition-all shadow-inner"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
+            </div>
+
+            {/* Selector de Vista (Toggle) */}
+            <div className="flex bg-slate-100 p-1 rounded-lg border border-slate-200 w-full sm:w-auto shrink-0">
+              <button
+                onClick={() => setViewMode('timeline')}
+                className={`flex-1 sm:flex-none flex items-center justify-center gap-2 px-4 py-1.5 rounded-md text-sm font-bold transition-all ${
+                  viewMode === 'timeline' 
+                    ? 'bg-white text-slate-800 shadow-sm' 
+                    : 'text-slate-500 hover:text-slate-700 hover:bg-slate-200/50'
+                }`}
+              >
+                <GitCommit size={16} />
+                <span className="hidden sm:inline">Línea</span>
+              </button>
+              <button
+                onClick={() => setViewMode('grid')}
+                className={`flex-1 sm:flex-none flex items-center justify-center gap-2 px-4 py-1.5 rounded-md text-sm font-bold transition-all ${
+                  viewMode === 'grid' 
+                    ? 'bg-white text-slate-800 shadow-sm' 
+                    : 'text-slate-500 hover:text-slate-700 hover:bg-slate-200/50'
+                }`}
+              >
+                <LayoutGrid size={16} />
+                <span className="hidden sm:inline">Tarjetas</span>
+              </button>
+            </div>
+
+          </div>
+        </div>
+      </header>
+
+      {/* Contenido Dinámico según la vista seleccionada */}
+      <div className="flex-grow flex flex-col relative overflow-hidden">
+        {viewMode === 'timeline' ? (
+          <TimelineView 
+            data={timelineData} 
+            activeIndex={activeIndex} 
+            onNodeClick={handleNodeClick} 
+            searchTerm={searchTerm} 
+          />
+        ) : (
+          <GridView 
+            data={timelineData} 
+            searchTerm={searchTerm} 
+            onCardClick={handleNodeClick} 
+          />
+        )}
+      </div>
+
+      {/* Modal de Detalles (Compartido para ambas vistas) */}
+      <DetailModal 
+        data={timelineData[activeIndex]} 
+        isOpen={showModal} 
+        onClose={() => setShowModal(false)} 
+      />
+
+    </div>
+  );
+}
