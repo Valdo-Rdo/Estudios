@@ -4,190 +4,181 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Recursos Pedagógicos PRO</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS para el diseño moderno -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- FontAwesome para los íconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Fuentes de Google combinadas (Inter para lectura, Outfit para títulos) -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800;900&family=Inter:wght@300;400;500;700&display=swap" rel="stylesheet">
+    
     <style>
-        :root {
-            --primary: #2c3e50;
-            --accent: #27ae60;      /* Verde para educación/crecimiento */
-            --bg: #f4f6f7;
-            --card-bg: #ffffff;
-            --text: #34495e;
-        }
-
-        body {
-            font-family: 'Poppins', sans-serif;
-            background-color: var(--bg);
-            color: var(--text);
-            margin: 0;
-            padding: 0;
-        }
-
-        header {
-            background: linear-gradient(135deg, var(--primary) 0%, #2980b9 100%);
-            color: white;
-            padding: 3rem 1rem;
-            text-align: center;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        }
-
-        header h1 { margin: 0; font-size: 2.5rem; }
-        header p { opacity: 0.9; margin-top: 10px; font-weight: 300; }
-
-        .search-container { margin-top: 20px; }
-        #searchInput {
-            padding: 12px 20px;
-            width: 80%;
-            max-width: 400px;
-            border: none;
-            border-radius: 50px;
-            font-size: 1rem;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
-            outline: none;
-        }
-
-        .container {
-            max-width: 1100px;
-            margin: 2rem auto;
-            padding: 0 20px;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-        }
-
-        .card {
-            background: var(--card-bg);
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-            transition: transform 0.3s ease;
-            border-top: 5px solid var(--accent);
-            display: flex;
-            flex-direction: column;
-        }
-
-        .card:hover { transform: translateY(-5px); }
-        .card-body { padding: 1.5rem; flex-grow: 1; }
-        
-        .tag {
-            background-color: #e8f8f5;
-            color: #16a085;
-            padding: 4px 10px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            display: inline-block;
-            margin-bottom: 10px;
-        }
-
-        .btn {
-            display: block;
-            text-align: center;
-            background-color: var(--primary);
-            color: white;
-            text-decoration: none;
-            padding: 12px;
-            margin: 1.5rem;
-            border-radius: 8px;
-            font-weight: 600;
-            transition: background 0.3s;
-        }
-
-        .btn:hover { background-color: var(--accent); }
-        
-        /* Estilo para botones deshabilitados (Próximamente) */
-        .btn.disabled {
-            background-color: #bdc3c7;
-            cursor: not-allowed;
-            pointer-events: none; /* Asegura que no se pueda hacer clic */
-        }
-
-        footer {
-            text-align: center;
-            padding: 2rem;
-            margin-top: 2rem;
-            color: #95a5a6;
-            font-size: 0.8rem;
-        }
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3 { font-family: 'Outfit', sans-serif; }
     </style>
 </head>
-<body>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col">
 
-<header>
-    <h1>Banco de Recursos: Pedagogía</h1>
-    <p>Guías, plantillas y simuladores de examen</p>
-    
-    <div class="search-container">
-        <input type="text" id="searchInput" onkeyup="filtrarRecursos()" placeholder="🔍 Buscar recurso...">
-    </div>
-</header>
-
-<div class="container" id="cardsContainer">
-    
-    <!-- Tarjeta original -->
-    <div class="card">
-        <div class="card-body">
-            <span class="tag">5to Cuatrimestre</span>
-            <h3>Guía: Seguridad y Políticas</h3>
-            <p>Resumen interactivo de la NOM-017, NOM-035 y el Ciclo de Políticas Públicas Educativas.</p>
+    <!-- HEADER / HERO SECTION -->
+    <header class="bg-slate-900 text-white pt-16 pb-32 px-6 text-center relative overflow-hidden shrink-0 shadow-lg">
+        <!-- Patrón de fondo sutil -->
+        <div class="absolute inset-0 opacity-10 pointer-events-none">
+            <svg width="100%" height="100%" viewBox="0 0 100 100" preserveAspectRatio="none">
+                <path d="M0 100 C 20 0 50 0 100 100 Z" fill="white"></path>
+            </svg>
         </div>
-        <a href="guia_pedagogia.html" class="btn">Abrir Guía</a>
-    </div>
-
-    <!-- NUEVA TARJETA: Línea del Tiempo -->
-    <div class="card">
-        <div class="card-body">
-            <span class="tag">Historia Educativa</span>
-            <h3>Línea del Tiempo Política Educativa</h3>
-            <p>Explora la evolución interactiva de los planes, programas y reformas en México desde 1920 hasta 2018.</p>
+        
+        <div class="relative z-10 max-w-3xl mx-auto">
+            <span class="bg-blue-600/20 text-blue-400 text-[10px] font-bold uppercase px-4 py-1.5 rounded-full mb-4 inline-block tracking-widest border border-blue-500/30">
+                Plataforma de Estudio 2026
+            </span>
+            <h1 class="text-4xl md:text-5xl lg:text-6xl font-black tracking-tight mt-2 mb-4 leading-tight">
+                Banco de Recursos:<br><span class="text-blue-400">Pedagogía</span>
+            </h1>
+            <p class="text-slate-400 text-base md:text-lg font-light max-w-2xl mx-auto mb-10">
+                Guías interactivas nivel examen, líneas del tiempo históricas y plantillas universitarias en un solo lugar.
+            </p>
+            
+            <!-- BUSCADOR -->
+            <div class="relative max-w-xl mx-auto group">
+                <i class="fa-solid fa-magnifying-glass absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-blue-500 transition-colors text-lg"></i>
+                <input 
+                    type="text" 
+                    id="searchInput" 
+                    onkeyup="filtrarRecursos()" 
+                    placeholder="Buscar un recurso, guía o formato..." 
+                    class="w-full bg-white text-slate-900 rounded-2xl py-4 pl-14 pr-6 focus:outline-none focus:ring-4 focus:ring-blue-500/30 transition-all shadow-2xl font-medium text-base md:text-lg border-2 border-transparent focus:border-blue-500"
+                >
+            </div>
         </div>
-        <a href="lineadetiempo.html" class="btn">Abrir Línea del Tiempo</a>
-    </div>
+    </header>
 
-    <!-- Tarjetas Próximamente -->
-    <div class="card">
-        <div class="card-body">
-            <span class="tag">Práctica</span>
-            <h3>Simulador de Examen</h3>
-            <p>Pon a prueba tus conocimientos con reactivos de opción múltiple sobre Seguridad Escolar.</p>
+    <!-- MAIN GRID DE TARJETAS -->
+    <main class="flex-grow max-w-6xl mx-auto px-6 w-full -mt-16 relative z-20 pb-20">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8" id="cardsContainer">
+            
+            <!-- TARJETA 1: GUÍA DE ESTUDIO -->
+            <div class="card bg-white rounded-3xl p-6 md:p-8 shadow-sm border border-slate-200 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col group">
+                <div class="flex justify-between items-start mb-6">
+                    <div class="w-14 h-14 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform shadow-inner">
+                        <i class="fa-solid fa-book-open"></i>
+                    </div>
+                    <span class="bg-blue-50 text-blue-600 text-[10px] font-black uppercase tracking-widest px-3 py-1.5 rounded-full border border-blue-100">
+                        5to Cuatrimestre
+                    </span>
+                </div>
+                <h3 class="text-2xl font-bold text-slate-800 mb-3 group-hover:text-blue-600 transition-colors">
+                    Guía: Seguridad y Políticas
+                </h3>
+                <p class="text-slate-500 text-sm mb-8 flex-grow leading-relaxed">
+                    Resumen interactivo de la NOM-017, NOM-035 y el Ciclo de Políticas Públicas Educativas estructurado nivel examen.
+                </p>
+                <a href="guia_pedagogia.html" class="mt-auto block w-full text-center bg-slate-900 hover:bg-blue-600 text-white py-3.5 rounded-xl font-bold transition-all shadow-md hover:shadow-lg">
+                    Abrir Guía <i class="fa-solid fa-arrow-right ml-2 text-sm"></i>
+                </a>
+            </div>
+
+            <!-- TARJETA 2: LÍNEA DEL TIEMPO -->
+            <div class="card bg-white rounded-3xl p-6 md:p-8 shadow-sm border border-slate-200 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col group">
+                <div class="flex justify-between items-start mb-6">
+                    <div class="w-14 h-14 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform shadow-inner">
+                        <i class="fa-solid fa-timeline"></i>
+                    </div>
+                    <span class="bg-emerald-50 text-emerald-700 text-[10px] font-black uppercase tracking-widest px-3 py-1.5 rounded-full border border-emerald-100">
+                        Historia Educativa
+                    </span>
+                </div>
+                <h3 class="text-2xl font-bold text-slate-800 mb-3 group-hover:text-emerald-600 transition-colors">
+                    Línea del Tiempo Histórica
+                </h3>
+                <p class="text-slate-500 text-sm mb-8 flex-grow leading-relaxed">
+                    Explora la evolución interactiva de los planes, programas y reformas en México desde 1920 hasta 2018.
+                </p>
+                <a href="lineadetiempo.html" class="mt-auto block w-full text-center bg-slate-900 hover:bg-emerald-600 text-white py-3.5 rounded-xl font-bold transition-all shadow-md hover:shadow-lg">
+                    Abrir Línea del Tiempo <i class="fa-solid fa-arrow-right ml-2 text-sm"></i>
+                </a>
+            </div>
+
+            <!-- TARJETA 3: PLANTILLAS (NUEVA FUNCIÓN COPY-PASTE) -->
+            <div class="card bg-white rounded-3xl p-6 md:p-8 shadow-sm border border-slate-200 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col group">
+                <div class="flex justify-between items-start mb-6">
+                    <div class="w-14 h-14 rounded-2xl bg-purple-50 text-purple-600 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform shadow-inner">
+                        <i class="fa-solid fa-copy"></i>
+                    </div>
+                    <span class="bg-purple-50 text-purple-700 text-[10px] font-black uppercase tracking-widest px-3 py-1.5 rounded-full border border-purple-100">
+                        Herramientas
+                    </span>
+                </div>
+                <h3 class="text-2xl font-bold text-slate-800 mb-3 group-hover:text-purple-600 transition-colors">
+                    Plantillas y Formatos APA
+                </h3>
+                <p class="text-slate-500 text-sm mb-8 flex-grow leading-relaxed">
+                    Base de datos con estructuras para ensayos, reportes de lectura y referencias APA 7 listas para copiar y pegar.
+                </p>
+                <a href="plantillas.html" class="mt-auto block w-full text-center bg-slate-900 hover:bg-purple-600 text-white py-3.5 rounded-xl font-bold transition-all shadow-md hover:shadow-lg">
+                    Abrir Plantillas <i class="fa-solid fa-arrow-right ml-2 text-sm"></i>
+                </a>
+            </div>
+
+            <!-- TARJETA 4: SIMULADOR (PRÓXIMAMENTE) -->
+            <div class="card bg-white rounded-3xl p-6 md:p-8 shadow-sm border border-slate-200 flex flex-col opacity-80 grayscale-[30%]">
+                <div class="flex justify-between items-start mb-6">
+                    <div class="w-14 h-14 rounded-2xl bg-slate-100 text-slate-400 flex items-center justify-center text-2xl shadow-inner">
+                        <i class="fa-solid fa-laptop-file"></i>
+                    </div>
+                    <span class="bg-slate-100 text-slate-500 text-[10px] font-black uppercase tracking-widest px-3 py-1.5 rounded-full border border-slate-200">
+                        Práctica
+                    </span>
+                </div>
+                <h3 class="text-2xl font-bold text-slate-700 mb-3">
+                    Simulador de Examen
+                </h3>
+                <p class="text-slate-500 text-sm mb-8 flex-grow leading-relaxed">
+                    Pon a prueba tus conocimientos con reactivos de opción múltiple sobre Seguridad Escolar y Políticas Públicas.
+                </p>
+                <!-- Botón Deshabilitado con Tailwind -->
+                <button disabled class="mt-auto block w-full text-center bg-slate-100 text-slate-400 border border-slate-200 py-3.5 rounded-xl font-bold cursor-not-allowed">
+                    <i class="fa-solid fa-lock mr-2 text-sm"></i> Próximamente
+                </button>
+            </div>
+
         </div>
-        <a href="#" class="btn disabled">Próximamente</a>
-    </div>
+    </main>
 
-    <div class="card">
-        <div class="card-body">
-            <span class="tag">Herramientas</span>
-            <h3>Plantillas Didácticas</h3>
-            <p>Formatos descargables para Planeación de Clases, Cartas Descriptivas y Rubricas.</p>
+    <!-- FOOTER -->
+    <footer class="bg-white border-t border-slate-200 py-10 mt-auto text-center">
+        <div class="max-w-6xl mx-auto px-6">
+            <h2 class="text-xl font-black text-slate-800 tracking-tight mb-2">Recursos Pedagógicos PRO</h2>
+            <p class="text-sm text-slate-500 font-medium">Plataforma de Estudio Colaborativo | 2026</p>
         </div>
-        <a href="plantillas.html" class="btn">Abrir Plantillas</a>
-    </div>
+    </footer>
 
-</div>
+    <!-- SCRIPT DEL BUSCADOR -->
+    <script>
+        function filtrarRecursos() {
+            var input, filter, container, cards, h3, i, txtValue;
+            input = document.getElementById("searchInput");
+            filter = input.value.toUpperCase();
+            container = document.getElementById("cardsContainer");
+            cards = container.getElementsByClassName("card");
 
-<footer>
-    <p>Plataforma de Estudio Colaborativo | 2026</p>
-</footer>
-
-<script>
-    function filtrarRecursos() {
-        var input, filter, container, cards, h3, i, txtValue;
-        input = document.getElementById("searchInput");
-        filter = input.value.toUpperCase();
-        container = document.getElementById("cardsContainer");
-        cards = container.getElementsByClassName("card");
-
-        for (i = 0; i < cards.length; i++) {
-            h3 = cards[i].getElementsByTagName("h3")[0];
-            txtValue = h3.textContent || h3.innerText;
-            if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                cards[i].style.display = "";
-            } else {
-                cards[i].style.display = "none";
+            for (i = 0; i < cards.length; i++) {
+                // Busca la etiqueta H3 dentro de cada tarjeta
+                h3 = cards[i].getElementsByTagName("h3")[0];
+                if (h3) {
+                    txtValue = h3.textContent || h3.innerText;
+                    // Muestra u oculta la tarjeta según si coincide la búsqueda
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        cards[i].style.display = "";
+                    } else {
+                        cards[i].style.display = "none";
+                    }
+                }
             }
         }
-    }
-</script>
+    </script>
 
 </body>
 </html>
