@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Horario de Docentes</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background-color: #f3f4f6; margin: 0; padding: 20px; }
+        .container { max-width: 600px; margin: 0 auto; }
+        h1 { text-align: center; color: #1f2937; }
+        .search-box { width: 100%; padding: 12px; font-size: 16px; border: 2px solid #3b82f6; border-radius: 8px; margin-bottom: 20px; box-sizing: border-box; }
+        .card { background: white; padding: 15px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); margin-bottom: 15px; }
+        .hora-fecha { color: #3b82f6; font-weight: bold; font-size: 14px; margin-bottom: 5px; }
+        .materia { font-size: 18px; font-weight: bold; color: #1f2937; margin: 0 0 5px 0; }
+        .detalles { color: #4b5563; font-size: 14px; margin: 0; }
+        .docente { display: inline-block; background: #e0e7ff; color: #3730a3; padding: 3px 8px; border-radius: 12px; font-size: 12px; margin-top: 8px; font-weight: bold;}
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>🗓️ Buscador de Horarios</h1>
+    <input type="text" id="buscador" class="search-box" placeholder="🔍 Buscar maestro, materia o grupo..." onkeyup="filtrarClases()">
+    
+    <div id="resultados">
+        <p style="text-align: center; color: #6b7280;">Cargando horarios...</p>
+    </div>
+</div>
+
+<script>
+    let datosGlobales = [];
+
+    // URL de tu Google Sheet publicado como CSV (PÉGALA AQUÍ ADENTRO DE LAS COMILLAS)
+    const urlCSV = "AQUI_PEGA_TU_ENLACE_CSV_DE_GOOGLE_SHEETS";
+
+    // Función para descargar y leer el Sheet
+    Papa.parse(urlCSV, {
+        download: true,
+        header: true, // Asume que la fila 1 tiene los títulos (Fecha, Hora, Materia...)
+        complete: function(results) {
+            datosGlobales = results.data;
+            mostrarClases(datosGlobales);
+        }
+    });
+
+    // Función para pintar las tarjetas en el celular
+    function mostrarClases(datos) {
+        const contenedor = document.getElementById('resultados');
+        contenedor.innerHTML = ''; 
+
+        datos.forEach(fila => {
+            // Saltamos filas vacías
+            if (!fila.Fecha || !fila.Hora) return; 
+
+            const tarjeta = `
+                <div class="card clase-item">
+                    <div class="hora-fecha">🕒 ${fila.Fecha} | ${fila.Hora}</div>
+                    <h2 class="materia">${fila.Materia}</h2>
+                    <p class="detalles">📍 Grupo: <strong>${fila.Grupo}</strong></p>
+                    <span class="docente">👩‍🏫 ${fila.Docente}</span>
+                </div>
+            `;
+            contenedor.innerHTML += tarjeta;
+        });
+    }
+
+    // Función del buscador en tiempo real
+    function filtrarClases() {
+        const textoBusqueda = document.getElementById('buscador').value.toLowerCase();
+        
+        const datosFiltrados = datosGlobales.filter(fila => {
+            if (!fila.Materia) return false;
+            // Busca en toda la fila junta
+            const todaLaFila = Object.values(fila).join(" ").toLowerCase();
+            return todaLaFila.includes(textoBusqueda);
+        });
+
+        mostrarClases(datosFiltrados);
+    }
+</script>
+
+</body>
+</html>
