@@ -76,6 +76,8 @@
             font-size: 0.8rem;
             font-weight: 600;
             text-transform: uppercase;
+            display: inline-block;
+            margin-bottom: 10px;
         }
 
         .btn {
@@ -97,6 +99,7 @@
         .btn.disabled {
             background-color: #bdc3c7;
             cursor: not-allowed;
+            pointer-events: none; /* Asegura que no se pueda hacer clic */
         }
 
         footer {
@@ -121,6 +124,7 @@
 
 <div class="container" id="cardsContainer">
     
+    <!-- Tarjeta original -->
     <div class="card">
         <div class="card-body">
             <span class="tag">5to Cuatrimestre</span>
@@ -130,6 +134,17 @@
         <a href="guia_pedagogia.html" class="btn">Abrir Guía</a>
     </div>
 
+    <!-- NUEVA TARJETA: Línea del Tiempo -->
+    <div class="card">
+        <div class="card-body">
+            <span class="tag">Historia Educativa</span>
+            <h3>Línea del Tiempo Política Educativa</h3>
+            <p>Explora la evolución interactiva de los planes, programas y reformas en México desde 1920 hasta 2018.</p>
+        </div>
+        <a href="lineadetiempo.html" class="btn">Abrir Línea del Tiempo</a>
+    </div>
+
+    <!-- Tarjetas Próximamente -->
     <div class="card">
         <div class="card-body">
             <span class="tag">Práctica</span>
