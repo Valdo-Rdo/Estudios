@@ -453,61 +453,63 @@
           const [searchTerm, setSearchTerm] = useState("");
           const [viewMode, setViewMode] = useState('timeline');
 
-          const handleNodeClick = (index) => {
-            setActiveIndex(index);
-            setShowModal(true);
-          };
-
           return (
             <div className="min-h-screen bg-slate-50 text-slate-900 font-sans flex flex-col">
               <header className="bg-white border-b border-slate-200 z-40 px-4 md:px-6 py-4 shadow-sm shrink-0 sticky top-0">
-                <div className="max-w-7xl mx-auto flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+                <div className="max-w-7xl mx-auto flex flex-col gap-4">
                   
-                  <div className="flex items-center gap-3">
-                    <div className="bg-slate-800 p-2 md:p-3 rounded-xl text-white shadow-md">
-                      <i className="fa-solid fa-book-open text-xl"></i>
-                    </div>
-                    <div>
-                      <h1 className="text-lg md:text-xl font-black text-slate-800 tracking-tight leading-none">POLÍTICA EDUCATIVA</h1>
-                      <p className="text-[10px] md:text-xs font-bold text-slate-500 tracking-widest uppercase mt-1">Línea del Tiempo (1920 - 2018)</p>
-                    </div>
-                  </div>
-                  
-                  <div className="flex flex-col sm:flex-row items-center gap-3 md:gap-4 w-full lg:w-auto">
-                    <div className="relative group w-full sm:w-auto flex-grow lg:flex-grow-0">
-                      <i className="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-slate-800 transition-colors"></i>
-                      <input 
-                        type="text" 
-                        placeholder="Buscar un plan, año o reforma..."
-                        className="pl-9 pr-4 py-2 bg-slate-100 border border-slate-200 rounded-lg text-sm w-full sm:w-64 lg:w-72 focus:outline-none focus:ring-2 focus:ring-slate-800/20 focus:border-slate-800 transition-all shadow-inner"
-                        value={searchTerm}
-                        onChange={(e) => setSearchTerm(e.target.value)}
-                      />
-                    </div>
+                  {/* --- BOTÓN NUEVO DE VOLVER AL INICIO --- */}
+                  <a href="index.html" className="text-slate-500 hover:text-slate-800 flex items-center gap-2 transition-colors w-fit font-semibold text-sm">
+                      <i className="fa-solid fa-arrow-left"></i> Volver al inicio
+                  </a>
 
-                    <div className="flex bg-slate-100 p-1 rounded-lg border border-slate-200 w-full sm:w-auto shrink-0">
-                      <button
-                        onClick={() => setViewMode('timeline')}
-                        className={`flex-1 sm:flex-none flex items-center justify-center gap-2 px-4 py-1.5 rounded-md text-sm font-bold transition-all ${
-                          viewMode === 'timeline' 
-                            ? 'bg-white text-slate-800 shadow-sm' 
-                            : 'text-slate-500 hover:text-slate-700 hover:bg-slate-200/50'
-                        }`}
-                      >
-                        <i className="fa-solid fa-timeline"></i>
-                        <span className="hidden sm:inline">Línea</span>
-                      </button>
-                      <button
-                        onClick={() => setViewMode('grid')}
-                        className={`flex-1 sm:flex-none flex items-center justify-center gap-2 px-4 py-1.5 rounded-md text-sm font-bold transition-all ${
-                          viewMode === 'grid' 
-                            ? 'bg-white text-slate-800 shadow-sm' 
-                            : 'text-slate-500 hover:text-slate-700 hover:bg-slate-200/50'
-                        }`}
-                      >
-                        <i className="fa-solid fa-table-cells-large"></i>
-                        <span className="hidden sm:inline">Tarjetas</span>
-                      </button>
+                  <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+                    <div className="flex items-center gap-3">
+                      <div className="bg-slate-800 p-2 md:p-3 rounded-xl text-white shadow-md">
+                        <i className="fa-solid fa-book-open text-xl"></i>
+                      </div>
+                      <div>
+                        <h1 className="text-lg md:text-xl font-black text-slate-800 tracking-tight leading-none">POLÍTICA EDUCATIVA</h1>
+                        <p className="text-[10px] md:text-xs font-bold text-slate-500 tracking-widest uppercase mt-1">Línea del Tiempo (1920 - 2018)</p>
+                      </div>
+                    </div>
+                    
+                    <div className="flex flex-col sm:flex-row items-center gap-3 md:gap-4 w-full lg:w-auto">
+                      <div className="relative group w-full sm:w-auto flex-grow lg:flex-grow-0">
+                        <i className="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-slate-800 transition-colors"></i>
+                        <input 
+                          type="text" 
+                          placeholder="Buscar un plan, año o reforma..."
+                          className="pl-9 pr-4 py-2 bg-slate-100 border border-slate-200 rounded-lg text-sm w-full sm:w-64 lg:w-72 focus:outline-none focus:ring-2 focus:ring-slate-800/20 focus:border-slate-800 transition-all shadow-inner"
+                          value={searchTerm}
+                          onChange={(e) => setSearchTerm(e.target.value)}
+                        />
+                      </div>
+
+                      <div className="flex bg-slate-100 p-1 rounded-lg border border-slate-200 w-full sm:w-auto shrink-0">
+                        <button
+                          onClick={() => setViewMode('timeline')}
+                          className={`flex-1 sm:flex-none flex items-center justify-center gap-2 px-4 py-1.5 rounded-md text-sm font-bold transition-all ${
+                            viewMode === 'timeline' 
+                              ? 'bg-white text-slate-800 shadow-sm' 
+                              : 'text-slate-500 hover:text-slate-700 hover:bg-slate-200/50'
+                          }`}
+                        >
+                          <i className="fa-solid fa-timeline"></i>
+                          <span className="hidden sm:inline">Línea</span>
+                        </button>
+                        <button
+                          onClick={() => setViewMode('grid')}
+                          className={`flex-1 sm:flex-none flex items-center justify-center gap-2 px-4 py-1.5 rounded-md text-sm font-bold transition-all ${
+                            viewMode === 'grid' 
+                              ? 'bg-white text-slate-800 shadow-sm' 
+                              : 'text-slate-500 hover:text-slate-700 hover:bg-slate-200/50'
+                          }`}
+                        >
+                          <i className="fa-solid fa-table-cells-large"></i>
+                          <span className="hidden sm:inline">Tarjetas</span>
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -518,14 +520,14 @@
                   <TimelineView 
                     data={timelineData} 
                     activeIndex={activeIndex} 
-                    onNodeClick={handleNodeClick} 
+                    onNodeClick={(index) => { setActiveIndex(index); setShowModal(true); }} 
                     searchTerm={searchTerm} 
                   />
                 ) : (
                   <GridView 
                     data={timelineData} 
                     searchTerm={searchTerm} 
-                    onCardClick={handleNodeClick} 
+                    onCardClick={(index) => { setActiveIndex(index); setShowModal(true); }} 
                   />
                 )}
               </div>
