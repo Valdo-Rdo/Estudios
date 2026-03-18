@@ -429,13 +429,19 @@
             return;
         }
 
+        let elementosMostrados = 0;
+
         datos.forEach(fila => {
             if (!fila.Fecha || !fila.Hora) return;
 
             // Lógica para la estrella (Favoritos)
             const id = encodeURIComponent(fila.Materia + fila.Fecha + fila.Hora + fila.Grupo);
             const isFav = favoritos.examenes.some(e => e.id === id);
-            const starClass = isFav ? 'fav-btn active' : 'fav-btn';
+            
+            // NUEVO: Si el examen ya está en Mi Horario, lo ocultamos de esta lista principal
+            if (isFav) return;
+
+            const starClass = 'fav-btn'; // Ya no necesita 'active' porque se ocultan al agregarse
             const filaJSON = encodeURIComponent(JSON.stringify(fila));
 
             const tarjeta = `
@@ -448,7 +454,12 @@
                 </div>
             `;
             contenedor.innerHTML += tarjeta;
+            elementosMostrados++;
         });
+
+        if (elementosMostrados === 0) {
+            contenedor.innerHTML = '<p class="empty-state">Todos los exámenes ya están guardados en tu pestaña "⭐ Mi Horario".</p>';
+        }
     }
 
     function filtrarTab1() {
@@ -590,16 +601,24 @@
                 dia.columnas.forEach(col => {
                     let contenidoCelda = filaCeldas[col];
                     if(contenidoCelda && contenidoCelda !== "0" && contenidoCelda.length > 2) {
+                        
+                        // NUEVO: Ignorar celdas que digan "Cargando..." en Google Sheets
+                        if(contenidoCelda.toLowerCase().includes("cargando")) return;
+
                         let textoAFiltrar = normalizarTexto(horaObj.hora + " " + contenidoCelda);
                         if(textoBusqueda === "" || textoAFiltrar.includes(textoBusqueda)) {
-                            horaTieneClases = true;
                             let celdaFormateada = contenidoCelda.replace(/\n/g, '<br>');
                             
                             // Lógica de estrella para clases
                             let dataObj = { dia: dia.nombre, hora: horaObj.hora, materia: celdaFormateada };
                             let id = encodeURIComponent(dia.nombre + horaObj.hora + celdaFormateada);
                             let isFav = favoritos.clases.some(c => c.id === id);
-                            let starClass = isFav ? 'fav-btn active' : 'fav-btn';
+                            
+                            // NUEVO: Si la clase ya está en Mi Horario, la ocultamos de la vista general
+                            if (isFav) return;
+
+                            horaTieneClases = true;
+                            let starClass = 'fav-btn';
                             let claseJSON = encodeURIComponent(JSON.stringify(dataObj));
 
                             htmlClases += `
@@ -626,7 +645,7 @@
         });
 
         if(coincidencias === 0) {
-            html = `<p class="empty-state">No hay clases programadas para este día${textoBusqueda ? ' que coincidan con tu búsqueda.' : '.'}</p>`;
+            html = `<p class="empty-state">No hay clases disponibles aquí${textoBusqueda ? ' con esa búsqueda' : ''}. <br><br>(Revisa "⭐ Mi Horario" si guardaste alguna)</p>`;
         }
         contenedor.innerHTML = html;
     }
