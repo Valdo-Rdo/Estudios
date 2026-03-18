@@ -306,25 +306,23 @@
     }
 
     /* ==============================================================
-       LÓGICA GENERAL - Caché y Fetch de Datos
+       LÓGICA GENERAL - Fetch de Datos
        ============================================================== */
-    async function fetchYParsear(url, cacheKey, esHeader, callback) {
-        const cached = localStorage.getItem(cacheKey);
-        if (cached) {
-            Papa.parse(cached, { header: esHeader, complete: function(results) { callback(results.data, true); } });
-        }
+    async function fetchYParsear(url, esHeader, callback) {
         try {
-            // SOLUCIÓN: Agregar un parámetro de tiempo para burlar la caché del navegador
-            const urlFresco = url + "&t=" + new Date().getTime();
-            const res = await fetch(urlFresco, { cache: 'no-store' });
+            // Se hace la petición limpia y simple al Google Sheets
+            const res = await fetch(url);
             const text = await res.text();
             
-            if (text !== cached) {
-                localStorage.setItem(cacheKey, text);
-                Papa.parse(text, { header: esHeader, complete: function(results) { callback(results.data, false); } });
-            }
+            // PapaParse convierte el CSV a datos usables
+            Papa.parse(text, { 
+                header: esHeader, 
+                complete: function(results) { 
+                    callback(results.data); 
+                } 
+            });
         } catch (e) {
-            console.warn("Estás offline o hubo un error de red.");
+            console.error("Error al cargar los datos. Revisa tu conexión a internet.", e);
         }
     }
 
@@ -409,7 +407,7 @@
        LÓGICA PESTAÑA 1 (Horario Exámenes)
        ============================================================== */
     function cargarTab1() {
-        fetchYParsear(urlDocentesCSV, 'horarios_cache_tab1', true, function(datos, esCache) {
+        fetchYParsear(urlDocentesCSV, true, function(datos) {
             datosTab1 = datos;
             
             // Si el usuario ya escribió algo en el buscador, mantener el filtro
@@ -470,7 +468,7 @@
        LÓGICA PESTAÑA 2 (Horario - Sub-pestañas por Día)
        ============================================================== */
     function cargarTab2() {
-        fetchYParsear(urlUdgCSV, 'horarios_cache_tab2', false, function(datos, esCache) {
+        fetchYParsear(urlUdgCSV, false, function(datos) {
             datosTab2 = procesarPorDias(datos);
             
             // Guardar el día que el usuario está viendo actualmente
@@ -478,17 +476,15 @@
             
             construirInterfazDias();
             
-            // Si llegan datos frescos, restaurar el día exacto que el usuario estaba viendo
-            if (!esCache) {
-                const maxDias = datosTab2.dias.length > 0 ? datosTab2.dias.length - 1 : 0;
-                diaSeleccionadoTab2 = diaActual > maxDias ? 0 : diaActual;
-                
-                if(datosTab2.dias.length > 0) seleccionarDia(diaSeleccionadoTab2);
-                
-                // Mantener búsqueda si el usuario estaba tecleando
-                const buscadorInput = document.getElementById('buscador2').value;
-                if (buscadorInput.length > 0) filtrarTab2();
-            }
+            // Restaurar el día exacto que el usuario estaba viendo
+            const maxDias = datosTab2.dias.length > 0 ? datosTab2.dias.length - 1 : 0;
+            diaSeleccionadoTab2 = diaActual > maxDias ? 0 : diaActual;
+            
+            if(datosTab2.dias.length > 0) seleccionarDia(diaSeleccionadoTab2);
+            
+            // Mantener búsqueda si el usuario estaba tecleando
+            const buscadorInput = document.getElementById('buscador2').value;
+            if (buscadorInput.length > 0) filtrarTab2();
         });
     }
 
