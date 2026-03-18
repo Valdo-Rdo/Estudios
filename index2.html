@@ -70,29 +70,15 @@
             background: none; border: none; cursor: pointer;
             font-size: 24px; color: #cbd5e1; transition: transform 0.2s, color 0.2s;
             float: right; padding: 5px; margin-top: -5px; line-height: 1;
-            -webkit-tap-highlight-color: transparent; /* Quita el cuadro azul en móviles */
+            -webkit-tap-highlight-color: transparent;
         }
         .fav-btn:hover { transform: scale(1.1); }
-        .fav-btn.active { color: #f59e0b; /* Dorado */ }
+        .fav-btn.active { color: #f59e0b; }
         
         .section-title { color: #1e3a8a; border-bottom: 2px solid #bfdbfe; padding-bottom: 8px; margin-top: 25px; font-size: 18px;}
 
         /* =========================================
-           Estilos Pestaña 1 (Horario Exámenes) 
-           ========================================= */
-        .card { 
-            background: white; padding: 16px; border-radius: 12px; 
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05); border: 1px solid #e5e7eb; 
-            margin-bottom: 12px; transition: transform 0.2s; max-width: 600px; margin-left: auto; margin-right: auto;
-        }
-        .card:hover { transform: translateY(-2px); box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
-        .hora-fecha { color: #2563eb; font-weight: 700; font-size: 13px; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px;}
-        .materia { font-size: 16px; font-weight: 600; color: #1f2937; margin: 0 0 8px 0; line-height: 1.4; padding-right: 30px;}
-        .detalles { color: #4b5563; font-size: 14px; margin: 0; }
-        .docente { display: inline-block; background: #e0e7ff; color: #3730a3; padding: 4px 10px; border-radius: 20px; font-size: 12px; margin-top: 8px; font-weight: bold;}
-        
-        /* =========================================
-           Estilos Pestaña 2 (Horario Diario) 
+           Estilos Horario General (Días) 
            ========================================= */
         .day-tabs-wrapper {
             width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch;
@@ -119,7 +105,7 @@
             background: #f8fafc; color: #1e3a8a; font-weight: 800; font-size: 15px;
             padding: 12px 16px; border-bottom: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center;
         }
-        .schedule-time .fav-btn { margin: 0; padding: 0; } /* Ajuste de estrella en título */
+        .schedule-time .fav-btn { margin: 0; padding: 0; }
         .schedule-details { padding: 12px 16px; }
         
         .class-block {
@@ -133,7 +119,7 @@
         .loader { text-align: center; color: #6b7280; margin-top: 40px; font-style: italic;}
 
         /* =========================================
-           Modo Oscuro (Controlado por clase)
+           Modo Oscuro
            ========================================= */
         body.dark-mode { background-color: #111827; color: #f9fafb; }
         body.dark-mode .header { background: #172554; } 
@@ -142,11 +128,6 @@
         body.dark-mode .search-container { background: #111827; }
         body.dark-mode .search-box { background: #1f2937; color: white; border-color: #374151; }
         body.dark-mode .search-box:focus { border-color: #3b82f6; }
-        body.dark-mode .card { background: #1f2937; border-color: #374151; box-shadow: 0 4px 6px rgba(0,0,0,0.3); }
-        body.dark-mode .card:hover { box-shadow: 0 6px 8px rgba(0,0,0,0.4); }
-        body.dark-mode .materia { color: #f3f4f6; }
-        body.dark-mode .detalles { color: #9ca3af; }
-        body.dark-mode .docente { background: #312e81; color: #e0e7ff; }
         body.dark-mode .day-tabs-wrapper { border-color: #374151; }
         body.dark-mode .day-btn { background: #374151; color: #d1d5db; }
         body.dark-mode .day-btn.active { background: #2563eb; color: white; }
@@ -163,44 +144,34 @@
 <div class="header">
     <button id="theme-toggle" class="theme-toggle" onclick="toggleTheme()" title="Cambiar modo oscuro">🌙</button>
     <h1>🗓️ Central de Horarios</h1>
-    <p class="subtitle">Selecciona el módulo que deseas consultar</p>
+    <p class="subtitle">Consulta y arma tu horario personalizado</p>
     
     <div class="tabs">
-        <button class="tab-btn" onclick="cambiarPestana('tab3', this)">⭐ Mi Horario</button>
-        <button class="tab-btn active" onclick="cambiarPestana('tab1', this)">📝 Exámenes</button>
-        <button class="tab-btn" onclick="cambiarPestana('tab2', this)">🏫 Horario General</button>
+        <button class="tab-btn active" onclick="cambiarPestana('tab-general', this)">🏫 Horario General</button>
+        <button class="tab-btn" onclick="cambiarPestana('tab-fav', this)">⭐ Mi Horario</button>
     </div>
 </div>
 
 <div class="container">
     
-    <div id="tab3" class="tab-content">
-        <div id="mi-horario-contenido">
-            </div>
-    </div>
-
-    <div id="tab1" class="tab-content active">
+    <!-- Pestaña: Horario General -->
+    <div id="tab-general" class="tab-content active">
         <div class="search-container">
             <div class="search-wrapper">
-                <input type="text" id="buscador1" class="search-box" placeholder="🔍 Buscar maestro, materia o grupo..." oninput="filtrarTab1()">
-                <span id="clear-btn1" class="clear-btn" onclick="limpiarBusqueda(1)" title="Limpiar búsqueda">&times;</span>
-            </div>
-        </div>
-        <div id="resultados1">
-            <p class="loader">⏳ Cargando horario de exámenes...</p>
-        </div>
-    </div>
-
-    <div id="tab2" class="tab-content">
-        <div class="search-container">
-            <div class="search-wrapper">
-                <input type="text" id="buscador2" class="search-box" placeholder="🔍 Buscar materia en este día..." oninput="filtrarTab2()">
-                <span id="clear-btn2" class="clear-btn" onclick="limpiarBusqueda(2)" title="Limpiar búsqueda">&times;</span>
+                <input type="text" id="buscadorGeneral" class="search-box" placeholder="🔍 Buscar materia en este día..." oninput="filtrarHorarioGeneral()">
+                <span id="clear-btn-general" class="clear-btn" onclick="limpiarBusquedaGeneral()" title="Limpiar búsqueda">&times;</span>
             </div>
         </div>
         
-        <div id="resultados2">
-            <p class="loader">⏳ Conectando con programación y separando días...</p>
+        <div id="resultadosGeneral">
+            <p class="loader">⏳ Conectando con la programación y separando días...</p>
+        </div>
+    </div>
+
+    <!-- Pestaña: Mi Horario (Favoritos) -->
+    <div id="tab-fav" class="tab-content">
+        <div id="mi-horario-contenido">
+            <!-- Aquí se inyectan las clases favoritas -->
         </div>
     </div>
 
@@ -208,12 +179,13 @@
 
 <script>
     // Variables globales
-    let datosTab1 = [];
-    let datosTab2 = { dias: [], horasData: [] };
-    let diaSeleccionadoTab2 = 0;
+    let datosGeneral = { dias: [], horasData: [] };
+    let diaSeleccionadoGeneral = 0;
 
     // Favoritos almacenados
-    let favoritos = JSON.parse(localStorage.getItem('misFavoritos')) || { examenes: [], clases: [] };
+    let favoritos = JSON.parse(localStorage.getItem('misFavoritos')) || { clases: [] };
+    // Validación por si el usuario trae data vieja
+    if (!favoritos.clases) favoritos.clases = [];
 
     // Variables para control de gestos táctiles (swipe)
     let touchStartX = 0;
@@ -221,16 +193,14 @@
     let ignorarSwipe = false;
 
     // URLs
-    const urlDocentesCSV = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTc2ntb-bjD-K4QI4LWTAGy33jEMN3ooA_3HKBrUAs212i-dOdBhfTm4D_WOkzfCh2zdCpQChVM_7A7/pub?gid=1178883480&single=true&output=csv";
     const urlUdgCSV = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTc2ntb-bjD-K4QI4LWTAGy33jEMN3ooA_3HKBrUAs212i-dOdBhfTm4D_WOkzfCh2zdCpQChVM_7A7/pub?gid=222378621&single=true&output=csv";
 
     // Inicializar
     window.onload = function() {
         inicializarTema();
-        cargarTab1();
-        cargarTab2();
+        cargarHorarioGeneral();
         inicializarEventosSwipe();
-        renderizarMiHorario(); // Pinta la pestaña de favoritos al iniciar
+        renderizarMiHorario();
     };
 
     /* ==============================================================
@@ -274,15 +244,15 @@
     }
 
     function evaluarSwipe() {
-        if (!document.getElementById('tab2').classList.contains('active') || datosTab2.dias.length === 0) return;
+        if (!document.getElementById('tab-general').classList.contains('active') || datosGeneral.dias.length === 0) return;
         const umbralSwipe = 50;
         const diferenciaX = touchEndX - touchStartX;
 
-        if (diferenciaX < -umbralSwipe && diaSeleccionadoTab2 < datosTab2.dias.length - 1) {
-            seleccionarDia(diaSeleccionadoTab2 + 1);
+        if (diferenciaX < -umbralSwipe && diaSeleccionadoGeneral < datosGeneral.dias.length - 1) {
+            seleccionarDia(diaSeleccionadoGeneral + 1);
         }
-        if (diferenciaX > umbralSwipe && diaSeleccionadoTab2 > 0) {
-            seleccionarDia(diaSeleccionadoTab2 - 1);
+        if (diferenciaX > umbralSwipe && diaSeleccionadoGeneral > 0) {
+            seleccionarDia(diaSeleccionadoGeneral - 1);
         }
     }
 
@@ -298,31 +268,29 @@
         return String(texto).toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[´`'"]/g, "");
     }
 
-    function limpiarBusqueda(tab) {
-        document.getElementById('buscador' + tab).value = '';
-        document.getElementById('clear-btn' + tab).style.display = 'none';
-        if (tab === 1) filtrarTab1();
-        if (tab === 2) filtrarTab2();
+    function limpiarBusquedaGeneral() {
+        document.getElementById('buscadorGeneral').value = '';
+        document.getElementById('clear-btn-general').style.display = 'none';
+        filtrarHorarioGeneral();
     }
 
     /* ==============================================================
        LÓGICA GENERAL - Fetch de Datos
        ============================================================== */
-    async function fetchYParsear(url, esHeader, callback) {
+    async function fetchYParsear(url, callback) {
         try {
-            // Se hace la petición limpia y simple al Google Sheets
             const res = await fetch(url);
             const text = await res.text();
             
-            // PapaParse convierte el CSV a datos usables
             Papa.parse(text, { 
-                header: esHeader, 
+                header: false, 
                 complete: function(results) { 
                     callback(results.data); 
                 } 
             });
         } catch (e) {
             console.error("Error al cargar los datos. Revisa tu conexión a internet.", e);
+            document.getElementById('resultadosGeneral').innerHTML = '<p class="empty-state">Ocurrió un error al cargar el horario. Intenta recargar la página.</p>';
         }
     }
 
@@ -331,20 +299,35 @@
        ============================================================== */
     function guardarFavoritos() {
         localStorage.setItem('misFavoritos', JSON.stringify(favoritos));
-        renderizarMiHorario(); // Actualiza la pestaña 3 en tiempo real
+        renderizarMiHorario(); // Actualiza la pestaña Mi Horario en tiempo real
     }
 
-    function toggleFavExamen(id, filaJSONEncoded) {
-        const index = favoritos.examenes.findIndex(e => e.id === id);
-        if (index > -1) {
-            favoritos.examenes.splice(index, 1); // Lo quita si ya existía
-        } else if (filaJSONEncoded) {
-            // Lo agrega si no existía
-            const fila = JSON.parse(decodeURIComponent(filaJSONEncoded));
-            favoritos.examenes.push({ id: id, materia: fila.Materia, fecha: fila.Fecha, hora: fila.Hora, grupo: fila.Grupo, docente: fila.Docente });
+    function limpiarClasesHuerfanas(datosProcesados) {
+        const idsValidos = new Set();
+        // Recorremos la estructura procesada de clases para recolectar IDs válidos
+        datosProcesados.dias.forEach(dia => {
+            datosProcesados.horasData.forEach(horaObj => {
+                horaObj.filas.forEach(filaCeldas => {
+                    dia.columnas.forEach(col => {
+                        let contenidoCelda = filaCeldas[col];
+                        if(contenidoCelda && contenidoCelda !== "0" && contenidoCelda.length > 2) {
+                            if(contenidoCelda.toLowerCase().includes("cargando")) return;
+                            let celdaFormateada = contenidoCelda.replace(/\n/g, '<br>');
+                            let id = encodeURIComponent(dia.nombre + horaObj.hora + celdaFormateada);
+                            idsValidos.add(id);
+                        }
+                    });
+                });
+            });
+        });
+
+        const totalInicial = favoritos.clases.length;
+        // Conservamos solo las clases cuyo ID siga existiendo
+        favoritos.clases = favoritos.clases.filter(fav => idsValidos.has(fav.id));
+
+        if (favoritos.clases.length !== totalInicial) {
+            guardarFavoritos();
         }
-        guardarFavoritos();
-        filtrarTab1(); // Refresca las estrellas en la Pestaña 1
     }
 
     function toggleFavClase(id, dataJSONEncoded) {
@@ -356,147 +339,59 @@
             favoritos.clases.push({ id: id, dia: data.dia, hora: data.hora, materia: data.materia });
         }
         guardarFavoritos();
-        renderizarClasesDelDia(diaSeleccionadoTab2); // Refresca las estrellas en la Pestaña 2
+        renderizarClasesDelDia(diaSeleccionadoGeneral); // Refresca las estrellas en la Pestaña General
     }
 
     function renderizarMiHorario() {
         const contenedor = document.getElementById('mi-horario-contenido');
         let html = '';
 
-        if (favoritos.examenes.length === 0 && favoritos.clases.length === 0) {
-            contenedor.innerHTML = '<p class="empty-state">Aún no has guardado ninguna clase o examen. <br><br> Toca la estrella ★ en cualquier materia para armar tu horario personalizado aquí.</p>';
+        if (favoritos.clases.length === 0) {
+            contenedor.innerHTML = '<p class="empty-state">Aún no has guardado ninguna clase. <br><br> Toca la estrella ★ en cualquier materia del <strong>Horario General</strong> para armar tu horario personalizado aquí.</p>';
             return;
         }
 
-        // Pintar Clases Guardadas
-        if (favoritos.clases.length > 0) {
-            html += '<h2 class="section-title">🏫 Mis Clases Recurrentes</h2>';
-            favoritos.clases.forEach(clase => {
-                html += `
-                <div class="schedule-card" style="margin-bottom: 12px;">
-                    <div class="schedule-time">
-                        <span>🕒 ${clase.dia} | ${clase.hora}</span>
-                        <button class="fav-btn active" onclick="toggleFavClase('${clase.id}', '')" title="Quitar de favoritos">★</button>
-                    </div>
-                    <div class="schedule-details">
-                        <div class="class-block">${clase.materia}</div>
-                    </div>
-                </div>`;
-            });
-        }
-
-        // Pintar Exámenes Guardados
-        if (favoritos.examenes.length > 0) {
-            html += '<h2 class="section-title">📝 Mis Próximos Exámenes</h2>';
-            favoritos.examenes.forEach(ex => {
-                html += `
-                <div class="card">
-                    <button class="fav-btn active" onclick="toggleFavExamen('${ex.id}', '')" title="Quitar de favoritos">★</button>
-                    <div class="hora-fecha">🕒 ${ex.fecha} | ${ex.hora}</div>
-                    <h2 class="materia">${ex.materia}</h2>
-                    <p class="detalles">📍 Grupo: <strong>${ex.grupo}</strong></p>
-                    <span class="docente">👩‍🏫 ${ex.docente}</span>
-                </div>`;
-            });
-        }
+        html += '<h2 class="section-title">🏫 Mis Clases Guardadas</h2>';
+        favoritos.clases.forEach(clase => {
+            html += `
+            <div class="schedule-card" style="margin-bottom: 12px;">
+                <div class="schedule-time">
+                    <span>🕒 ${clase.dia} | ${clase.hora}</span>
+                    <button class="fav-btn active" onclick="toggleFavClase('${clase.id}', '')" title="Quitar de favoritos">★</button>
+                </div>
+                <div class="schedule-details">
+                    <div class="class-block">${clase.materia}</div>
+                </div>
+            </div>`;
+        });
 
         contenedor.innerHTML = html;
     }
 
     /* ==============================================================
-       LÓGICA PESTAÑA 1 (Horario Exámenes)
+       LÓGICA HORARIO GENERAL (Sub-pestañas por Día)
        ============================================================== */
-    function cargarTab1() {
-        fetchYParsear(urlDocentesCSV, true, function(datos) {
-            datosTab1 = datos;
+    function cargarHorarioGeneral() {
+        fetchYParsear(urlUdgCSV, function(datos) {
+            datosGeneral = procesarPorDias(datos);
             
-            // Si el usuario ya escribió algo en el buscador, mantener el filtro
-            const buscadorInput = document.getElementById('buscador1').value;
-            if (buscadorInput.length > 0) {
-                filtrarTab1();
-            } else {
-                mostrarResultadosTab1(datosTab1);
-            }
-        });
-    }
-
-    function mostrarResultadosTab1(datos) {
-        const contenedor = document.getElementById('resultados1');
-        contenedor.innerHTML = ''; 
-
-        if (datos.length === 0) {
-            contenedor.innerHTML = '<p class="empty-state">No se encontraron resultados.</p>';
-            return;
-        }
-
-        let elementosMostrados = 0;
-
-        datos.forEach(fila => {
-            if (!fila.Fecha || !fila.Hora) return;
-
-            // Lógica para la estrella (Favoritos)
-            const id = encodeURIComponent(fila.Materia + fila.Fecha + fila.Hora + fila.Grupo);
-            const isFav = favoritos.examenes.some(e => e.id === id);
-            
-            // ELIMINADO: Ya no ocultamos el elemento si es favorito.
-            // if (isFav) return;
-
-            // Si es favorito le agregamos la clase 'active' para que brille en dorado
-            const starClass = isFav ? 'fav-btn active' : 'fav-btn'; 
-            const filaJSON = encodeURIComponent(JSON.stringify(fila));
-
-            const tarjeta = `
-                <div class="card">
-                    <button class="${starClass}" onclick="toggleFavExamen('${id}', '${filaJSON}')" title="Guardar en Mi Horario">★</button>
-                    <div class="hora-fecha">🕒 ${fila.Fecha} | ${fila.Hora}</div>
-                    <h2 class="materia">${fila.Materia || 'Sin Materia'}</h2>
-                    <p class="detalles">📍 Grupo: <strong>${fila.Grupo || 'N/A'}</strong></p>
-                    <span class="docente">👩‍🏫 ${fila.Docente || 'Por asignar'}</span>
-                </div>
-            `;
-            contenedor.innerHTML += tarjeta;
-            elementosMostrados++;
-        });
-
-        if (elementosMostrados === 0) {
-            contenedor.innerHTML = '<p class="empty-state">No se encontraron resultados para tu búsqueda.</p>';
-        }
-    }
-
-    function filtrarTab1() {
-        const input = document.getElementById('buscador1');
-        const btnClear = document.getElementById('clear-btn1');
-        btnClear.style.display = input.value.length > 0 ? 'block' : 'none';
-        
-        const textoBusqueda = normalizarTexto(input.value);
-        const filtrados = datosTab1.filter(fila => {
-            if (!fila.Materia) return false;
-            return normalizarTexto(Object.values(fila).join(" ")).includes(textoBusqueda);
-        });
-        mostrarResultadosTab1(filtrados);
-    }
-
-    /* ==============================================================
-       LÓGICA PESTAÑA 2 (Horario - Sub-pestañas por Día)
-       ============================================================== */
-    function cargarTab2() {
-        fetchYParsear(urlUdgCSV, false, function(datos) {
-            datosTab2 = procesarPorDias(datos);
+            // Limpiar clases que ya no existen en el Google Sheet
+            limpiarClasesHuerfanas(datosGeneral);
             
             // Guardar el día que el usuario está viendo actualmente
-            const diaActual = diaSeleccionadoTab2;
+            const diaActual = diaSeleccionadoGeneral;
             
             construirInterfazDias();
             
             // Restaurar el día exacto que el usuario estaba viendo
-            const maxDias = datosTab2.dias.length > 0 ? datosTab2.dias.length - 1 : 0;
-            diaSeleccionadoTab2 = diaActual > maxDias ? 0 : diaActual;
+            const maxDias = datosGeneral.dias.length > 0 ? datosGeneral.dias.length - 1 : 0;
+            diaSeleccionadoGeneral = diaActual > maxDias ? 0 : diaActual;
             
-            if(datosTab2.dias.length > 0) seleccionarDia(diaSeleccionadoTab2);
+            if(datosGeneral.dias.length > 0) seleccionarDia(diaSeleccionadoGeneral);
             
             // Mantener búsqueda si el usuario estaba tecleando
-            const buscadorInput = document.getElementById('buscador2').value;
-            if (buscadorInput.length > 0) filtrarTab2();
+            const buscadorInput = document.getElementById('buscadorGeneral').value;
+            if (buscadorInput.length > 0) filtrarHorarioGeneral();
         });
     }
 
@@ -555,25 +450,25 @@
     }
 
     function construirInterfazDias() {
-        const contenedor = document.getElementById('resultados2');
-        if (datosTab2.dias.length === 0) {
+        const contenedor = document.getElementById('resultadosGeneral');
+        if (datosGeneral.dias.length === 0) {
             contenedor.innerHTML = '<p class="empty-state">No se pudo detectar el formato de días en la tabla.</p>';
             return;
         }
 
         let html = '<div class="day-tabs-wrapper"><div class="day-tabs">';
-        datosTab2.dias.forEach((dia, index) => {
-            let btnClass = index === diaSeleccionadoTab2 ? 'day-btn active' : 'day-btn';
+        datosGeneral.dias.forEach((dia, index) => {
+            let btnClass = index === diaSeleccionadoGeneral ? 'day-btn active' : 'day-btn';
             html += `<button class="${btnClass}" id="btn-dia-${index}" onclick="seleccionarDia(${index})"><i class="fas fa-calendar-day mr-1"></i> ${dia.nombre}</button>`;
         });
         html += '</div></div><div id="contenido-dia-activo"></div>';
         
         contenedor.innerHTML = html;
-        renderizarClasesDelDia(diaSeleccionadoTab2);
+        renderizarClasesDelDia(diaSeleccionadoGeneral);
     }
 
     function seleccionarDia(index) {
-        diaSeleccionadoTab2 = index;
+        diaSeleccionadoGeneral = index;
         document.querySelectorAll('.day-btn').forEach((btn, i) => {
             if (i === index) {
                 btn.classList.add('active');
@@ -586,15 +481,15 @@
     }
 
     function renderizarClasesDelDia(indexDia) {
-        let dia = datosTab2.dias[indexDia];
+        let dia = datosGeneral.dias[indexDia];
         if(!dia) return;
 
         let contenedor = document.getElementById('contenido-dia-activo');
         let html = '';
-        let textoBusqueda = normalizarTexto(document.getElementById('buscador2').value);
+        let textoBusqueda = normalizarTexto(document.getElementById('buscadorGeneral').value);
         let coincidencias = 0;
 
-        datosTab2.horasData.forEach(horaObj => {
+        datosGeneral.horasData.forEach(horaObj => {
             let htmlClases = '';
             let horaTieneClases = false;
 
@@ -615,9 +510,6 @@
                             let id = encodeURIComponent(dia.nombre + horaObj.hora + celdaFormateada);
                             let isFav = favoritos.clases.some(c => c.id === id);
                             
-                            // ELIMINADO: Ya no ocultamos el elemento si es favorito.
-                            // if (isFav) return;
-
                             horaTieneClases = true;
                             // Si es favorito le agregamos la clase 'active' para que brille
                             let starClass = isFav ? 'fav-btn active' : 'fav-btn';
@@ -647,16 +539,16 @@
         });
 
         if(coincidencias === 0) {
-            html = `<p class="empty-state">No hay clases disponibles aquí${textoBusqueda ? ' con esa búsqueda' : ''}.</p>`;
+            html = `<p class="empty-state">No hay materias disponibles aquí${textoBusqueda ? ' con esa búsqueda' : ''}.</p>`;
         }
         contenedor.innerHTML = html;
     }
 
-    function filtrarTab2() {
-        const input = document.getElementById('buscador2');
-        const btnClear = document.getElementById('clear-btn2');
+    function filtrarHorarioGeneral() {
+        const input = document.getElementById('buscadorGeneral');
+        const btnClear = document.getElementById('clear-btn-general');
         btnClear.style.display = input.value.length > 0 ? 'block' : 'none';
-        renderizarClasesDelDia(diaSeleccionadoTab2);
+        renderizarClasesDelDia(diaSeleccionadoGeneral);
     }
 </script>
 
