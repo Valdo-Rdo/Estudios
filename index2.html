@@ -15,9 +15,19 @@
         .container { max-width: 1000px; margin: 0 auto; padding: 20px; }
         
         /* Estilos del Header y Pestañas Principales */
-        .header { background: #1e3a8a; padding: 20px 20px 0 20px; color: white; text-align: center; }
+        .header { background: #1e3a8a; padding: 20px 20px 0 20px; color: white; text-align: center; position: relative; }
         h1 { margin: 0 0 5px 0; font-size: 24px; }
         .subtitle { color: #bfdbfe; font-size: 14px; margin-bottom: 20px; }
+        
+        /* Botón Modo Oscuro */
+        .theme-toggle {
+            position: absolute; top: 20px; right: 20px;
+            background: rgba(255,255,255,0.2); border: none; color: white;
+            width: 40px; height: 40px; border-radius: 50%;
+            font-size: 20px; cursor: pointer; transition: all 0.3s;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .theme-toggle:hover { background: rgba(255,255,255,0.4); transform: scale(1.1); }
         
         .tabs { display: flex; justify-content: center; gap: 10px; border-bottom: 1px solid #3b82f6; flex-wrap: wrap;}
         .tab-btn { 
@@ -114,12 +124,35 @@
         
         .empty-state { text-align: center; color: #64748b; font-style: italic; padding: 20px; }
         .loader { text-align: center; color: #6b7280; margin-top: 40px; font-style: italic;}
+
+        /* =========================================
+           Modo Oscuro (Controlado por clase)
+           ========================================= */
+        body.dark-mode { background-color: #111827; color: #f9fafb; }
+        body.dark-mode .header { background: #172554; } 
+        body.dark-mode .tab-btn.active { background: #111827; color: #60a5fa; }
+        body.dark-mode .tab-btn:hover:not(.active) { background: rgba(255,255,255,0.1); }
+        body.dark-mode .search-container { background: #111827; }
+        body.dark-mode .search-box { background: #1f2937; color: white; border-color: #374151; }
+        body.dark-mode .search-box:focus { border-color: #3b82f6; }
+        body.dark-mode .card { background: #1f2937; border-color: #374151; box-shadow: 0 4px 6px rgba(0,0,0,0.3); }
+        body.dark-mode .card:hover { box-shadow: 0 6px 8px rgba(0,0,0,0.4); }
+        body.dark-mode .materia { color: #f3f4f6; }
+        body.dark-mode .detalles { color: #9ca3af; }
+        body.dark-mode .docente { background: #312e81; color: #e0e7ff; }
+        body.dark-mode .day-tabs-wrapper { border-color: #374151; }
+        body.dark-mode .day-btn { background: #374151; color: #d1d5db; }
+        body.dark-mode .day-btn.active { background: #2563eb; color: white; }
+        body.dark-mode .schedule-card { background: #1f2937; border-color: #374151; border-left-color: #3b82f6; }
+        body.dark-mode .schedule-time { background: #111827; color: #60a5fa; border-color: #374151; }
+        body.dark-mode .class-block { background: #064e3b; border-color: #065f46; color: #a7f3d0; }
     </style>
 </head>
 <body>
 
 <!-- ENCABEZADO Y PESTAÑAS -->
 <div class="header">
+    <button id="theme-toggle" class="theme-toggle" onclick="toggleTheme()" title="Cambiar modo oscuro">🌙</button>
     <h1>🗓️ Central de Horarios</h1>
     <p class="subtitle">Selecciona el módulo que deseas consultar</p>
     
@@ -182,10 +215,41 @@
 
     // Inicializar
     window.onload = function() {
+        inicializarTema();
         cargarTab1();
         cargarTab2();
         inicializarEventosSwipe();
     };
+
+    /* ==============================================================
+       LÓGICA DE MODO OSCURO
+       ============================================================== */
+    function inicializarTema() {
+        // Revisar si el usuario ya había elegido un tema antes
+        const temaGuardado = localStorage.getItem('temaPreferido');
+        // Revisar si su sistema operativo está en modo oscuro por defecto
+        const prefiereOscuro = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        
+        // Aplicar oscuro si lo guardó, o si no hay nada guardado pero su sistema es oscuro
+        if (temaGuardado === 'dark' || (!temaGuardado && prefiereOscuro)) {
+            document.body.classList.add('dark-mode');
+            document.getElementById('theme-toggle').innerText = '☀️';
+        }
+    }
+
+    function toggleTheme() {
+        const body = document.body;
+        const btn = document.getElementById('theme-toggle');
+        
+        body.classList.toggle('dark-mode');
+        const esOscuro = body.classList.contains('dark-mode');
+        
+        // Cambiar el ícono
+        btn.innerText = esOscuro ? '☀️' : '🌙';
+        
+        // Guardar la preferencia
+        localStorage.setItem('temaPreferido', esOscuro ? 'dark' : 'light');
+    }
 
     // Inicializar eventos de deslizamiento (swipe) para celulares
     function inicializarEventosSwipe() {
@@ -261,16 +325,49 @@
     }
 
     /* ==============================================================
+       LÓGICA GENERAL - Caché y Fetch de Datos
+       ============================================================== */
+    async function fetchYParsear(url, cacheKey, esHeader, callback) {
+        // 1. Mostrar datos en caché si existen (Carga instantánea)
+        const cached = localStorage.getItem(cacheKey);
+        if (cached) {
+            Papa.parse(cached, { 
+                header: esHeader, 
+                complete: function(results) { callback(results.data); } 
+            });
+        }
+
+        // 2. Buscar datos frescos en segundo plano desde Google Sheets
+        try {
+            const res = await fetch(url);
+            const text = await res.text();
+            
+            // Si hay datos nuevos o no había caché, actualizamos el almacenamiento y la vista
+            if (text !== cached) {
+                localStorage.setItem(cacheKey, text);
+                Papa.parse(text, { 
+                    header: esHeader, 
+                    complete: function(results) { callback(results.data); } 
+                });
+            }
+        } catch (e) {
+            console.warn("Estás offline o hubo un error de red. Usando datos cacheados.");
+            if (!cached) {
+                document.querySelectorAll('.loader').forEach(el => {
+                    el.innerHTML = "⚠️ No hay conexión a internet y no hay datos guardados.";
+                    el.style.color = "#ef4444";
+                });
+            }
+        }
+    }
+
+    /* ==============================================================
        LÓGICA PESTAÑA 1 (Horario Exámenes)
        ============================================================== */
     function cargarTab1() {
-        Papa.parse(urlDocentesCSV, {
-            download: true,
-            header: true,
-            complete: function(results) {
-                datosTab1 = results.data;
-                mostrarResultadosTab1(datosTab1);
-            }
+        fetchYParsear(urlDocentesCSV, 'horarios_cache_tab1', true, function(datos) {
+            datosTab1 = datos;
+            mostrarResultadosTab1(datosTab1);
         });
     }
 
@@ -318,13 +415,9 @@
        LÓGICA PESTAÑA 2 (Horario - Sub-pestañas por Día)
        ============================================================== */
     function cargarTab2() {
-        Papa.parse(urlUdgCSV, {
-            download: true,
-            header: false,
-            complete: function(results) {
-                datosTab2 = procesarPorDias(results.data);
-                construirInterfazDias();
-            }
+        fetchYParsear(urlUdgCSV, 'horarios_cache_tab2', false, function(datos) {
+            datosTab2 = procesarPorDias(datos);
+            construirInterfazDias();
         });
     }
 
