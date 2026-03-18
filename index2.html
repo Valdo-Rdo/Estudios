@@ -3,80 +3,411 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Horario de Docentes</title>
+    <title>Plataforma de Horarios</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
     <style>
-        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background-color: #f3f4f6; margin: 0; padding: 20px; }
-        .container { max-width: 600px; margin: 0 auto; }
-        h1 { text-align: center; color: #1f2937; }
-        .search-box { width: 100%; padding: 12px; font-size: 16px; border: 2px solid #3b82f6; border-radius: 8px; margin-bottom: 20px; box-sizing: border-box; }
-        .card { background: white; padding: 15px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); margin-bottom: 15px; }
-        .hora-fecha { color: #3b82f6; font-weight: bold; font-size: 14px; margin-bottom: 5px; }
-        .materia { font-size: 18px; font-weight: bold; color: #1f2937; margin: 0 0 5px 0; }
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; 
+            background-color: #f3f4f6; 
+            margin: 0; 
+            padding: 0; 
+        }
+        .container { max-width: 1000px; margin: 0 auto; padding: 20px; }
+        
+        /* Estilos del Header y Pestañas Principales */
+        .header { background: #1e3a8a; padding: 20px 20px 0 20px; color: white; text-align: center; }
+        h1 { margin: 0 0 5px 0; font-size: 24px; }
+        .subtitle { color: #bfdbfe; font-size: 14px; margin-bottom: 20px; }
+        
+        .tabs { display: flex; justify-content: center; gap: 10px; border-bottom: 1px solid #3b82f6; flex-wrap: wrap;}
+        .tab-btn { 
+            background: rgba(255,255,255,0.1); border: none; color: #bfdbfe; 
+            padding: 12px 24px; font-size: 15px; font-weight: bold; 
+            border-radius: 12px 12px 0 0; cursor: pointer; transition: all 0.3s;
+        }
+        .tab-btn.active { background: #f3f4f6; color: #1e3a8a; }
+        .tab-btn:hover:not(.active) { background: rgba(255,255,255,0.2); color: white; }
+
+        /* Contenedores de contenido */
+        .tab-content { display: none; animation: fadeIn 0.4s; }
+        .tab-content.active { display: block; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Buscador General */
+        .search-container { position: sticky; top: 10px; z-index: 100; background: #f3f4f6; padding-bottom: 10px; margin-top: 15px;}
+        .search-box { 
+            width: 100%; padding: 14px; font-size: 16px; 
+            border: 2px solid #3b82f6; border-radius: 12px; box-sizing: border-box; 
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); outline: none; transition: border-color 0.3s; 
+        }
+        .search-box:focus { border-color: #1d4ed8; }
+
+        /* =========================================
+           Estilos Pestaña 1 (Horario Exámenes) 
+           ========================================= */
+        .card { 
+            background: white; padding: 16px; border-radius: 12px; 
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05); border: 1px solid #e5e7eb; 
+            margin-bottom: 12px; transition: transform 0.2s; max-width: 600px; margin-left: auto; margin-right: auto;
+        }
+        .card:hover { transform: translateY(-2px); box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        .hora-fecha { color: #2563eb; font-weight: 700; font-size: 13px; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px;}
+        .materia { font-size: 16px; font-weight: 600; color: #1f2937; margin: 0 0 8px 0; line-height: 1.4; }
         .detalles { color: #4b5563; font-size: 14px; margin: 0; }
-        .docente { display: inline-block; background: #e0e7ff; color: #3730a3; padding: 3px 8px; border-radius: 12px; font-size: 12px; margin-top: 8px; font-weight: bold;}
+        .docente { display: inline-block; background: #e0e7ff; color: #3730a3; padding: 4px 10px; border-radius: 20px; font-size: 12px; margin-top: 8px; font-weight: bold;}
+        
+        /* =========================================
+           Estilos Pestaña 2 (Horario Diario) 
+           ========================================= */
+        /* Sub-pestañas de días (Deslizables en móvil) */
+        .day-tabs-wrapper {
+            width: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none; /* Firefox */
+            margin-bottom: 20px;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 10px;
+        }
+        .day-tabs-wrapper::-webkit-scrollbar { display: none; } /* Chrome/Safari */
+        
+        .day-tabs { display: inline-flex; gap: 8px; padding: 0 5px; }
+        .day-btn {
+            background: #e2e8f0; color: #475569; border: none; padding: 10px 20px;
+            border-radius: 25px; font-weight: bold; font-size: 14px; cursor: pointer;
+            white-space: nowrap; transition: all 0.2s;
+        }
+        .day-btn.active { background: #2563eb; color: white; box-shadow: 0 4px 6px rgba(37, 99, 235, 0.3); }
+        
+        /* Tarjetas de Horas */
+        .schedule-card {
+            background: white; border-radius: 12px; padding: 0; margin-bottom: 15px;
+            border: 1px solid #e5e7eb; border-left: 6px solid #3b82f6;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05); overflow: hidden;
+            max-width: 600px; margin-left: auto; margin-right: auto;
+        }
+        .schedule-time {
+            background: #f8fafc; color: #1e3a8a; font-weight: 800; font-size: 15px;
+            padding: 12px 16px; border-bottom: 1px solid #e2e8f0;
+        }
+        .schedule-details { padding: 12px 16px; }
+        
+        /* Bloques de clases (Por si hay varias columnas bajo el mismo día) */
+        .class-block {
+            background: #f0fdf4; border: 1px solid #bbf7d0; padding: 12px;
+            border-radius: 8px; font-size: 14px; color: #166534; margin-bottom: 8px;
+            font-weight: 500; line-height: 1.5;
+        }
+        .class-block:last-child { margin-bottom: 0; }
+        
+        .empty-state { text-align: center; color: #64748b; font-style: italic; padding: 20px; }
+        .loader { text-align: center; color: #6b7280; margin-top: 40px; font-style: italic;}
     </style>
 </head>
 <body>
 
-<div class="container">
-    <h1>🗓️ Buscador de Horarios</h1>
-    <input type="text" id="buscador" class="search-box" placeholder="🔍 Buscar maestro, materia o grupo..." onkeyup="filtrarClases()">
+<!-- ENCABEZADO Y PESTAÑAS -->
+<div class="header">
+    <h1>🗓️ Central de Horarios</h1>
+    <p class="subtitle">Selecciona el módulo que deseas consultar</p>
     
-    <div id="resultados">
-        <p style="text-align: center; color: #6b7280;">Cargando horarios...</p>
+    <div class="tabs">
+        <button class="tab-btn active" onclick="cambiarPestana('tab1', this)">📝 Horario Exámenes</button>
+        <button class="tab-btn" onclick="cambiarPestana('tab2', this)">🏫 Horario</button>
     </div>
 </div>
 
+<div class="container">
+    
+    <!-- ============================================== -->
+    <!-- PESTAÑA 1: HORARIO EXÁMENES (Lista Lineal)     -->
+    <!-- ============================================== -->
+    <div id="tab1" class="tab-content active">
+        <div class="search-container">
+            <input type="text" id="buscador1" class="search-box" placeholder="🔍 Buscar maestro, materia o grupo..." onkeyup="filtrarTab1()">
+        </div>
+        <div id="resultados1">
+            <p class="loader">⏳ Cargando horario de exámenes...</p>
+        </div>
+    </div>
+
+    <!-- ============================================== -->
+    <!-- PESTAÑA 2: HORARIO (Días separados por pestañas)-->
+    <!-- ============================================== -->
+    <div id="tab2" class="tab-content">
+        <div class="search-container">
+            <input type="text" id="buscador2" class="search-box" placeholder="🔍 Buscar materia en este día..." onkeyup="filtrarTab2()">
+        </div>
+        
+        <!-- Aquí se inyectarán las sub-pestañas de Lunes, Martes, etc. -->
+        <div id="resultados2">
+            <p class="loader">⏳ Conectando con programación y separando días...</p>
+        </div>
+    </div>
+
+</div>
+
 <script>
-    let datosGlobales = [];
+    // Variables globales
+    let datosTab1 = [];
+    let datosTab2 = { dias: [], horasData: [] };
+    let diaSeleccionadoTab2 = 0;
 
-    // URL de tu Google Sheet publicado como CSV (PÉGALA AQUÍ ADENTRO DE LAS COMILLAS)
-    const urlCSV = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTc2ntb-bjD-K4QI4LWTAGy33jEMN3ooA_3HKBrUAs212i-dOdBhfTm4D_WOkzfCh2zdCpQChVM_7A7/pub?gid=1178883480&single=true&output=csv";
+    // URLs
+    const urlDocentesCSV = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTc2ntb-bjD-K4QI4LWTAGy33jEMN3ooA_3HKBrUAs212i-dOdBhfTm4D_WOkzfCh2zdCpQChVM_7A7/pub?gid=1178883480&single=true&output=csv";
+    const urlUdgCSV = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTc2ntb-bjD-K4QI4LWTAGy33jEMN3ooA_3HKBrUAs212i-dOdBhfTm4D_WOkzfCh2zdCpQChVM_7A7/pub?gid=222378621&single=true&output=csv";
 
-    // Función para descargar y leer el Sheet
-    Papa.parse(urlCSV, {
-        download: true,
-        header: true, // Asume que la fila 1 tiene los títulos (Fecha, Hora, Materia...)
-        complete: function(results) {
-            datosGlobales = results.data;
-            mostrarClases(datosGlobales);
-        }
-    });
+    // Inicializar
+    window.onload = function() {
+        cargarTab1();
+        cargarTab2();
+    };
 
-    // Función para pintar las tarjetas en el celular
-    function mostrarClases(datos) {
-        const contenedor = document.getElementById('resultados');
+    // Cambiar Pestañas Principales
+    function cambiarPestana(tabId, btnElement) {
+        document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+        document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+        
+        document.getElementById(tabId).classList.add('active');
+        btnElement.classList.add('active');
+    }
+
+    // Normalizar texto para búsquedas (quitar acentos y mayúsculas)
+    function normalizarTexto(texto) {
+        return texto.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+    }
+
+    /* ==============================================================
+       LÓGICA PESTAÑA 1 (Horario Exámenes)
+       ============================================================== */
+    function cargarTab1() {
+        Papa.parse(urlDocentesCSV, {
+            download: true,
+            header: true,
+            complete: function(results) {
+                datosTab1 = results.data;
+                mostrarResultadosTab1(datosTab1);
+            }
+        });
+    }
+
+    function mostrarResultadosTab1(datos) {
+        const contenedor = document.getElementById('resultados1');
         contenedor.innerHTML = ''; 
 
+        if (datos.length === 0) {
+            contenedor.innerHTML = '<p class="empty-state">No se encontraron resultados.</p>';
+            return;
+        }
+
         datos.forEach(fila => {
-            // Saltamos filas vacías
-            if (!fila.Fecha || !fila.Hora) return; 
+            if (!fila.Fecha || !fila.Hora) return;
 
             const tarjeta = `
-                <div class="card clase-item">
+                <div class="card">
                     <div class="hora-fecha">🕒 ${fila.Fecha} | ${fila.Hora}</div>
-                    <h2 class="materia">${fila.Materia}</h2>
-                    <p class="detalles">📍 Grupo: <strong>${fila.Grupo}</strong></p>
-                    <span class="docente">👩‍🏫 ${fila.Docente}</span>
+                    <h2 class="materia">${fila.Materia || 'Sin Materia'}</h2>
+                    <p class="detalles">📍 Grupo: <strong>${fila.Grupo || 'N/A'}</strong></p>
+                    <span class="docente">👩‍🏫 ${fila.Docente || 'Por asignar'}</span>
                 </div>
             `;
             contenedor.innerHTML += tarjeta;
         });
     }
 
-    // Función del buscador en tiempo real
-    function filtrarClases() {
-        const textoBusqueda = document.getElementById('buscador').value.toLowerCase();
-        
-        const datosFiltrados = datosGlobales.filter(fila => {
+    function filtrarTab1() {
+        const textoBusqueda = normalizarTexto(document.getElementById('buscador1').value);
+        const filtrados = datosTab1.filter(fila => {
             if (!fila.Materia) return false;
-            // Busca en toda la fila junta
-            const todaLaFila = Object.values(fila).join(" ").toLowerCase();
+            const todaLaFila = normalizarTexto(Object.values(fila).join(" "));
             return todaLaFila.includes(textoBusqueda);
         });
+        mostrarResultadosTab1(filtrados);
+    }
 
-        mostrarClases(datosFiltrados);
+    /* ==============================================================
+       LÓGICA PESTAÑA 2 (Horario - Sub-pestañas por Día)
+       ============================================================== */
+    function cargarTab2() {
+        Papa.parse(urlUdgCSV, {
+            download: true,
+            header: false,
+            complete: function(results) {
+                datosTab2 = procesarPorDias(results.data);
+                construirInterfazDias();
+            }
+        });
+    }
+
+    // Procesa el CSV identificando a qué columnas pertenece cada día
+    function procesarPorDias(filasCSV) {
+        let dias = [];
+        let filaInicio = 0;
+        let horasData = [];
+
+        // 1. Encontrar la fila que tiene los días (lun, mar, mié...)
+        for(let i = 0; i < filasCSV.length; i++) {
+            let textoFila = filasCSV[i].join(" ").toLowerCase();
+            if(textoFila.includes("lun") || textoFila.includes("mar") || textoFila.includes("fecha")) {
+                let fila = filasCSV[i];
+                let diaActual = null;
+                
+                // Empezar en la columna 1 (0 es la hora)
+                for(let col = 1; col < fila.length; col++) {
+                    let valorCelda = fila[col] ? fila[col].trim() : "";
+                    
+                    if(valorCelda !== "" && valorCelda.length > 2) {
+                        // Limpiar el nombre del día (Ej: "lun /23/mar" -> "Lun 23 Mar")
+                        let nombreLimpio = valorCelda.replace(/\//g, ' ');
+                        diaActual = { nombre: nombreLimpio, columnas: [col] };
+                        dias.push(diaActual);
+                    } else if (diaActual) {
+                        // Si la celda está vacía pero ya hay un día activo, 
+                        // significa que es una columna fusionada/adicional de ese mismo día
+                        diaActual.columnas.push(col);
+                    }
+                }
+                filaInicio = i + 1; 
+                break;
+            }
+        }
+
+        // 2. Extraer las materias agrupando las filas sin hora a la última hora leída
+        let ultimaHoraVista = "";
+        
+        for(let i = filaInicio; i < filasCSV.length; i++) {
+            let fila = filasCSV[i];
+            let horaStr = fila[0] ? fila[0].trim() : ""; 
+
+            // Si hay una hora escrita en la columna 0, la guardamos
+            if(horaStr && (horaStr.includes(":") || /\d/.test(horaStr))) {
+                ultimaHoraVista = horaStr;
+            }
+            
+            // Si aún no hemos detectado ninguna hora, ignoramos la fila
+            if(!ultimaHoraVista) continue;
+            
+            let celdasDeEstaFila = {};
+            let tieneDatos = false;
+            
+            for(let col = 1; col < fila.length; col++) {
+                let valor = fila[col] ? fila[col].trim() : "";
+                celdasDeEstaFila[col] = valor;
+                if(valor !== "" && valor !== "0" && valor.length > 2) tieneDatos = true;
+            }
+            
+            // Si la fila tiene contenido, se guarda en el bloque de la hora que le corresponde
+            if(tieneDatos) {
+                let bloqueHora = horasData.find(h => h.hora === ultimaHoraVista);
+                if(!bloqueHora) {
+                    bloqueHora = { hora: ultimaHoraVista, filas: [] };
+                    horasData.push(bloqueHora);
+                }
+                bloqueHora.filas.push(celdasDeEstaFila);
+            }
+        }
+
+        return { dias, horasData };
+    }
+
+    // Crea los botones de los días y el contenedor de las clases
+    function construirInterfazDias() {
+        const contenedor = document.getElementById('resultados2');
+        
+        if (datosTab2.dias.length === 0) {
+            contenedor.innerHTML = '<p class="empty-state">No se pudo detectar el formato de días en la tabla.</p>';
+            return;
+        }
+
+        let html = '<div class="day-tabs-wrapper"><div class="day-tabs">';
+        
+        // Crear botones de días
+        datosTab2.dias.forEach((dia, index) => {
+            let btnClass = index === diaSeleccionadoTab2 ? 'day-btn active' : 'day-btn';
+            html += `<button class="${btnClass}" onclick="seleccionarDia(${index})"><i class="fas fa-calendar-day mr-1"></i> ${dia.nombre}</button>`;
+        });
+        
+        html += '</div></div>';
+        html += '<div id="contenido-dia-activo"></div>'; // Aquí se pintan las clases
+        
+        contenedor.innerHTML = html;
+        renderizarClasesDelDia(diaSeleccionadoTab2);
+    }
+
+    // Acción al tocar un día
+    function seleccionarDia(index) {
+        diaSeleccionadoTab2 = index;
+        // Actualizar diseño de botones
+        const botones = document.querySelectorAll('.day-btn');
+        botones.forEach((btn, i) => {
+            if (i === index) btn.classList.add('active');
+            else btn.classList.remove('active');
+        });
+        
+        // Limpiar el buscador al cambiar de día
+        document.getElementById('buscador2').value = '';
+        renderizarClasesDelDia(index);
+    }
+
+    // Pinta las horas y clases del día seleccionado
+    function renderizarClasesDelDia(indexDia) {
+        let dia = datosTab2.dias[indexDia];
+        let contenedor = document.getElementById('contenido-dia-activo');
+        let html = '';
+        let textoBusqueda = normalizarTexto(document.getElementById('buscador2').value);
+        let coincidencias = 0;
+
+        datosTab2.horasData.forEach(horaObj => {
+            let htmlClases = '';
+            let horaTieneClases = false;
+
+            // Iteramos sobre TODAS las filas agrupadas en este horario
+            horaObj.filas.forEach(filaCeldas => {
+                // Iteramos sobre las columnas del día activo
+                dia.columnas.forEach(col => {
+                    let contenidoCelda = filaCeldas[col];
+                    
+                    if(contenidoCelda && contenidoCelda !== "0" && contenidoCelda.length > 2) {
+                        // Filtrar por buscador
+                        let textoAFiltrar = normalizarTexto(horaObj.hora + " " + contenidoCelda);
+                        if(textoBusqueda === "" || textoAFiltrar.includes(textoBusqueda)) {
+                            horaTieneClases = true;
+                            // Transformamos saltos de línea (\n) en saltos HTML (<br>)
+                            let celdaFormateada = contenidoCelda.replace(/\n/g, '<br>');
+                            htmlClases += `<div class="class-block">${celdaFormateada}</div>`;
+                        }
+                    }
+                });
+            });
+
+            // Si se encontraron clases para esta hora, creamos la tarjeta
+            if(horaTieneClases) {
+                coincidencias++;
+                html += `
+                    <div class="schedule-card">
+                        <div class="schedule-time">🕒 ${horaObj.hora}</div>
+                        <div class="schedule-details">
+                            ${htmlClases}
+                        </div>
+                    </div>
+                `;
+            }
+        });
+
+        if(coincidencias === 0) {
+            html = `<p class="empty-state">No hay clases programadas para este día${textoBusqueda ? ' que coincidan con tu búsqueda.' : '.'}</p>`;
+        }
+
+        contenedor.innerHTML = html;
+    }
+
+    // Ejecutar filtro al escribir en el buscador de la Pestaña 2
+    function filtrarTab2() {
+        renderizarClasesDelDia(diaSeleccionadoTab2);
     }
 </script>
 
