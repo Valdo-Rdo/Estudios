@@ -79,6 +79,7 @@
             margin-bottom: 20px;
             border-bottom: 2px solid #e2e8f0;
             padding-bottom: 10px;
+            scroll-behavior: smooth; /* Para el auto-scroll */
         }
         .day-tabs-wrapper::-webkit-scrollbar { display: none; } /* Chrome/Safari */
         
@@ -170,6 +171,10 @@
     let datosTab2 = { dias: [], horasData: [] };
     let diaSeleccionadoTab2 = 0;
 
+    // Variables para control de gestos táctiles (swipe)
+    let touchStartX = 0;
+    let touchEndX = 0;
+
     // URLs
     const urlDocentesCSV = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTc2ntb-bjD-K4QI4LWTAGy33jEMN3ooA_3HKBrUAs212i-dOdBhfTm4D_WOkzfCh2zdCpQChVM_7A7/pub?gid=1178883480&single=true&output=csv";
     const urlUdgCSV = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTc2ntb-bjD-K4QI4LWTAGy33jEMN3ooA_3HKBrUAs212i-dOdBhfTm4D_WOkzfCh2zdCpQChVM_7A7/pub?gid=222378621&single=true&output=csv";
@@ -178,7 +183,45 @@
     window.onload = function() {
         cargarTab1();
         cargarTab2();
+        inicializarEventosSwipe();
     };
+
+    // Inicializar eventos de deslizamiento (swipe) para celulares
+    function inicializarEventosSwipe() {
+        const tab2Area = document.getElementById('tab2');
+        
+        tab2Area.addEventListener('touchstart', e => {
+            touchStartX = e.changedTouches[0].screenX;
+        }, {passive: true});
+
+        tab2Area.addEventListener('touchend', e => {
+            touchEndX = e.changedTouches[0].screenX;
+            evaluarSwipe();
+        }, {passive: true});
+    }
+
+    // Lógica para determinar si fue un deslizamiento válido y hacia dónde
+    function evaluarSwipe() {
+        // Asegurarnos de que estamos en la pestaña 2 y que ya cargaron los días
+        if (!document.getElementById('tab2').classList.contains('active') || datosTab2.dias.length === 0) return;
+
+        const umbralSwipe = 50; // Mínimo de píxeles para considerar que fue un swipe
+        const diferenciaX = touchEndX - touchStartX;
+
+        // Si se deslizó de derecha a izquierda (Avanzar al siguiente día)
+        if (diferenciaX < -umbralSwipe) {
+            if (diaSeleccionadoTab2 < datosTab2.dias.length - 1) {
+                seleccionarDia(diaSeleccionadoTab2 + 1);
+            }
+        }
+        
+        // Si se deslizó de izquierda a derecha (Retroceder al día anterior)
+        if (diferenciaX > umbralSwipe) {
+            if (diaSeleccionadoTab2 > 0) {
+                seleccionarDia(diaSeleccionadoTab2 - 1);
+            }
+        }
+    }
 
     // Cambiar Pestañas Principales
     function cambiarPestana(tabId, btnElement) {
@@ -362,7 +405,7 @@
         // Crear botones de días
         datosTab2.dias.forEach((dia, index) => {
             let btnClass = index === diaSeleccionadoTab2 ? 'day-btn active' : 'day-btn';
-            html += `<button class="${btnClass}" onclick="seleccionarDia(${index})"><i class="fas fa-calendar-day mr-1"></i> ${dia.nombre}</button>`;
+            html += `<button class="${btnClass}" id="btn-dia-${index}" onclick="seleccionarDia(${index})"><i class="fas fa-calendar-day mr-1"></i> ${dia.nombre}</button>`;
         });
         
         html += '</div></div>';
@@ -372,18 +415,21 @@
         renderizarClasesDelDia(diaSeleccionadoTab2);
     }
 
-    // Acción al tocar un día
+    // Acción al tocar un día (o al deslizar)
     function seleccionarDia(index) {
         diaSeleccionadoTab2 = index;
         // Actualizar diseño de botones
         const botones = document.querySelectorAll('.day-btn');
         botones.forEach((btn, i) => {
-            if (i === index) btn.classList.add('active');
-            else btn.classList.remove('active');
+            if (i === index) {
+                btn.classList.add('active');
+                // UX: Auto-desplazar la barra de días para centrar el botón seleccionado
+                btn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+            } else {
+                btn.classList.remove('active');
+            }
         });
         
-        // [MODIFICADO]: Eliminada la línea que borraba el buscador al cambiar de día.
-        // Ahora conservará lo que hayas escrito y aplicará el filtro en el nuevo día.
         renderizarClasesDelDia(index);
     }
 
