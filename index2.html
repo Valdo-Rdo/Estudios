@@ -39,12 +39,19 @@
 
         /* Buscador General */
         .search-container { position: sticky; top: 10px; z-index: 100; background: #f3f4f6; padding-bottom: 10px; margin-top: 15px;}
+        .search-wrapper { position: relative; width: 100%; }
         .search-box { 
-            width: 100%; padding: 14px; font-size: 16px; 
+            width: 100%; padding: 14px 40px 14px 14px; font-size: 16px; 
             border: 2px solid #3b82f6; border-radius: 12px; box-sizing: border-box; 
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); outline: none; transition: border-color 0.3s; 
         }
         .search-box:focus { border-color: #1d4ed8; }
+        .clear-btn {
+            position: absolute; right: 15px; top: 50%; transform: translateY(-50%);
+            cursor: pointer; color: #9ca3af; font-size: 24px; font-weight: bold;
+            display: none; user-select: none; transition: color 0.2s;
+        }
+        .clear-btn:hover { color: #ef4444; }
 
         /* =========================================
            Estilos Pestaña 1 (Horario Exámenes) 
@@ -96,7 +103,7 @@
         }
         .schedule-details { padding: 12px 16px; }
         
-        /* Bloques de clases (Por si hay varias columnas bajo el mismo día) */
+        /* Bloques de clases */
         .class-block {
             background: #f0fdf4; border: 1px solid #bbf7d0; padding: 12px;
             border-radius: 8px; font-size: 14px; color: #166534; margin-bottom: 8px;
@@ -128,7 +135,10 @@
     <!-- ============================================== -->
     <div id="tab1" class="tab-content active">
         <div class="search-container">
-            <input type="text" id="buscador1" class="search-box" placeholder="🔍 Buscar maestro, materia o grupo..." onkeyup="filtrarTab1()">
+            <div class="search-wrapper">
+                <input type="text" id="buscador1" class="search-box" placeholder="🔍 Buscar maestro, materia o grupo..." oninput="filtrarTab1()">
+                <span id="clear-btn1" class="clear-btn" onclick="limpiarBusqueda(1)" title="Limpiar búsqueda">&times;</span>
+            </div>
         </div>
         <div id="resultados1">
             <p class="loader">⏳ Cargando horario de exámenes...</p>
@@ -140,7 +150,10 @@
     <!-- ============================================== -->
     <div id="tab2" class="tab-content">
         <div class="search-container">
-            <input type="text" id="buscador2" class="search-box" placeholder="🔍 Buscar materia en este día..." onkeyup="filtrarTab2()">
+            <div class="search-wrapper">
+                <input type="text" id="buscador2" class="search-box" placeholder="🔍 Buscar materia en este día..." oninput="filtrarTab2()">
+                <span id="clear-btn2" class="clear-btn" onclick="limpiarBusqueda(2)" title="Limpiar búsqueda">&times;</span>
+            </div>
         </div>
         
         <!-- Aquí se inyectarán las sub-pestañas de Lunes, Martes, etc. -->
@@ -176,9 +189,24 @@
         btnElement.classList.add('active');
     }
 
-    // Normalizar texto para búsquedas (quitar acentos y mayúsculas)
+    // Normalizar texto para búsquedas (MEJORADO: elimina acentos sueltos y combinados)
     function normalizarTexto(texto) {
-        return texto.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+        if (!texto) return "";
+        return String(texto)
+            .toLowerCase()
+            .normalize("NFD") // Separa los acentos de las letras (ej. á -> a + ´)
+            .replace(/[\u0300-\u036f]/g, "") // Elimina los acentos combinados
+            .replace(/[´`'"]/g, ""); // Elimina acentos sueltos, tildes invertidas y comillas
+    }
+
+    // Función para limpiar la barra de búsqueda y actualizar resultados
+    function limpiarBusqueda(tab) {
+        document.getElementById('buscador' + tab).value = '';
+        document.getElementById('clear-btn' + tab).style.display = 'none';
+        
+        // Volver a cargar la lista sin filtros dependiendo de la pestaña
+        if (tab === 1) filtrarTab1();
+        if (tab === 2) filtrarTab2();
     }
 
     /* ==============================================================
@@ -220,7 +248,13 @@
     }
 
     function filtrarTab1() {
-        const textoBusqueda = normalizarTexto(document.getElementById('buscador1').value);
+        const input = document.getElementById('buscador1');
+        const btnClear = document.getElementById('clear-btn1');
+        
+        // Mostrar/ocultar el botón "X" según si hay texto
+        btnClear.style.display = input.value.length > 0 ? 'block' : 'none';
+
+        const textoBusqueda = normalizarTexto(input.value);
         const filtrados = datosTab1.filter(fila => {
             if (!fila.Materia) return false;
             const todaLaFila = normalizarTexto(Object.values(fila).join(" "));
@@ -348,14 +382,18 @@
             else btn.classList.remove('active');
         });
         
-        // Limpiar el buscador al cambiar de día
-        document.getElementById('buscador2').value = '';
+        // [MODIFICADO]: Eliminada la línea que borraba el buscador al cambiar de día.
+        // Ahora conservará lo que hayas escrito y aplicará el filtro en el nuevo día.
         renderizarClasesDelDia(index);
     }
 
     // Pinta las horas y clases del día seleccionado
     function renderizarClasesDelDia(indexDia) {
         let dia = datosTab2.dias[indexDia];
+        
+        // Evitar errores si los datos aún no cargan correctamente
+        if(!dia) return;
+
         let contenedor = document.getElementById('contenido-dia-activo');
         let html = '';
         let textoBusqueda = normalizarTexto(document.getElementById('buscador2').value);
@@ -407,6 +445,12 @@
 
     // Ejecutar filtro al escribir en el buscador de la Pestaña 2
     function filtrarTab2() {
+        const input = document.getElementById('buscador2');
+        const btnClear = document.getElementById('clear-btn2');
+        
+        // Mostrar/ocultar el botón "X" según si hay texto
+        btnClear.style.display = input.value.length > 0 ? 'block' : 'none';
+
         renderizarClasesDelDia(diaSeleccionadoTab2);
     }
 </script>
