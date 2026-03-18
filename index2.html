@@ -438,10 +438,11 @@
             const id = encodeURIComponent(fila.Materia + fila.Fecha + fila.Hora + fila.Grupo);
             const isFav = favoritos.examenes.some(e => e.id === id);
             
-            // NUEVO: Si el examen ya está en Mi Horario, lo ocultamos de esta lista principal
-            if (isFav) return;
+            // ELIMINADO: Ya no ocultamos el elemento si es favorito.
+            // if (isFav) return;
 
-            const starClass = 'fav-btn'; // Ya no necesita 'active' porque se ocultan al agregarse
+            // Si es favorito le agregamos la clase 'active' para que brille en dorado
+            const starClass = isFav ? 'fav-btn active' : 'fav-btn'; 
             const filaJSON = encodeURIComponent(JSON.stringify(fila));
 
             const tarjeta = `
@@ -458,7 +459,7 @@
         });
 
         if (elementosMostrados === 0) {
-            contenedor.innerHTML = '<p class="empty-state">Todos los exámenes ya están guardados en tu pestaña "⭐ Mi Horario".</p>';
+            contenedor.innerHTML = '<p class="empty-state">No se encontraron resultados para tu búsqueda.</p>';
         }
     }
 
@@ -602,7 +603,7 @@
                     let contenidoCelda = filaCeldas[col];
                     if(contenidoCelda && contenidoCelda !== "0" && contenidoCelda.length > 2) {
                         
-                        // NUEVO: Ignorar celdas que digan "Cargando..." en Google Sheets
+                        // Ignorar celdas que digan "Cargando..." en Google Sheets
                         if(contenidoCelda.toLowerCase().includes("cargando")) return;
 
                         let textoAFiltrar = normalizarTexto(horaObj.hora + " " + contenidoCelda);
@@ -614,11 +615,12 @@
                             let id = encodeURIComponent(dia.nombre + horaObj.hora + celdaFormateada);
                             let isFav = favoritos.clases.some(c => c.id === id);
                             
-                            // NUEVO: Si la clase ya está en Mi Horario, la ocultamos de la vista general
-                            if (isFav) return;
+                            // ELIMINADO: Ya no ocultamos el elemento si es favorito.
+                            // if (isFav) return;
 
                             horaTieneClases = true;
-                            let starClass = 'fav-btn';
+                            // Si es favorito le agregamos la clase 'active' para que brille
+                            let starClass = isFav ? 'fav-btn active' : 'fav-btn';
                             let claseJSON = encodeURIComponent(JSON.stringify(dataObj));
 
                             htmlClases += `
@@ -645,7 +647,7 @@
         });
 
         if(coincidencias === 0) {
-            html = `<p class="empty-state">No hay clases disponibles aquí${textoBusqueda ? ' con esa búsqueda' : ''}. <br><br>(Revisa "⭐ Mi Horario" si guardaste alguna)</p>`;
+            html = `<p class="empty-state">No hay clases disponibles aquí${textoBusqueda ? ' con esa búsqueda' : ''}.</p>`;
         }
         contenedor.innerHTML = html;
     }
