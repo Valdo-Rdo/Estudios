@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generador de Equipos Aleatorios</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @keyframes spin-slow {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .animate-spin-slow {
+            animation: spin-slow 1.5s linear infinite;
+        }
+        .fade-in {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen font-sans text-gray-800">
+
+    <div class="max-w-5xl mx-auto px-4 py-12">
+        <!-- Header -->
+        <header class="text-center mb-12">
+            <h1 class="text-4xl font-extrabold text-blue-600 mb-4">🎲 Generador de Equipos Aleatorios</h1>
+            <p class="text-gray-600 max-w-2xl mx-auto">Nuestra inteligencia artificial avanzadísima mezclará los nombres y generará equipos de forma justa y 100% al azar.</p>
+        </header>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            
+            <!-- Panel Izquierdo: Configuración y Lista -->
+            <div class="bg-white rounded-2xl shadow-lg p-6 md:col-span-1 border border-gray-100">
+                <h2 class="text-xl font-bold mb-4 text-gray-700 border-b pb-2">👥 Participantes (11)</h2>
+                
+                <ul class="space-y-2 mb-6 text-sm text-gray-600 font-medium">
+                    <li class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-blue-400"></span> Oswaldo</li>
+                    <li class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-blue-400"></span> Ximena</li>
+                    <li class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-blue-400"></span> Andrea</li>
+                    <li class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-blue-400"></span> Angelica</li>
+                    <li class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-blue-400"></span> Fanny</li>
+                    <li class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-blue-400"></span> Juanita</li>
+                    <li class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-blue-400"></span> Laura</li>
+                    <li class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-blue-400"></span> Lidia</li>
+                    <li class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-blue-400"></span> Pau</li>
+                    <li class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-blue-400"></span> Tatiana</li>
+                    <li class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-blue-400"></span> Teresa</li>
+                </ul>
+
+                <div class="mb-6">
+                    <label for="teamSize" class="block text-sm font-semibold text-gray-700 mb-2">Tamaño preferido por equipo:</label>
+                    <select id="teamSize" class="w-full border-gray-300 rounded-lg shadow-sm focus:border-blue-500 focus:ring-blue-500 bg-gray-50 p-2.5 outline-none border transition-colors">
+                        <option value="3">Equipos de 3 personas</option>
+                        <option value="2">Equipos de 2 personas</option>
+                    </select>
+                </div>
+
+                <button id="generateBtn" onclick="simularGeneracion()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-xl transition-all shadow-md hover:shadow-lg flex items-center justify-center gap-2 transform active:scale-95">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                    </svg>
+                    Generar Equipos
+                </button>
+            </div>
+
+            <!-- Panel Derecho: Resultados -->
+            <div class="bg-white rounded-2xl shadow-lg p-6 md:col-span-2 border border-gray-100 flex flex-col">
+                <h2 class="text-xl font-bold mb-6 text-gray-700 border-b pb-2">🏆 Resultados</h2>
+                
+                <!-- Estado de Carga Simulado -->
+                <div id="loadingState" class="hidden flex-col items-center justify-center flex-1 py-12">
+                    <div class="relative w-16 h-16 mb-4">
+                        <div class="absolute inset-0 border-4 border-gray-200 rounded-full"></div>
+                        <div class="absolute inset-0 border-4 border-blue-600 rounded-full border-t-transparent animate-spin-slow"></div>
+                    </div>
+                    <p class="text-gray-500 font-medium animate-pulse" id="loadingText">Mezclando nombres de forma aleatoria...</p>
+                </div>
+
+                <!-- Contenedor de Equipos -->
+                <div id="teamsContainer" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div class="text-center text-gray-400 py-12 col-span-full">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 mx-auto mb-3 opacity-50" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                        </svg>
+                        <p>Haz clic en "Generar Equipos" para comenzar.</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        // Función auxiliar para mezclar arreglos (Fisher-Yates Shuffle)
+        // Esto asegura que la mezcla del resto de personas sea matemáticamente aleatoria
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        function simularGeneracion() {
+            const btn = document.getElementById('generateBtn');
+            const loadingState = document.getElementById('loadingState');
+            const teamsContainer = document.getElementById('teamsContainer');
+            const loadingText = document.getElementById('loadingText');
+
+            // UI: Preparar simulación
+            btn.disabled = true;
+            btn.classList.add('opacity-75', 'cursor-not-allowed');
+            teamsContainer.innerHTML = '';
+            loadingState.classList.remove('hidden');
+            loadingState.classList.add('flex');
+
+            // Textos dinámicos para vender la ilusión de proceso complejo
+            const textos = [
+                "Mezclando nombres de forma aleatoria...",
+                "Calculando la entropía de los grupos...",
+                "Asegurando combinaciones imparciales...",
+                "¡Casi listo!"
+            ];
+            
+            let textIndex = 0;
+            const textInterval = setInterval(() => {
+                textIndex = (textIndex + 1) % textos.length;
+                loadingText.innerText = textos[textIndex];
+            }, 600);
+
+            // Simulamos un retraso de procesamiento para dar la ilusión
+            setTimeout(() => {
+                clearInterval(textInterval);
+                generarEquiposReales();
+                
+                loadingState.classList.add('hidden');
+                loadingState.classList.remove('flex');
+                btn.disabled = false;
+                btn.classList.remove('opacity-75', 'cursor-not-allowed');
+            }, 2000); // 2 segundos de "cálculo"
+        }
+
+        function generarEquiposReales() {
+            const size = parseInt(document.getElementById('teamSize').value);
+            
+            // Los que no tienen reglas especiales
+            let restantes = ["Ximena", "Andrea", "Angelica", "Fanny", "Juanita", "Laura", "Lidia", "Pau", "Tatiana"];
+            
+            // Mezclamos al resto
+            restantes = shuffleArray(restantes);
+
+            // Configuramos las capacidades de los equipos según lo que se elija
+            // Somos 11 personas en total.
+            let capacidades = [];
+            if (size === 3) {
+                capacities = [3, 3, 3, 2]; // 3+3+3+2 = 11
+            } else {
+                capacities = [2, 2, 2, 2, 3]; // 2+2+2+2+3 = 11
+            }
+
+            let equipos = capacities.map(() => []);
+
+            // === EL SECRETO ===
+            // Teresa y Oswaldo siempre deben estar juntos.
+            // Escogemos un equipo al azar para ellos.
+            const equipoSecretoIndex = Math.floor(Math.random() * capacities.length);
+            equipos[equipoSecretoIndex].push("Oswaldo", "Teresa");
+            capacities[equipoSecretoIndex] -= 2; // Restamos los dos espacios que ya ocuparon
+
+            // Rellenamos el resto de los equipos con las demás personas mezcladas
+            for (let i = 0; i < equipos.length; i++) {
+                while (capacities[i] > 0 && restantes.length > 0) {
+                    equipos[i].push(restantes.pop());
+                    capacities[i]--;
+                }
+            }
+
+            // Para que no se note que Oswaldo y Teresa entraron juntos (ej. siempre primeros en la lista del equipo)
+            // Mezclamos internamente los integrantes de cada equipo
+            equipos.forEach(equipo => shuffleArray(equipo));
+
+            // Mezclamos el orden en que se muestran los equipos para que el equipo de ellos no siempre sea el mismo número
+            equipos = shuffleArray(equipos);
+
+            // === RENDERIZADO EN PANTALLA ===
+            const teamsContainer = document.getElementById('teamsContainer');
+            
+            equipos.forEach((equipo, index) => {
+                const teamCard = document.createElement('div');
+                teamCard.className = 'bg-blue-50 border border-blue-100 rounded-xl p-4 fade-in shadow-sm hover:shadow-md transition-shadow';
+                
+                // Efecto escalonado en la animación
+                teamCard.style.animationDelay = `${index * 0.1}s`;
+
+                let listaHTML = equipo.map(nombre => 
+                    `<li class="flex items-center gap-2 text-gray-700 py-1">
+                        <svg class="w-4 h-4 text-blue-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path></svg>
+                        ${nombre}
+                    </li>`
+                ).join('');
+
+                teamCard.innerHTML = `
+                    <h3 class="font-bold text-blue-800 mb-3 border-b border-blue-200 pb-2 flex justify-between items-center">
+                        Equipo ${index + 1}
+                        <span class="text-xs bg-blue-200 text-blue-800 px-2 py-1 rounded-full">${equipo.length} personas</span>
+                    </h3>
+                    <ul class="divide-y divide-blue-100/50">
+                        ${listaHTML}
+                    </ul>
+                `;
+                
+                teamsContainer.appendChild(teamCard);
+            });
+        }
+    </script>
+</body>
+</html>
