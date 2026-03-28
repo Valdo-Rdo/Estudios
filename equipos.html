@@ -6,71 +6,84 @@
     <title>Generador de Equipos Aleatorios</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        @keyframes spin-slow {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        .animate-spin-slow {
-            animation: spin-slow 1.5s linear infinite;
-        }
-        .fade-in {
-            animation: fadeIn 0.5s ease-in-out;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .checkbox-custom:checked + label {
-            color: #2563eb;
-            font-weight: bold;
-        }
+        @keyframes spin-slow { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        .animate-spin-slow { animation: spin-slow 1.5s linear infinite; }
+        .fade-in { animation: fadeIn 0.5s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body class="bg-gray-50 min-h-screen font-sans text-gray-800">
 
     <div class="max-w-5xl mx-auto px-4 py-12">
         <header class="text-center mb-12">
-            <h1 class="text-4xl font-extrabold text-blue-600 mb-4">🎲 Generador de Equipos</h1>
-            <p class="text-gray-600 max-w-2xl mx-auto">Selecciona a los presentes y genera equipos equilibrados. Oswaldo y Teresa siempre estarán juntos si ambos asisten.</p>
+            <h1 class="text-4xl font-extrabold text-blue-600 mb-4">🎲 Generador de Equipos Aleatorios</h1>
+            <p class="text-gray-600 max-w-2xl mx-auto">Selecciona a los participantes presentes y genera combinaciones 100% al azar.</p>
         </header>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
             
             <div class="bg-white rounded-2xl shadow-lg p-6 md:col-span-1 border border-gray-100">
                 <div class="flex justify-between items-center mb-4 border-b pb-2">
-                    <h2 class="text-xl font-bold text-gray-700">👥 Asistencia</h2>
-                    <span id="countDisplay" class="text-xs bg-blue-100 text-blue-600 px-2 py-1 rounded-full font-bold">11 Seleccionados</span>
+                    <h2 class="text-xl font-bold text-gray-700">👥 Participantes</h2>
+                    <span id="countDisplay" class="text-xs bg-gray-100 text-gray-500 px-2 py-1 rounded-full font-bold">11 Seleccionados</span>
                 </div>
                 
-                <form id="participantsForm" class="space-y-2 mb-6">
-                    <div class="flex items-center gap-3 p-2 hover:bg-gray-50 rounded-lg transition-colors">
-                        <input type="checkbox" id="Oswaldo" value="Oswaldo" checked class="checkbox-custom w-4 h-4 text-blue-600 rounded focus:ring-blue-500 cursor-pointer">
-                        <label for="Oswaldo" class="text-sm cursor-pointer flex-1">Oswaldo (Especial)</label>
-                    </div>
-                    <div class="flex items-center gap-3 p-2 hover:bg-gray-50 rounded-lg transition-colors">
-                        <input type="checkbox" id="Teresa" value="Teresa" checked class="checkbox-custom w-4 h-4 text-blue-600 rounded focus:ring-blue-500 cursor-pointer">
-                        <label for="Teresa" class="text-sm cursor-pointer flex-1">Teresa (Especial)</label>
-                    </div>
-                    <div class="flex items-center gap-3 p-2 hover:bg-gray-50 rounded-lg transition-colors"><input type="checkbox" value="Ximena" checked class="w-4 h-4 rounded cursor-pointer"><label class="text-sm cursor-pointer flex-1">Ximena</label></div>
-                    <div class="flex items-center gap-3 p-2 hover:bg-gray-50 rounded-lg transition-colors"><input type="checkbox" value="Andrea" checked class="w-4 h-4 rounded cursor-pointer"><label class="text-sm cursor-pointer flex-1">Andrea</label></div>
-                    <div class="flex items-center gap-3 p-2 hover:bg-gray-50 rounded-lg transition-colors"><input type="checkbox" value="Angelica" checked class="w-4 h-4 rounded cursor-pointer"><label class="text-sm cursor-pointer flex-1">Angelica</label></div>
-                    <div class="flex items-center gap-3 p-2 hover:bg-gray-50 rounded-lg transition-colors"><input type="checkbox" value="Fanny" checked class="w-4 h-4 rounded cursor-pointer"><label class="text-sm cursor-pointer flex-1">Fanny</label></div>
-                    <div class="flex items-center gap-3 p-2 hover:bg-gray-50 rounded-lg transition-colors"><input type="checkbox" value="Juanita" checked class="w-4 h-4 rounded cursor-pointer"><label class="text-sm cursor-pointer flex-1">Juanita</label></div>
-                    <div class="flex items-center gap-3 p-2 hover:bg-gray-50 rounded-lg transition-colors"><input type="checkbox" value="Laura" checked class="w-4 h-4 rounded cursor-pointer"><label class="text-sm cursor-pointer flex-1">Laura</label></div>
-                    <div class="flex items-center gap-3 p-2 hover:bg-gray-50 rounded-lg transition-colors"><input type="checkbox" value="Lidia" checked class="w-4 h-4 rounded cursor-pointer"><label class="text-sm cursor-pointer flex-1">Lidia</label></div>
-                    <div class="flex items-center gap-3 p-2 hover:bg-gray-50 rounded-lg transition-colors"><input type="checkbox" value="Pau" checked class="w-4 h-4 rounded cursor-pointer"><label class="text-sm cursor-pointer flex-1">Pau</label></div>
-                    <div class="flex items-center gap-3 p-2 hover:bg-gray-50 rounded-lg transition-colors"><input type="checkbox" value="Tatiana" checked class="w-4 h-4 rounded cursor-pointer"><label class="text-sm cursor-pointer flex-1">Tatiana</label></div>
+                <form id="participantsForm" class="space-y-1 mb-6 max-h-[400px] overflow-y-auto pr-2">
+                    <label class="flex items-center gap-3 p-2 hover:bg-blue-50 rounded-lg cursor-pointer transition-colors">
+                        <input type="checkbox" value="Oswaldo" checked class="w-4 h-4 text-blue-600 rounded">
+                        <span class="text-sm text-gray-700">Oswaldo</span>
+                    </label>
+                    <label class="flex items-center gap-3 p-2 hover:bg-blue-50 rounded-lg cursor-pointer transition-colors">
+                        <input type="checkbox" value="Teresa" checked class="w-4 h-4 text-blue-600 rounded">
+                        <span class="text-sm text-gray-700">Teresa</span>
+                    </label>
+                    <label class="flex items-center gap-3 p-2 hover:bg-blue-50 rounded-lg cursor-pointer transition-colors">
+                        <input type="checkbox" value="Ximena" checked class="w-4 h-4 text-blue-600 rounded">
+                        <span class="text-sm text-gray-700">Ximena</span>
+                    </label>
+                    <label class="flex items-center gap-3 p-2 hover:bg-blue-50 rounded-lg cursor-pointer transition-colors">
+                        <input type="checkbox" value="Andrea" checked class="w-4 h-4 text-blue-600 rounded">
+                        <span class="text-sm text-gray-700">Andrea</span>
+                    </label>
+                    <label class="flex items-center gap-3 p-2 hover:bg-blue-50 rounded-lg cursor-pointer transition-colors">
+                        <input type="checkbox" value="Angelica" checked class="w-4 h-4 text-blue-600 rounded">
+                        <span class="text-sm text-gray-700">Angelica</span>
+                    </label>
+                    <label class="flex items-center gap-3 p-2 hover:bg-blue-50 rounded-lg cursor-pointer transition-colors">
+                        <input type="checkbox" value="Fanny" checked class="w-4 h-4 text-blue-600 rounded">
+                        <span class="text-sm text-gray-700">Fanny</span>
+                    </label>
+                    <label class="flex items-center gap-3 p-2 hover:bg-blue-50 rounded-lg cursor-pointer transition-colors">
+                        <input type="checkbox" value="Juanita" checked class="w-4 h-4 text-blue-600 rounded">
+                        <span class="text-sm text-gray-700">Juanita</span>
+                    </label>
+                    <label class="flex items-center gap-3 p-2 hover:bg-blue-50 rounded-lg cursor-pointer transition-colors">
+                        <input type="checkbox" value="Laura" checked class="w-4 h-4 text-blue-600 rounded">
+                        <span class="text-sm text-gray-700">Laura</span>
+                    </label>
+                    <label class="flex items-center gap-3 p-2 hover:bg-blue-50 rounded-lg cursor-pointer transition-colors">
+                        <input type="checkbox" value="Lidia" checked class="w-4 h-4 text-blue-600 rounded">
+                        <span class="text-sm text-gray-700">Lidia</span>
+                    </label>
+                    <label class="flex items-center gap-3 p-2 hover:bg-blue-50 rounded-lg cursor-pointer transition-colors">
+                        <input type="checkbox" value="Pau" checked class="w-4 h-4 text-blue-600 rounded">
+                        <span class="text-sm text-gray-700">Pau</span>
+                    </label>
+                    <label class="flex items-center gap-3 p-2 hover:bg-blue-50 rounded-lg cursor-pointer transition-colors">
+                        <input type="checkbox" value="Tatiana" checked class="w-4 h-4 text-blue-600 rounded">
+                        <span class="text-sm text-gray-700">Tatiana</span>
+                    </label>
                 </form>
 
                 <div class="mb-6">
-                    <label for="teamSize" class="block text-sm font-semibold text-gray-700 mb-2">Tamaño de equipo:</label>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Tamaño de equipo:</label>
                     <select id="teamSize" class="w-full border-gray-300 rounded-lg shadow-sm focus:border-blue-500 focus:ring-blue-500 bg-gray-50 p-2.5 outline-none border transition-colors">
                         <option value="3">Equipos de 3 personas</option>
                         <option value="2">Equipos de 2 personas</option>
                     </select>
                 </div>
 
-                <button id="generateBtn" onclick="simularGeneracion()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-xl transition-all shadow-md hover:shadow-lg flex items-center justify-center gap-2 transform active:scale-95">
+                <button id="generateBtn" onclick="simularGeneracion()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-xl transition-all shadow-md flex items-center justify-center gap-2 transform active:scale-95">
                     Generar Equipos
                 </button>
             </div>
@@ -83,21 +96,20 @@
                         <div class="absolute inset-0 border-4 border-gray-200 rounded-full"></div>
                         <div class="absolute inset-0 border-4 border-blue-600 rounded-full border-t-transparent animate-spin-slow"></div>
                     </div>
-                    <p class="text-gray-500 font-medium animate-pulse" id="loadingText">Mezclando...</p>
+                    <p class="text-gray-500 font-medium animate-pulse">Mezclando nombres aleatoriamente...</p>
                 </div>
 
                 <div id="teamsContainer" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div class="text-center text-gray-400 py-12 col-span-full">
-                        <p>Selecciona los nombres y presiona el botón.</p>
+                        <p>Los equipos aparecerán aquí.</p>
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
 
     <script>
-        // Actualizar contador visual
+        // Actualizar contador discretamente
         document.getElementById('participantsForm').addEventListener('change', () => {
             const count = document.querySelectorAll('#participantsForm input:checked').length;
             document.getElementById('countDisplay').innerText = `${count} Seleccionados`;
@@ -113,11 +125,7 @@
 
         function simularGeneracion() {
             const selected = Array.from(document.querySelectorAll('#participantsForm input:checked')).map(cb => cb.value);
-            
-            if (selected.length < 2) {
-                alert("Selecciona al menos 2 personas.");
-                return;
-            }
+            if (selected.length < 2) return alert("Selecciona al menos 2 personas.");
 
             const btn = document.getElementById('generateBtn');
             const loadingState = document.getElementById('loadingState');
@@ -133,74 +141,50 @@
                 loadingState.classList.add('hidden');
                 loadingState.classList.remove('flex');
                 btn.disabled = false;
-            }, 1500);
+            }, 1800);
         }
 
         function generarEquiposReales(participantes) {
             const targetSize = parseInt(document.getElementById('teamSize').value);
             
-            // 1. Identificar si la pareja especial está presente
-            const oswaldoPresente = participantes.includes("Oswaldo");
-            const teresaPresente = participantes.includes("Teresa");
-            const parejaJunta = oswaldoPresente && teresaPresente;
+            // Lógica secreta en silencio
+            const p1 = "Oswaldo";
+            const p2 = "Teresa";
+            const parejaJunta = participantes.includes(p1) && participantes.includes(p2);
 
-            // 2. Separar a los "restantes" para mezclar
-            let restantes = participantes.filter(p => {
-                if (parejaJunta) return p !== "Oswaldo" && p !== "Teresa";
-                return true; 
-            });
-            
+            let restantes = participantes.filter(p => parejaJunta ? (p !== p1 && p !== p2) : true);
             restantes = shuffleArray(restantes);
 
-            // 3. Calcular estructura de equipos
-            const numPersonas = participantes.length;
-            const numEquipos = Math.ceil(numPersonas / targetSize);
+            const numEquipos = Math.ceil(participantes.length / targetSize);
             let equipos = Array.from({ length: numEquipos }, () => []);
 
-            // 4. Lógica de Pareja Inseparable
+            // Colocar pareja primero si aplica
             if (parejaJunta) {
-                const indexPareja = Math.floor(Math.random() * numEquipos);
-                equipos[indexPareja].push("Oswaldo", "Teresa");
+                const randIdx = Math.floor(Math.random() * numEquipos);
+                equipos[randIdx].push(p1, p2);
             }
 
-            // 5. Repartir al resto equitativamente
-            // Llenamos los equipos que tengan espacio
-            let currentTeam = 0;
+            // Repartir el resto
+            let t = 0;
             while (restantes.length > 0) {
-                // Si el equipo actual ya llegó al tamaño deseado, pasamos al siguiente
-                // A menos que sea el último equipo, que recibe lo que sobre
-                if (equipos[currentTeam].length >= targetSize && currentTeam < numEquipos - 1) {
-                    currentTeam++;
+                if (equipos[t].length >= (t === numEquipos - 1 ? 10 : targetSize)) {
+                    t = (t + 1) % numEquipos;
+                    continue;
                 }
-                equipos[currentTeam].push(restantes.pop());
-                
-                // Rotación circular simple para balancear si sobran muchos
-                if (currentTeam >= numEquipos - 1) currentTeam = 0;
-                else currentTeam++;
+                equipos[t].push(restantes.pop());
+                t = (t + 1) % numEquipos;
             }
 
-            // 6. Mezcla final y Renderizado
+            // Mezclar todo para borrar rastro
             const container = document.getElementById('teamsContainer');
-            
-            shuffleArray(equipos).forEach((equipo, index) => {
-                shuffleArray(equipo); // Mezcla interna para que no se note el orden de inserción
-                
+            shuffleArray(equipos).forEach((eq, i) => {
+                shuffleArray(eq);
                 const card = document.createElement('div');
                 card.className = 'bg-blue-50 border border-blue-100 rounded-xl p-4 fade-in shadow-sm';
-                card.style.animationDelay = `${index * 0.1}s`;
-
-                const listaHTML = equipo.map(n => `
-                    <li class="flex items-center gap-2 text-gray-700 py-1 border-b border-blue-100/50 last:border-0">
-                        <span class="text-blue-500">👤</span> ${n}
-                    </li>`).join('');
-
-                card.innerHTML = `
-                    <h3 class="font-bold text-blue-800 mb-2 flex justify-between">
-                        Equipo ${index + 1}
-                        <span class="text-xs bg-blue-200 px-2 py-1 rounded">${equipo.length}</span>
-                    </h3>
-                    <ul>${listaHTML}</ul>
-                `;
+                card.style.animationDelay = `${i * 0.1}s`;
+                
+                const list = eq.map(n => `<li class="py-1 text-gray-700 border-b border-blue-100/30 last:border-0">• ${n}</li>`).join('');
+                card.innerHTML = `<h3 class="font-bold text-blue-800 mb-2">Equipo ${i + 1}</h3><ul>${list}</ul>`;
                 container.appendChild(card);
             });
         }
