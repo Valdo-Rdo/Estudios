@@ -20,39 +20,50 @@
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
         }
+        .checkbox-custom:checked + label {
+            color: #2563eb;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body class="bg-gray-50 min-h-screen font-sans text-gray-800">
 
     <div class="max-w-5xl mx-auto px-4 py-12">
-        <!-- Header -->
         <header class="text-center mb-12">
-            <h1 class="text-4xl font-extrabold text-blue-600 mb-4">🎲 Generador de Equipos Aleatorios</h1>
-            <p class="text-gray-600 max-w-2xl mx-auto">Nuestra inteligencia artificial avanzadísima mezclará los nombres y generará equipos de forma justa y 100% al azar.</p>
+            <h1 class="text-4xl font-extrabold text-blue-600 mb-4">🎲 Generador de Equipos</h1>
+            <p class="text-gray-600 max-w-2xl mx-auto">Selecciona a los presentes y genera equipos equilibrados. Oswaldo y Teresa siempre estarán juntos si ambos asisten.</p>
         </header>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
             
-            <!-- Panel Izquierdo: Configuración y Lista -->
             <div class="bg-white rounded-2xl shadow-lg p-6 md:col-span-1 border border-gray-100">
-                <h2 class="text-xl font-bold mb-4 text-gray-700 border-b pb-2">👥 Participantes (11)</h2>
+                <div class="flex justify-between items-center mb-4 border-b pb-2">
+                    <h2 class="text-xl font-bold text-gray-700">👥 Asistencia</h2>
+                    <span id="countDisplay" class="text-xs bg-blue-100 text-blue-600 px-2 py-1 rounded-full font-bold">11 Seleccionados</span>
+                </div>
                 
-                <ul class="space-y-2 mb-6 text-sm text-gray-600 font-medium">
-                    <li class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-blue-400"></span> Oswaldo</li>
-                    <li class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-blue-400"></span> Ximena</li>
-                    <li class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-blue-400"></span> Andrea</li>
-                    <li class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-blue-400"></span> Angelica</li>
-                    <li class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-blue-400"></span> Fanny</li>
-                    <li class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-blue-400"></span> Juanita</li>
-                    <li class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-blue-400"></span> Laura</li>
-                    <li class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-blue-400"></span> Lidia</li>
-                    <li class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-blue-400"></span> Pau</li>
-                    <li class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-blue-400"></span> Tatiana</li>
-                    <li class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-blue-400"></span> Teresa</li>
-                </ul>
+                <form id="participantsForm" class="space-y-2 mb-6">
+                    <div class="flex items-center gap-3 p-2 hover:bg-gray-50 rounded-lg transition-colors">
+                        <input type="checkbox" id="Oswaldo" value="Oswaldo" checked class="checkbox-custom w-4 h-4 text-blue-600 rounded focus:ring-blue-500 cursor-pointer">
+                        <label for="Oswaldo" class="text-sm cursor-pointer flex-1">Oswaldo (Especial)</label>
+                    </div>
+                    <div class="flex items-center gap-3 p-2 hover:bg-gray-50 rounded-lg transition-colors">
+                        <input type="checkbox" id="Teresa" value="Teresa" checked class="checkbox-custom w-4 h-4 text-blue-600 rounded focus:ring-blue-500 cursor-pointer">
+                        <label for="Teresa" class="text-sm cursor-pointer flex-1">Teresa (Especial)</label>
+                    </div>
+                    <div class="flex items-center gap-3 p-2 hover:bg-gray-50 rounded-lg transition-colors"><input type="checkbox" value="Ximena" checked class="w-4 h-4 rounded cursor-pointer"><label class="text-sm cursor-pointer flex-1">Ximena</label></div>
+                    <div class="flex items-center gap-3 p-2 hover:bg-gray-50 rounded-lg transition-colors"><input type="checkbox" value="Andrea" checked class="w-4 h-4 rounded cursor-pointer"><label class="text-sm cursor-pointer flex-1">Andrea</label></div>
+                    <div class="flex items-center gap-3 p-2 hover:bg-gray-50 rounded-lg transition-colors"><input type="checkbox" value="Angelica" checked class="w-4 h-4 rounded cursor-pointer"><label class="text-sm cursor-pointer flex-1">Angelica</label></div>
+                    <div class="flex items-center gap-3 p-2 hover:bg-gray-50 rounded-lg transition-colors"><input type="checkbox" value="Fanny" checked class="w-4 h-4 rounded cursor-pointer"><label class="text-sm cursor-pointer flex-1">Fanny</label></div>
+                    <div class="flex items-center gap-3 p-2 hover:bg-gray-50 rounded-lg transition-colors"><input type="checkbox" value="Juanita" checked class="w-4 h-4 rounded cursor-pointer"><label class="text-sm cursor-pointer flex-1">Juanita</label></div>
+                    <div class="flex items-center gap-3 p-2 hover:bg-gray-50 rounded-lg transition-colors"><input type="checkbox" value="Laura" checked class="w-4 h-4 rounded cursor-pointer"><label class="text-sm cursor-pointer flex-1">Laura</label></div>
+                    <div class="flex items-center gap-3 p-2 hover:bg-gray-50 rounded-lg transition-colors"><input type="checkbox" value="Lidia" checked class="w-4 h-4 rounded cursor-pointer"><label class="text-sm cursor-pointer flex-1">Lidia</label></div>
+                    <div class="flex items-center gap-3 p-2 hover:bg-gray-50 rounded-lg transition-colors"><input type="checkbox" value="Pau" checked class="w-4 h-4 rounded cursor-pointer"><label class="text-sm cursor-pointer flex-1">Pau</label></div>
+                    <div class="flex items-center gap-3 p-2 hover:bg-gray-50 rounded-lg transition-colors"><input type="checkbox" value="Tatiana" checked class="w-4 h-4 rounded cursor-pointer"><label class="text-sm cursor-pointer flex-1">Tatiana</label></div>
+                </form>
 
                 <div class="mb-6">
-                    <label for="teamSize" class="block text-sm font-semibold text-gray-700 mb-2">Tamaño preferido por equipo:</label>
+                    <label for="teamSize" class="block text-sm font-semibold text-gray-700 mb-2">Tamaño de equipo:</label>
                     <select id="teamSize" class="w-full border-gray-300 rounded-lg shadow-sm focus:border-blue-500 focus:ring-blue-500 bg-gray-50 p-2.5 outline-none border transition-colors">
                         <option value="3">Equipos de 3 personas</option>
                         <option value="2">Equipos de 2 personas</option>
@@ -60,33 +71,24 @@
                 </div>
 
                 <button id="generateBtn" onclick="simularGeneracion()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-xl transition-all shadow-md hover:shadow-lg flex items-center justify-center gap-2 transform active:scale-95">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-                    </svg>
                     Generar Equipos
                 </button>
             </div>
 
-            <!-- Panel Derecho: Resultados -->
-            <div class="bg-white rounded-2xl shadow-lg p-6 md:col-span-2 border border-gray-100 flex flex-col">
+            <div class="bg-white rounded-2xl shadow-lg p-6 md:col-span-2 border border-gray-100 flex flex-col min-h-[400px]">
                 <h2 class="text-xl font-bold mb-6 text-gray-700 border-b pb-2">🏆 Resultados</h2>
                 
-                <!-- Estado de Carga Simulado -->
                 <div id="loadingState" class="hidden flex-col items-center justify-center flex-1 py-12">
                     <div class="relative w-16 h-16 mb-4">
                         <div class="absolute inset-0 border-4 border-gray-200 rounded-full"></div>
                         <div class="absolute inset-0 border-4 border-blue-600 rounded-full border-t-transparent animate-spin-slow"></div>
                     </div>
-                    <p class="text-gray-500 font-medium animate-pulse" id="loadingText">Mezclando nombres de forma aleatoria...</p>
+                    <p class="text-gray-500 font-medium animate-pulse" id="loadingText">Mezclando...</p>
                 </div>
 
-                <!-- Contenedor de Equipos -->
                 <div id="teamsContainer" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div class="text-center text-gray-400 py-12 col-span-full">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 mx-auto mb-3 opacity-50" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-                        </svg>
-                        <p>Haz clic en "Generar Equipos" para comenzar.</p>
+                        <p>Selecciona los nombres y presiona el botón.</p>
                     </div>
                 </div>
             </div>
@@ -95,8 +97,12 @@
     </div>
 
     <script>
-        // Función auxiliar para mezclar arreglos (Fisher-Yates Shuffle)
-        // Esto asegura que la mezcla del resto de personas sea matemáticamente aleatoria
+        // Actualizar contador visual
+        document.getElementById('participantsForm').addEventListener('change', () => {
+            const count = document.querySelectorAll('#participantsForm input:checked').length;
+            document.getElementById('countDisplay').innerText = `${count} Seleccionados`;
+        });
+
         function shuffleArray(array) {
             for (let i = array.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
@@ -106,114 +112,96 @@
         }
 
         function simularGeneracion() {
+            const selected = Array.from(document.querySelectorAll('#participantsForm input:checked')).map(cb => cb.value);
+            
+            if (selected.length < 2) {
+                alert("Selecciona al menos 2 personas.");
+                return;
+            }
+
             const btn = document.getElementById('generateBtn');
             const loadingState = document.getElementById('loadingState');
             const teamsContainer = document.getElementById('teamsContainer');
-            const loadingText = document.getElementById('loadingText');
-
-            // UI: Preparar simulación
+            
             btn.disabled = true;
-            btn.classList.add('opacity-75', 'cursor-not-allowed');
             teamsContainer.innerHTML = '';
             loadingState.classList.remove('hidden');
             loadingState.classList.add('flex');
 
-            // Textos dinámicos para vender la ilusión de proceso complejo
-            const textos = [
-                "Mezclando nombres de forma aleatoria...",
-                "Calculando la entropía de los grupos...",
-                "Asegurando combinaciones imparciales...",
-                "¡Casi listo!"
-            ];
-            
-            let textIndex = 0;
-            const textInterval = setInterval(() => {
-                textIndex = (textIndex + 1) % textos.length;
-                loadingText.innerText = textos[textIndex];
-            }, 600);
-
-            // Simulamos un retraso de procesamiento para dar la ilusión
             setTimeout(() => {
-                clearInterval(textInterval);
-                generarEquiposReales();
-                
+                generarEquiposReales(selected);
                 loadingState.classList.add('hidden');
                 loadingState.classList.remove('flex');
                 btn.disabled = false;
-                btn.classList.remove('opacity-75', 'cursor-not-allowed');
-            }, 2000); // 2 segundos de "cálculo"
+            }, 1500);
         }
 
-        function generarEquiposReales() {
-            const size = parseInt(document.getElementById('teamSize').value);
+        function generarEquiposReales(participantes) {
+            const targetSize = parseInt(document.getElementById('teamSize').value);
             
-            // Los que no tienen reglas especiales
-            let restantes = ["Ximena", "Andrea", "Angelica", "Fanny", "Juanita", "Laura", "Lidia", "Pau", "Tatiana"];
+            // 1. Identificar si la pareja especial está presente
+            const oswaldoPresente = participantes.includes("Oswaldo");
+            const teresaPresente = participantes.includes("Teresa");
+            const parejaJunta = oswaldoPresente && teresaPresente;
+
+            // 2. Separar a los "restantes" para mezclar
+            let restantes = participantes.filter(p => {
+                if (parejaJunta) return p !== "Oswaldo" && p !== "Teresa";
+                return true; 
+            });
             
-            // Mezclamos al resto
             restantes = shuffleArray(restantes);
 
-            // Configuramos las capacidades de los equipos según lo que se elija
-            // Somos 11 personas en total.
-            let capacidades = [];
-            if (size === 3) {
-                capacities = [3, 3, 3, 2]; // 3+3+3+2 = 11
-            } else {
-                capacities = [2, 2, 2, 2, 3]; // 2+2+2+2+3 = 11
+            // 3. Calcular estructura de equipos
+            const numPersonas = participantes.length;
+            const numEquipos = Math.ceil(numPersonas / targetSize);
+            let equipos = Array.from({ length: numEquipos }, () => []);
+
+            // 4. Lógica de Pareja Inseparable
+            if (parejaJunta) {
+                const indexPareja = Math.floor(Math.random() * numEquipos);
+                equipos[indexPareja].push("Oswaldo", "Teresa");
             }
 
-            let equipos = capacities.map(() => []);
-
-            // === EL SECRETO ===
-            // Teresa y Oswaldo siempre deben estar juntos.
-            // Escogemos un equipo al azar para ellos.
-            const equipoSecretoIndex = Math.floor(Math.random() * capacities.length);
-            equipos[equipoSecretoIndex].push("Oswaldo", "Teresa");
-            capacities[equipoSecretoIndex] -= 2; // Restamos los dos espacios que ya ocuparon
-
-            // Rellenamos el resto de los equipos con las demás personas mezcladas
-            for (let i = 0; i < equipos.length; i++) {
-                while (capacities[i] > 0 && restantes.length > 0) {
-                    equipos[i].push(restantes.pop());
-                    capacities[i]--;
+            // 5. Repartir al resto equitativamente
+            // Llenamos los equipos que tengan espacio
+            let currentTeam = 0;
+            while (restantes.length > 0) {
+                // Si el equipo actual ya llegó al tamaño deseado, pasamos al siguiente
+                // A menos que sea el último equipo, que recibe lo que sobre
+                if (equipos[currentTeam].length >= targetSize && currentTeam < numEquipos - 1) {
+                    currentTeam++;
                 }
+                equipos[currentTeam].push(restantes.pop());
+                
+                // Rotación circular simple para balancear si sobran muchos
+                if (currentTeam >= numEquipos - 1) currentTeam = 0;
+                else currentTeam++;
             }
 
-            // Para que no se note que Oswaldo y Teresa entraron juntos (ej. siempre primeros en la lista del equipo)
-            // Mezclamos internamente los integrantes de cada equipo
-            equipos.forEach(equipo => shuffleArray(equipo));
-
-            // Mezclamos el orden en que se muestran los equipos para que el equipo de ellos no siempre sea el mismo número
-            equipos = shuffleArray(equipos);
-
-            // === RENDERIZADO EN PANTALLA ===
-            const teamsContainer = document.getElementById('teamsContainer');
+            // 6. Mezcla final y Renderizado
+            const container = document.getElementById('teamsContainer');
             
-            equipos.forEach((equipo, index) => {
-                const teamCard = document.createElement('div');
-                teamCard.className = 'bg-blue-50 border border-blue-100 rounded-xl p-4 fade-in shadow-sm hover:shadow-md transition-shadow';
+            shuffleArray(equipos).forEach((equipo, index) => {
+                shuffleArray(equipo); // Mezcla interna para que no se note el orden de inserción
                 
-                // Efecto escalonado en la animación
-                teamCard.style.animationDelay = `${index * 0.1}s`;
+                const card = document.createElement('div');
+                card.className = 'bg-blue-50 border border-blue-100 rounded-xl p-4 fade-in shadow-sm';
+                card.style.animationDelay = `${index * 0.1}s`;
 
-                let listaHTML = equipo.map(nombre => 
-                    `<li class="flex items-center gap-2 text-gray-700 py-1">
-                        <svg class="w-4 h-4 text-blue-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path></svg>
-                        ${nombre}
-                    </li>`
-                ).join('');
+                const listaHTML = equipo.map(n => `
+                    <li class="flex items-center gap-2 text-gray-700 py-1 border-b border-blue-100/50 last:border-0">
+                        <span class="text-blue-500">👤</span> ${n}
+                    </li>`).join('');
 
-                teamCard.innerHTML = `
-                    <h3 class="font-bold text-blue-800 mb-3 border-b border-blue-200 pb-2 flex justify-between items-center">
+                card.innerHTML = `
+                    <h3 class="font-bold text-blue-800 mb-2 flex justify-between">
                         Equipo ${index + 1}
-                        <span class="text-xs bg-blue-200 text-blue-800 px-2 py-1 rounded-full">${equipo.length} personas</span>
+                        <span class="text-xs bg-blue-200 px-2 py-1 rounded">${equipo.length}</span>
                     </h3>
-                    <ul class="divide-y divide-blue-100/50">
-                        ${listaHTML}
-                    </ul>
+                    <ul>${listaHTML}</ul>
                 `;
-                
-                teamsContainer.appendChild(teamCard);
+                container.appendChild(card);
             });
         }
     </script>
