@@ -27,16 +27,19 @@
         .bg-caely-purple {
             background-color: #7e22ce;
         }
+        /* Transición suave para el modal */
+        #therapy-modal {
+            transition: opacity 0.3s ease;
+        }
     </style>
 </head>
 <body class="bg-gray-50 text-gray-800">
 
     <!-- Navbar -->
-    <nav class="bg-white shadow-md sticky top-0 z-50">
+    <nav class="bg-white shadow-md sticky top-0 z-40">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-20 items-center">
                 <div class="flex items-center gap-3">
-                    <!-- Logo simulado -->
                     <div class="w-12 h-12 rounded-full bg-purple-100 flex items-center justify-center text-caely-purple text-2xl">
                         <i class="fa-solid fa-dove"></i>
                     </div>
@@ -65,7 +68,6 @@
             </p>
             
             <div class="flex flex-col sm:flex-row justify-center gap-4">
-                <!-- Enlaces de WhatsApp actualizados -->
                 <a href="https://api.whatsapp.com/send?phone=523320329478&text=Hola%20Carlos,%20me%20gustar%C3%ADa%20agendar%20una%20cita%20o%20pedir%20informes." target="_blank" rel="noopener noreferrer" class="bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-6 rounded-full shadow-lg transition transform hover:-translate-y-1 flex items-center justify-center gap-2">
                     <i class="fa-brands fa-whatsapp text-xl"></i> Cita con Carlos
                 </a>
@@ -75,44 +77,47 @@
             </div>
         </div>
         
-        <!-- Elementos decorativos de fondo -->
         <div class="absolute top-0 left-0 w-64 h-64 bg-pink-300 rounded-full mix-blend-multiply filter blur-3xl opacity-30 -translate-x-1/2 -translate-y-1/2"></div>
         <div class="absolute bottom-0 right-0 w-80 h-80 bg-purple-300 rounded-full mix-blend-multiply filter blur-3xl opacity-30 translate-x-1/3 translate-y-1/3"></div>
     </header>
 
-    <!-- Categorías Principales (Reemplazadas con iconos 100% seguros) -->
+    <!-- Categorías Principales (Ahora clickeables) -->
     <section id="servicios" class="py-16 bg-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h3 class="text-3xl font-bold text-center text-caely-purple mb-12">Nuestras Terapias</h3>
+            <div class="text-center mb-12">
+                <h3 class="text-3xl font-bold text-caely-purple mb-2">Nuestras Terapias</h3>
+                <p class="text-gray-500 text-sm">Toca cada opción para ver más detalles</p>
+            </div>
             
             <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 text-center">
                 <!-- Ventosas -->
-                <div class="group">
-                    <div class="w-full h-32 md:h-40 rounded-2xl bg-orange-100 flex items-center justify-center mb-4 shadow-sm border border-orange-200 group-hover:bg-orange-200 transition duration-300">
-                        <i class="fa-solid fa-fire text-4xl md:text-5xl text-orange-500"></i>
+                <div class="group cursor-pointer transform transition hover:-translate-y-2" onclick="openModal('ventosas')">
+                    <div class="w-full h-32 md:h-40 rounded-2xl bg-orange-100 flex items-center justify-center mb-4 shadow-sm border border-orange-200 group-hover:bg-orange-200 transition duration-300 relative overflow-hidden">
+                        <i class="fa-solid fa-fire text-4xl md:text-5xl text-orange-500 relative z-10"></i>
+                        <div class="absolute inset-0 bg-white/20 opacity-0 group-hover:opacity-100 transition-opacity"></div>
                     </div>
-                    <h4 class="font-bold text-base md:text-lg text-gray-800">Ventosas</h4>
+                    <h4 class="font-bold text-base md:text-lg text-gray-800 flex items-center justify-center gap-2">Ventosas <i class="fa-solid fa-circle-info text-xs text-gray-400"></i></h4>
                 </div>
                 <!-- Flores de Bach -->
-                <div class="group">
-                    <div class="w-full h-32 md:h-40 rounded-2xl bg-pink-100 flex items-center justify-center mb-4 shadow-sm border border-pink-200 group-hover:bg-pink-200 transition duration-300">
-                        <i class="fa-solid fa-seedling text-4xl md:text-5xl text-pink-500"></i>
+                <div class="group cursor-pointer transform transition hover:-translate-y-2" onclick="openModal('flores')">
+                    <div class="w-full h-32 md:h-40 rounded-2xl bg-pink-100 flex items-center justify-center mb-4 shadow-sm border border-pink-200 group-hover:bg-pink-200 transition duration-300 relative overflow-hidden">
+                        <i class="fa-solid fa-seedling text-4xl md:text-5xl text-pink-500 relative z-10"></i>
                     </div>
-                    <h4 class="font-bold text-base md:text-lg text-gray-800">Flores de Bach</h4>
+                    <h4 class="font-bold text-base md:text-lg text-gray-800 flex items-center justify-center gap-2">Flores de Bach <i class="fa-solid fa-circle-info text-xs text-gray-400"></i></h4>
                 </div>
                 <!-- Quiroterapia -->
-                <div class="group">
-                    <div class="w-full h-32 md:h-40 rounded-2xl bg-purple-100 flex items-center justify-center mb-4 shadow-sm border border-purple-200 group-hover:bg-purple-200 transition duration-300">
-                        <i class="fa-solid fa-hands text-4xl md:text-5xl text-purple-600"></i>
+                <div class="group cursor-pointer transform transition hover:-translate-y-2" onclick="openModal('quiroterapia')">
+                    <div class="w-full h-32 md:h-40 rounded-2xl bg-purple-100 flex items-center justify-center mb-4 shadow-sm border border-purple-200 group-hover:bg-purple-200 transition duration-300 relative overflow-hidden">
+                        <i class="fa-solid fa-hands text-4xl md:text-5xl text-purple-600 relative z-10"></i>
                     </div>
-                    <h4 class="font-bold text-base md:text-lg text-gray-800">Quiroterapia</h4>
+                    <h4 class="font-bold text-base md:text-lg text-gray-800 flex items-center justify-center gap-2">Quiroterapia <i class="fa-solid fa-circle-info text-xs text-gray-400"></i></h4>
                 </div>
                 <!-- Rehabilitación Física -->
-                <div class="group">
-                    <div class="w-full h-32 md:h-40 rounded-2xl bg-blue-100 flex items-center justify-center mb-4 shadow-sm border border-blue-200 group-hover:bg-blue-200 transition duration-300">
-                        <i class="fa-solid fa-person-walking-with-cane text-4xl md:text-5xl text-blue-500"></i>
+                <div class="group cursor-pointer transform transition hover:-translate-y-2" onclick="openModal('rehabilitacion')">
+                    <div class="w-full h-32 md:h-40 rounded-2xl bg-blue-100 flex items-center justify-center mb-4 shadow-sm border border-blue-200 group-hover:bg-blue-200 transition duration-300 relative overflow-hidden">
+                        <i class="fa-solid fa-person-walking-with-cane text-4xl md:text-5xl text-blue-500 relative z-10"></i>
                     </div>
-                    <h4 class="font-bold text-base md:text-lg text-gray-800">Rehabilitación</h4>
+                    <h4 class="font-bold text-base md:text-lg text-gray-800 flex items-center justify-center gap-2">Rehabilitación <i class="fa-solid fa-circle-info text-xs text-gray-400"></i></h4>
                 </div>
             </div>
         </div>
@@ -128,17 +133,16 @@
                     <!-- Columna 1 -->
                     <ul class="space-y-4">
                         <li class="flex items-center gap-3"><i class="fa-solid fa-check text-caely-purple"></i> <span class="font-medium text-gray-700">Quiropráctico y sobador</span></li>
-                        <li class="flex items-center gap-3"><i class="fa-solid fa-check text-caely-purple"></i> <span class="font-medium text-gray-700">Rehabilitación</span></li>
+                        <li class="flex items-center gap-3"><i class="fa-solid fa-check text-caely-purple"></i> <span class="font-medium text-gray-700">Rehabilitación física</span></li>
                         <li class="flex items-center gap-3"><i class="fa-solid fa-check text-caely-purple"></i> <span class="font-medium text-gray-700">Ciática</span></li>
                         <li class="flex items-center gap-3"><i class="fa-solid fa-check text-caely-purple"></i> <span class="font-medium text-gray-700">Homeopatía</span></li>
-                        <li class="flex items-center gap-3"><i class="fa-solid fa-check text-caely-purple"></i> <span class="font-medium text-gray-700">Terapia</span></li>
                         <li class="flex items-center gap-3"><i class="fa-solid fa-check text-caely-purple"></i> <span class="font-medium text-gray-700">Láser-Electros</span></li>
-                        <li class="flex items-center gap-3"><i class="fa-solid fa-check text-caely-purple"></i> <span class="font-medium text-gray-700">Ultrasonido</span></li>
+                        <li class="flex items-center gap-3"><i class="fa-solid fa-check text-caely-purple"></i> <span class="font-medium text-gray-700">Ultrasonido terapéutico</span></li>
                     </ul>
                     
                     <!-- Columna 2 -->
-                    <div class="bg-pink-50 p-4 rounded-2xl border border-pink-100">
-                        <h4 class="font-bold text-lg text-gray-800 mb-3 flex items-center gap-2"><i class="fa-solid fa-spa text-pink-500"></i> Masajes</h4>
+                    <div class="bg-pink-50 p-4 rounded-2xl border border-pink-100 h-fit">
+                        <h4 class="font-bold text-lg text-gray-800 mb-3 flex items-center gap-2"><i class="fa-solid fa-spa text-pink-500"></i> Masajes Especializados</h4>
                         <ul class="space-y-3">
                             <li class="flex items-center gap-3 ml-2"><i class="fa-solid fa-circle text-[8px] text-pink-400"></i> <span class="font-medium text-gray-700">Relajante</span></li>
                             <li class="flex items-center gap-3 ml-2"><i class="fa-solid fa-circle text-[8px] text-pink-400"></i> <span class="font-medium text-gray-700">Descontracturante</span></li>
@@ -154,7 +158,7 @@
                         <li class="flex items-center gap-3"><i class="fa-solid fa-check text-caely-purple"></i> <span class="font-medium text-gray-700">Mesoterapia</span></li>
                         <li class="flex items-center gap-3"><i class="fa-solid fa-check text-caely-purple"></i> <span class="font-medium text-gray-700">Maderoterapia</span></li>
                         <li class="flex items-center gap-3"><i class="fa-solid fa-check text-caely-purple"></i> <span class="font-medium text-gray-700">Reiki</span></li>
-                        <li class="flex items-center gap-3"><i class="fa-solid fa-check text-caely-purple"></i> <span class="font-medium text-gray-700">Parálisis Facial</span></li>
+                        <li class="flex items-center gap-3"><i class="fa-solid fa-check text-caely-purple"></i> <span class="font-medium text-gray-700">Tratamiento Parálisis Facial</span></li>
                     </ul>
                 </div>
             </div>
@@ -275,7 +279,6 @@
                             Tlajomulco de Zúñiga, Jalisco
                         </p>
                     </div>
-                    <!-- Botón para Google Maps -->
                     <div class="mt-4 flex justify-center md:justify-start">
                          <a href="https://maps.google.com/?q=Calle+Valle+de+Banderas+251,+Valle+Dorado,+Tlajomulco+de+Zuñiga" target="_blank" rel="noopener noreferrer" class="text-sm bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 rounded-lg transition inline-flex items-center gap-2">
                             <i class="fa-brands fa-google"></i> Ver en Google Maps
@@ -290,10 +293,98 @@
         </div>
     </footer>
 
-    <!-- Botón flotante de WhatsApp (Apunta a Carlos por defecto) -->
-    <a href="https://api.whatsapp.com/send?phone=523320329478&text=Hola,%20me%20gustar%C3%ADa%20solicitar%20informaci%C3%B3n%20sobre%20sus%20terapias." target="_blank" rel="noopener noreferrer" class="fixed bottom-6 right-6 bg-green-500 text-white p-4 rounded-full shadow-2xl hover:bg-green-600 transition transform hover:scale-110 z-50 flex items-center justify-center ring-4 ring-green-300">
+    <!-- Botón flotante de WhatsApp -->
+    <a href="https://api.whatsapp.com/send?phone=523320329478&text=Hola,%20me%20gustar%C3%ADa%20solicitar%20informaci%C3%B3n%20sobre%20sus%20terapias." target="_blank" rel="noopener noreferrer" class="fixed bottom-6 right-6 bg-green-500 text-white p-4 rounded-full shadow-2xl hover:bg-green-600 transition transform hover:scale-110 z-30 flex items-center justify-center ring-4 ring-green-300">
         <i class="fa-brands fa-whatsapp text-3xl"></i>
     </a>
 
+    <!-- ========================================== -->
+    <!-- MODAL PARA MOSTRAR DETALLES DE LAS TERAPIAS -->
+    <!-- ========================================== -->
+    <div id="therapy-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center px-4">
+        <!-- Fondo oscuro (overlay) -->
+        <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" onclick="closeModal()"></div>
+        
+        <!-- Contenedor de la ventana blanca -->
+        <div class="bg-white rounded-3xl shadow-2xl w-full max-w-lg relative z-10 transform transition-all overflow-hidden border-2 border-caely-purple/20">
+            <!-- Encabezado del modal -->
+            <div class="bg-gray-50 px-6 py-4 border-b flex justify-between items-center">
+                <h3 id="modal-title" class="text-xl font-bold text-gray-800 flex items-center gap-3">
+                    <!-- Título dinámico -->
+                </h3>
+                <button onclick="closeModal()" class="text-gray-400 hover:text-red-500 transition text-2xl leading-none">
+                    &times;
+                </button>
+            </div>
+            
+            <!-- Contenido del modal -->
+            <div class="p-6">
+                <p id="modal-content" class="text-gray-600 leading-relaxed text-sm md:text-base">
+                    <!-- Texto dinámico -->
+                </p>
+                
+                <!-- Botón de acción dentro del modal -->
+                <div class="mt-8 text-center">
+                    <a href="https://api.whatsapp.com/send?phone=523320329478&text=Hola,%20quisiera%20agendar%20una%20cita%20o%20m%C3%A1s%20informaci%C3%B3n%20sobre%20sus%20tratamientos." target="_blank" rel="noopener noreferrer" class="inline-block bg-caely-purple text-white font-medium py-2 px-6 rounded-full hover:bg-purple-800 transition shadow-md">
+                        Agendar este tratamiento
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SCRIPT DE JAVASCRIPT PARA CONTROLAR LOS MODALES -->
+    <script>
+        // Diccionario con la información de cada terapia
+        const modalData = {
+            'ventosas': {
+                title: 'Terapia con Ventosas',
+                icon: '<i class="fa-solid fa-fire text-orange-500"></i>',
+                content: 'La <strong>terapia con ventosas (cupping)</strong> es un tratamiento de recuperación y relajación que consiste en crear un vacío sobre la piel utilizando ventosas especiales. <br><br><strong>Beneficios principales:</strong><br><ul class="list-disc ml-5 mt-2 space-y-1"><li>Mejora drásticamente la circulación sanguínea.</li><li>Alivia dolores musculares, espalda y tensiones.</li><li>Ayuda a reducir la inflamación y retención de líquidos.</li><li>Promueve una relajación profunda liberando toxinas del cuerpo.</li></ul>'
+            },
+            'flores': {
+                title: 'Flores de Bach',
+                icon: '<i class="fa-solid fa-seedling text-pink-500"></i>',
+                content: 'Las <strong>Flores de Bach</strong> son una serie de esencias naturales utilizadas para tratar diversas situaciones emocionales. Se basan en la idea de que la enfermedad física es a menudo el resultado de un desequilibrio emocional.<br><br><strong>Ideal para tratar:</strong><br><ul class="list-disc ml-5 mt-2 space-y-1"><li>Estrés crónico, miedos y ataques de ansiedad.</li><li>Depresión, tristeza profunda o duelo.</li><li>Agotamiento mental, apatía y problemas de sueño.</li><li>Falta de confianza o inseguridad personal.</li></ul>'
+            },
+            'quiroterapia': {
+                title: 'Quiroterapia y Sobador',
+                icon: '<i class="fa-solid fa-hands text-purple-600"></i>',
+                content: 'Nuestros servicios de <strong>quiropráctico y sobador</strong> se enfocan en realinear tu sistema musculoesquelético. Mediante masajes profundos y ajustes precisos, liberamos la tensión acumulada devolviéndote la movilidad.<br><br><strong>Especiales para tratar:</strong><br><ul class="list-disc ml-5 mt-2 space-y-1"><li>Dolores agudos de ciática, cadera y lumbalgia.</li><li>Problemas de columna, cuello y articulaciones.</li><li>Contracturas musculares severas ("nudos").</li><li>Lesiones por mala postura o sobreesfuerzo físico.</li></ul>'
+            },
+            'rehabilitacion': {
+                title: 'Rehabilitación Física',
+                icon: '<i class="fa-solid fa-person-walking-with-cane text-blue-500"></i>',
+                content: 'Ofrecemos terapias de <strong>rehabilitación integral</strong> diseñadas para recuperar tu movilidad, fuerza y calidad de vida después de una lesión deportiva, accidente, desgaste físico o cirugía.<br><br><strong>Técnicas y aparatos utilizados:</strong><br><ul class="list-disc ml-5 mt-2 space-y-1"><li><strong>Ultrasonido:</strong> Para desinflamar tejidos profundos.</li><li><strong>Láser y Electros:</strong> Estimulación nerviosa y alivio de dolor.</li><li><strong>Gimnasia pasiva:</strong> Para evitar la atrofia muscular.</li><li>Terapias dirigidas para parálisis facial y recuperación motora.</li></ul>'
+            }
+        };
+
+        // Función para abrir la ventana emergente
+        function openModal(therapyKey) {
+            const data = modalData[therapyKey];
+            
+            // Inyectar datos en el HTML
+            document.getElementById('modal-title').innerHTML = data.icon + ' ' + data.title;
+            document.getElementById('modal-content').innerHTML = data.content;
+            
+            // Mostrar modal y quitar scroll del fondo
+            document.getElementById('therapy-modal').classList.remove('hidden');
+            document.body.style.overflow = 'hidden'; 
+        }
+
+        // Función para cerrar la ventana emergente
+        function closeModal() {
+            // Ocultar modal y devolver scroll al fondo
+            document.getElementById('therapy-modal').classList.add('hidden');
+            document.body.style.overflow = 'auto'; 
+        }
+
+        // Cerrar con la tecla "Escape"
+        document.addEventListener('keydown', function(event) {
+            if (event.key === "Escape") {
+                closeModal();
+            }
+        });
+    </script>
 </body>
 </html>
