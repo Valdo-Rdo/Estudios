@@ -145,49 +145,69 @@
         }
 
         function generarEquiposReales(participantes) {
-            const targetSize = parseInt(document.getElementById('teamSize').value);
-            
-            // Lógica secreta en silencio
-            const p1 = "Oswaldo";
-            const p2 = "Teresa";
-            const parejaJunta = participantes.includes(p1) && participantes.includes(p2);
+    const targetSize = parseInt(document.getElementById('teamSize').value);
+    
+    const p1 = "Oswaldo";
+    const p2 = "Teresa";
+    const parejaJunta = participantes.includes(p1) && participantes.includes(p2);
 
-            let restantes = participantes.filter(p => parejaJunta ? (p !== p1 && p !== p2) : true);
-            restantes = shuffleArray(restantes);
+    // 1. Separar a la "pareja especial" y mezclar al resto
+    let restantes = participantes.filter(p => parejaJunta ? (p !== p1 && p !== p2) : true);
+    restantes = shuffleArray(restantes);
 
-            const numEquipos = Math.ceil(participantes.length / targetSize);
-            let equipos = Array.from({ length: numEquipos }, () => []);
+    // 2. Calcular cuántos equipos caben
+    // Usamos floor para llenar equipos completos y manejar el sobrante después
+    let numEquipos = Math.floor(participantes.length / targetSize);
+    if (numEquipos === 0) numEquipos = 1; // Seguridad por si hay pocos participantes
 
-            // Colocar pareja primero si aplica
-            if (parejaJunta) {
-                const randIdx = Math.floor(Math.random() * numEquipos);
-                equipos[randIdx].push(p1, p2);
-            }
+    let equipos = Array.from({ length: numEquipos }, () => []);
 
-            // Repartir el resto
-            let t = 0;
-            while (restantes.length > 0) {
-                if (equipos[t].length >= (t === numEquipos - 1 ? 10 : targetSize)) {
-                    t = (t + 1) % numEquipos;
-                    continue;
-                }
-                equipos[t].push(restantes.pop());
-                t = (t + 1) % numEquipos;
-            }
+    // 3. Colocar pareja primero en un equipo aleatorio
+    if (parejaJunta) {
+        const randIdx = Math.floor(Math.random() * numEquipos);
+        equipos[randIdx].push(p1, p2);
+    }
 
-            // Mezclar todo para borrar rastro
-            const container = document.getElementById('teamsContainer');
-            shuffleArray(equipos).forEach((eq, i) => {
-                shuffleArray(eq);
-                const card = document.createElement('div');
-                card.className = 'bg-blue-50 border border-blue-100 rounded-xl p-4 fade-in shadow-sm';
-                card.style.animationDelay = `${i * 0.1}s`;
-                
-                const list = eq.map(n => `<li class="py-1 text-gray-700 border-b border-blue-100/30 last:border-0">• ${n}</li>`).join('');
-                card.innerHTML = `<h3 class="font-bold text-blue-800 mb-2">Equipo ${i + 1}</h3><ul>${list}</ul>`;
-                container.appendChild(card);
-            });
+    // 4. Repartir el resto de personas equitativamente
+    let t = 0;
+    while (restantes.length > 0) {
+        // Buscamos el siguiente equipo que no esté lleno
+        // Si todos están llenos (sobrantes), empezamos a repartirlos en los primeros equipos
+        if (equipos[t].length >= targetSize && restantes.length >= (numEquipos - t)) {
+            t = (t + 1) % numEquipos;
+            continue;
         }
+        equipos[t].push(restantes.pop());
+        t = (t + 1) % numEquipos;
+    }
+
+    // --- LÓGICA ANTISOLITARIOS ---
+    // Si el último equipo tiene solo 1 persona, la movemos al equipo anterior 
+    // (o si solo hay un equipo, pues ni modo)
+    if (equipos.length > 1) {
+        const ultimoEquipo = equipos[equipos.length - 1];
+        if (ultimoEquipo.length === 1) {
+            const huerfano = ultimoEquipo.pop();
+            equipos[equipos.length - 2].push(huerfano);
+            equipos.pop(); // Eliminamos el equipo vacío
+        }
+    }
+
+    // 5. Renderizar resultados
+    const container = document.getElementById('teamsContainer');
+    container.innerHTML = ''; // Limpiar
+    
+    shuffleArray(equipos).forEach((eq, i) => {
+        shuffleArray(eq);
+        const card = document.createElement('div');
+        card.className = 'bg-blue-50 border border-blue-100 rounded-xl p-4 fade-in shadow-sm';
+        card.style.animationDelay = `${i * 0.1}s`;
+        
+        const list = eq.map(n => `<li class="py-1 text-gray-700 border-b border-blue-100/30 last:border-0">• ${n}</li>`).join('');
+        card.innerHTML = `<h3 class="font-bold text-blue-800 mb-2">Equipo ${i + 1}</h3><ul>${list}</ul>`;
+        container.appendChild(card);
+    });
+}
     </script>
 </body>
 </html>
