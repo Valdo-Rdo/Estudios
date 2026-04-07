@@ -151,29 +151,25 @@
     const p2 = "Teresa";
     const parejaJunta = participantes.includes(p1) && participantes.includes(p2);
 
-    // 1. Separar a la "pareja especial" y mezclar al resto
+    // 1. Separar a la pareja de la broma y mezclar al resto
     let restantes = participantes.filter(p => parejaJunta ? (p !== p1 && p !== p2) : true);
     restantes = shuffleArray(restantes);
 
-    // 2. Calcular cuántos equipos caben
-    // Usamos floor para llenar equipos completos y manejar el sobrante después
-    let numEquipos = Math.floor(participantes.length / targetSize);
-    if (numEquipos === 0) numEquipos = 1; // Seguridad por si hay pocos participantes
-
+    // 2. Determinar número de equipos (Redondeo hacia arriba)
+    let numEquipos = Math.ceil(participantes.length / targetSize);
     let equipos = Array.from({ length: numEquipos }, () => []);
 
-    // 3. Colocar pareja primero en un equipo aleatorio
+    // 3. Colocar a la pareja primero
     if (parejaJunta) {
         const randIdx = Math.floor(Math.random() * numEquipos);
         equipos[randIdx].push(p1, p2);
     }
 
-    // 4. Repartir el resto de personas equitativamente
+    // 4. Repartir el resto equitativamente uno por uno
     let t = 0;
     while (restantes.length > 0) {
-        // Buscamos el siguiente equipo que no esté lleno
-        // Si todos están llenos (sobrantes), empezamos a repartirlos en los primeros equipos
-        if (equipos[t].length >= targetSize && restantes.length >= (numEquipos - t)) {
+        // Si el equipo ya llegó al tamaño objetivo, pasamos al siguiente
+        if (equipos[t].length >= targetSize) {
             t = (t + 1) % numEquipos;
             continue;
         }
@@ -181,24 +177,26 @@
         t = (t + 1) % numEquipos;
     }
 
-    // --- LÓGICA ANTISOLITARIOS ---
-    // Si el último equipo tiene solo 1 persona, la movemos al equipo anterior 
-    // (o si solo hay un equipo, pues ni modo)
-    if (equipos.length > 1) {
-        const ultimoEquipo = equipos[equipos.length - 1];
-        if (ultimoEquipo.length === 1) {
-            const huerfano = ultimoEquipo.pop();
-            equipos[equipos.length - 2].push(huerfano);
-            equipos.pop(); // Eliminamos el equipo vacío
-        }
+    // 5. REGLA DE ORO: Evitar que alguien quede solo (Equipos de 1)
+    // Si el último equipo tiene solo 1 persona, la movemos a otro equipo
+    let equipoSolitarioIdx = equipos.findIndex(eq => eq.length === 1);
+    
+    if (equipoSolitarioIdx !== -1 && equipos.length > 1) {
+        const personaSola = equipos[equipoSolitarioIdx].pop();
+        // La movemos al equipo anterior (o al siguiente si es el primero)
+        const destinoIdx = (equipoSolitarioIdx === 0) ? 1 : equipoSolitarioIdx - 1;
+        equipos[destinoIdx].push(personaSola);
+        
+        // Eliminamos el equipo que quedó vacío
+        equipos = equipos.filter(eq => eq.length > 0);
     }
 
-    // 5. Renderizar resultados
+    // 6. Dibujar los equipos en el HTML
     const container = document.getElementById('teamsContainer');
-    container.innerHTML = ''; // Limpiar
+    container.innerHTML = '';
     
     shuffleArray(equipos).forEach((eq, i) => {
-        shuffleArray(eq);
+        shuffleArray(eq); // Mezcla interna para no sospechar de la pareja
         const card = document.createElement('div');
         card.className = 'bg-blue-50 border border-blue-100 rounded-xl p-4 fade-in shadow-sm';
         card.style.animationDelay = `${i * 0.1}s`;
