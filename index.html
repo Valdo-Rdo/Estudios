@@ -5,13 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Recursos Pedagógicos PRO</title>
     
-    <!-- Tailwind CSS para el diseño moderno -->
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- FontAwesome para los íconos -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- Fuentes de Google combinadas (Inter para lectura, Outfit para títulos) -->
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800;900&family=Inter:wght@300;400;500;700&display=swap" rel="stylesheet">
     
     <style>
@@ -21,9 +18,7 @@
 </head>
 <body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col">
 
-    <!-- HEADER / HERO SECTION -->
     <header class="bg-slate-900 text-white pt-16 pb-32 px-6 text-center relative overflow-hidden shrink-0 shadow-lg">
-        <!-- Patrón de fondo sutil -->
         <div class="absolute inset-0 opacity-10 pointer-events-none">
             <svg width="100%" height="100%" viewBox="0 0 100 100" preserveAspectRatio="none">
                 <path d="M0 100 C 20 0 50 0 100 100 Z" fill="white"></path>
@@ -41,7 +36,6 @@
                 Guías interactivas nivel examen, líneas del tiempo históricas y plantillas universitarias en un solo lugar.
             </p>
             
-            <!-- BUSCADOR -->
             <div class="relative max-w-xl mx-auto group">
                 <i class="fa-solid fa-magnifying-glass absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-blue-500 transition-colors text-lg"></i>
                 <input 
@@ -55,11 +49,9 @@
         </div>
     </header>
 
-    <!-- MAIN GRID DE TARJETAS -->
     <main class="flex-grow max-w-6xl mx-auto px-6 w-full -mt-16 relative z-20 pb-20">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8" id="cardsContainer">
             
-            <!-- TARJETA 1: GUÍA DE ESTUDIO -->
             <div class="card bg-white rounded-3xl p-6 md:p-8 shadow-sm border border-slate-200 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col group">
                 <div class="flex justify-between items-start mb-6">
                     <div class="w-14 h-14 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform shadow-inner">
@@ -80,7 +72,6 @@
                 </a>
             </div>
 
-            <!-- TARJETA 2: LÍNEA DEL TIEMPO -->
             <div class="card bg-white rounded-3xl p-6 md:p-8 shadow-sm border border-slate-200 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col group">
                 <div class="flex justify-between items-start mb-6">
                     <div class="w-14 h-14 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform shadow-inner">
@@ -101,7 +92,6 @@
                 </a>
             </div>
 
-            <!-- TARJETA 3: PLANTILLAS (NUEVA FUNCIÓN COPY-PASTE) -->
             <div class="card bg-white rounded-3xl p-6 md:p-8 shadow-sm border border-slate-200 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col group">
                 <div class="flex justify-between items-start mb-6">
                     <div class="w-14 h-14 rounded-2xl bg-purple-50 text-purple-600 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform shadow-inner">
@@ -122,7 +112,6 @@
                 </a>
             </div>
 
-            <!-- TARJETA 4: SIMULADOR (PRÓXIMAMENTE) -->
             <div class="card bg-white rounded-3xl p-6 md:p-8 shadow-sm border border-slate-200 flex flex-col opacity-80 grayscale-[30%]">
                 <div class="flex justify-between items-start mb-6">
                     <div class="w-14 h-14 rounded-2xl bg-slate-100 text-slate-400 flex items-center justify-center text-2xl shadow-inner">
@@ -138,36 +127,34 @@
                 <p class="text-slate-500 text-sm mb-8 flex-grow leading-relaxed">
                     Pon a prueba tus conocimientos con reactivos de opción múltiple sobre Seguridad Escolar y Políticas Públicas.
                 </p>
-                <!-- TARJETA 5: GENERADOR DE EQUIPOS -->
-                <div class="card bg-white rounded-3xl p-6 md:p-8 shadow-sm border border-slate-200 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col group">
+                <button disabled class="mt-auto block w-full text-center bg-slate-100 text-slate-400 border border-slate-200 py-3.5 rounded-xl font-bold cursor-not-allowed">
+                    <i class="fa-solid fa-lock mr-2 text-sm"></i> Próximamente
+                </button>
+            </div>
+
+            <div class="card bg-white rounded-3xl p-6 md:p-8 shadow-sm border border-slate-200 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col group">
                 <div class="flex justify-between items-start mb-6">
                     <div class="w-14 h-14 rounded-2xl bg-orange-50 text-orange-600 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform shadow-inner">
                         <i class="fa-solid fa-users-viewfinder"></i>
                     </div>
                     <span class="bg-orange-50 text-orange-700 text-[10px] font-black uppercase tracking-widest px-3 py-1.5 rounded-full border border-orange-100">
-                        Dinámicas de Grupo
+                        Dinámicas
                     </span>
                 </div>
                 <h3 class="text-2xl font-bold text-slate-800 mb-3 group-hover:text-orange-600 transition-colors">
                     Generador de Equipos
                 </h3>
                 <p class="text-slate-500 text-sm mb-8 flex-grow leading-relaxed">
-                    Crea grupos de trabajo aleatorios de 2 o 3 personas. Ideal para organizar actividades colaborativas de forma justa y rápida.
+                    Crea grupos de trabajo aleatorios de 2 o 3 personas de forma rápida y equitativa para tus clases.
                 </p>
                 <a href="equipos.html" class="mt-auto block w-full text-center bg-slate-900 hover:bg-orange-600 text-white py-3.5 rounded-xl font-bold transition-all shadow-md hover:shadow-lg">
-                    Configurar Equipos <i class="fa-solid fa-shuffle ml-2 text-sm"></i>
+                    Abrir Generador <i class="fa-solid fa-shuffle ml-2 text-sm"></i>
                 </a>
-            </div>
-                <!-- Botón Deshabilitado con Tailwind -->
-                <button disabled class="mt-auto block w-full text-center bg-slate-100 text-slate-400 border border-slate-200 py-3.5 rounded-xl font-bold cursor-not-allowed">
-                    <i class="fa-solid fa-lock mr-2 text-sm"></i> Próximamente
-                </button>
             </div>
 
         </div>
     </main>
 
-    <!-- FOOTER -->
     <footer class="bg-white border-t border-slate-200 py-10 mt-auto text-center">
         <div class="max-w-6xl mx-auto px-6">
             <h2 class="text-xl font-black text-slate-800 tracking-tight mb-2">Recursos Pedagógicos PRO</h2>
@@ -175,7 +162,6 @@
         </div>
     </footer>
 
-    <!-- SCRIPT DEL BUSCADOR -->
     <script>
         function filtrarRecursos() {
             var input, filter, container, cards, h3, i, txtValue;
@@ -185,11 +171,9 @@
             cards = container.getElementsByClassName("card");
 
             for (i = 0; i < cards.length; i++) {
-                // Busca la etiqueta H3 dentro de cada tarjeta
                 h3 = cards[i].getElementsByTagName("h3")[0];
                 if (h3) {
                     txtValue = h3.textContent || h3.innerText;
-                    // Muestra u oculta la tarjeta según si coincide la búsqueda
                     if (txtValue.toUpperCase().indexOf(filter) > -1) {
                         cards[i].style.display = "";
                     } else {
