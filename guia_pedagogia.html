@@ -26,6 +26,7 @@ details[open] summary::after { transform: rotate(180deg); }
 
 .tab-active-teoria { @apply bg-indigo-700 text-white shadow-lg shadow-indigo-200 scale-105; }
 .tab-active-modelos { @apply bg-teal-600 text-white shadow-lg shadow-teal-200 scale-105; }
+.tab-active-moodle { @apply bg-purple-600 text-white shadow-lg shadow-purple-200 scale-105; }
 section [id] { scroll-margin-top: 190px; } /* Ajuste para anclas */
 </style>
 </head>
@@ -43,12 +44,15 @@ section [id] { scroll-margin-top: 190px; } /* Ajuste para anclas */
 
 <!-- NAVEGADOR STICKY -->
 <nav class="sticky-tabs bg-white/95 backdrop-blur-md border-b border-slate-200 py-4 shadow-sm">
-<div class="max-w-5xl mx-auto flex justify-center gap-2 md:gap-4 px-4">
-<button onclick="switchTab('teoria')" id="tab-teoria" class="tab-btn flex-1 py-3 px-2 md:px-6 rounded-2xl font-bold flex flex-col md:flex-row items-center justify-center gap-1 md:gap-3 transition-all text-slate-500 hover:bg-slate-100 tab-active-teoria text-xs md:text-sm">
+<div class="max-w-5xl mx-auto flex flex-wrap justify-center gap-2 md:gap-4 px-4">
+<button onclick="switchTab('teoria')" id="tab-teoria" class="tab-btn flex-1 min-w-[120px] py-3 px-2 md:px-6 rounded-2xl font-bold flex flex-col md:flex-row items-center justify-center gap-1 md:gap-3 transition-all text-slate-500 hover:bg-slate-100 tab-active-teoria text-xs md:text-sm">
 <i class="fa-solid fa-brain text-lg"></i> <span>1. Teoría y Taxonomía</span>
 </button>
-<button onclick="switchTab('modelos')" id="tab-modelos" class="tab-btn flex-1 py-3 px-2 md:px-6 rounded-2xl font-bold flex flex-col md:flex-row items-center justify-center gap-1 md:gap-3 transition-all text-slate-500 hover:bg-slate-100 text-xs md:text-sm">
+<button onclick="switchTab('modelos')" id="tab-modelos" class="tab-btn flex-1 min-w-[120px] py-3 px-2 md:px-6 rounded-2xl font-bold flex flex-col md:flex-row items-center justify-center gap-1 md:gap-3 transition-all text-slate-500 hover:bg-slate-100 text-xs md:text-sm">
 <i class="fa-solid fa-sitemap text-lg"></i> <span>2. Modelos y Evaluación</span>
+</button>
+<button onclick="switchTab('moodle')" id="tab-moodle" class="tab-btn flex-1 min-w-[120px] py-3 px-2 md:px-6 rounded-2xl font-bold flex flex-col md:flex-row items-center justify-center gap-1 md:gap-3 transition-all text-slate-500 hover:bg-slate-100 text-xs md:text-sm">
+<i class="fa-solid fa-graduation-cap text-lg"></i> <span>3. Contenido Moodle</span>
 </button>
 </div>
 </nav>
@@ -261,6 +265,185 @@ section [id] { scroll-margin-top: 190px; } /* Ajuste para anclas */
 </div>
 </section>
 
+<!-- ========================================================= -->
+<!-- PESTAÑA 3: CONTENIDO MOODLE -->
+<!-- ========================================================= -->
+<section id="section-moodle" class="content-view hidden animate-in fade-in duration-500">
+<div class="mb-8 grid grid-cols-2 md:grid-cols-4 gap-2 text-[10px] md:text-xs font-bold uppercase tracking-wider">
+<a href="#moo-fundamentos" class="bg-purple-100 text-purple-700 p-3 rounded-xl text-center hover:bg-purple-200">1. Fundamentos</a>
+<a href="#moo-diseno" class="bg-purple-100 text-purple-700 p-3 rounded-xl text-center hover:bg-purple-200">2. Diseño Gráfico</a>
+<a href="#moo-derechos" class="bg-purple-100 text-purple-700 p-3 rounded-xl text-center hover:bg-purple-200">3. Gamificación y Ley</a>
+<a href="#moo-repaso" class="bg-purple-100 text-purple-700 p-3 rounded-xl text-center hover:bg-purple-200">4. Glosario y Repaso</a>
+</div>
+
+<!-- UNIDAD 1: FUNDAMENTOS Y ELABORACIÓN -->
+<div id="moo-fundamentos" class="content-card border-t-8 border-purple-800">
+<h2 class="text-2xl font-bold mb-4 text-purple-900">1. Fundamentos y Regulación de Materiales</h2>
+<div class="exam-tip">El objetivo primordial de los materiales didácticos es <strong>mejorar la calidad de la educación</strong> mediante un diseño inclusivo y versátil.</div>
+
+<div class="grid md:grid-cols-2 gap-6 text-sm text-slate-700">
+<div>
+<h3 class="font-bold text-lg mb-2 text-purple-800 border-b pb-1">Diseño Reflexivo</h3>
+<p class="mb-2">Implica considerar cuidadosamente tres aspectos:</p>
+<ul class="list-disc pl-5 space-y-1">
+<li><strong>Propósito claro:</strong> Cada actividad y recurso debe alinearse a objetivos amplios.</li>
+<li><strong>Estrategia:</strong> Asegura que los materiales sean estratégicamente efectivos.</li>
+<li><strong>Adaptación:</strong> Considerar el perfil del destinatario (edad, nivel, conocimientos, habilidades).</li>
+</ul>
+</div>
+<div>
+<h3 class="font-bold text-lg mb-2 text-purple-800 border-b pb-1">Elaboración y Regulación</h3>
+<p class="mb-2">Requiere una planificación estructurada que considere:</p>
+<ul class="list-disc pl-5 space-y-1">
+<li><strong>Selección:</strong> Basada en el tema y destinatarios para una transmisión efectiva.</li>
+<li><strong>Regulación:</strong> Instrucciones de implementación, contexto de uso, normas de seguridad y supervisión.</li>
+<li><strong>Duración:</strong> Tiempo estimado para desarrollar actividades (vital para planificación curricular).</li>
+</ul>
+</div>
+</div>
+</div>
+
+<!-- UNIDAD 2: DISEÑO GRÁFICO Y ACCESIBILIDAD -->
+<div id="moo-diseno" class="content-card border-t-8 border-purple-700">
+<h2 class="text-2xl font-bold mb-4 text-purple-900">2. Diseño Gráfico y Accesibilidad</h2>
+<p class="text-sm text-slate-600 mb-4">El diseño gráfico resuelve problemas de comunicación visual mediante la integración de elementos semióticos.</p>
+
+<h3 class="font-bold text-lg mt-4 mb-2 text-slate-800">Elementos Gráficos (Lupton y Phillips, 2016)</h3>
+<table class="w-full text-sm border-collapse bg-white shadow-sm rounded-lg overflow-hidden mb-6">
+<thead>
+<tr class="bg-purple-50 text-left"><th class="p-3 border">Elemento</th><th class="p-3 border">Descripción y Función</th></tr>
+</thead>
+<tbody>
+<tr><td class="p-3 border font-bold text-purple-800">Plano</td><td class="p-3 border">Resalta sectores de contenido; opaco, transparente, texturizado o liso.</td></tr>
+<tr><td class="p-3 border font-bold text-purple-800">Asimetría/Simetría</td><td class="p-3 border">Disposición de texto y objetos en el campo visual.</td></tr>
+<tr><td class="p-3 border font-bold text-purple-800">Escala</td><td class="p-3 border">Genera contrastes visuales; varía el tamaño aparente según el entorno.</td></tr>
+<tr><td class="p-3 border font-bold text-purple-800">Textura</td><td class="p-3 border">Genera sensaciones en el usuario y potencia mensajes.</td></tr>
+<tr><td class="p-3 border font-bold text-purple-800">Color</td><td class="p-3 border">Transmite estados de ánimo, codifica información y establece jerarquías.</td></tr>
+<tr><td class="p-3 border font-bold text-purple-800">Jerarquía</td><td class="p-3 border">Rompe la monotonía visual y establece distintos niveles de lectura.</td></tr>
+<tr><td class="p-3 border font-bold text-purple-800">Retícula</td><td class="p-3 border">Fundamento lógico y punto de partida para toda composición.</td></tr>
+<tr><td class="p-3 border font-bold text-purple-800">Símbolos</td><td class="p-3 border">Reducen volúmenes de texto o proponen lecturas alternativas.</td></tr>
+</tbody>
+</table>
+
+<h3 class="font-bold text-lg mb-2 text-slate-800">Recomendaciones de Accesibilidad</h3>
+<div class="bg-slate-50 p-4 rounded-xl border border-slate-200 text-sm">
+<ul class="list-disc pl-5 space-y-1 text-slate-700 grid md:grid-cols-2 gap-x-4">
+<li><strong>Refuerzo textual:</strong> Textos alternativos para multimedia.</li>
+<li><strong>Independencia del color:</strong> Comprensible sin depender solo del color.</li>
+<li><strong>Uso de etiquetas:</strong> Marcas y hojas de estilo adecuadas.</li>
+<li><strong>Lenguaje claro:</strong> Conciso y directo.</li>
+<li><strong>Tipografía accesible:</strong> Aptos para deficiencias visuales.</li>
+<li><strong>Control del usuario:</strong> Detener movimientos o parpadeos.</li>
+<li><strong>Navegación asistida:</strong> Uso del teclado (tab y enter) para deficiencias motóricas.</li>
+<li><strong>Multiplataforma:</strong> Navegable en cualquier OS.</li>
+</ul>
+</div>
+</div>
+
+<!-- UNIDAD 3: DERECHOS, GAMIFICACIÓN Y TIC -->
+<div id="moo-derechos" class="content-card border-t-8 border-purple-600">
+<h2 class="text-2xl font-bold mb-4 text-purple-900">3. Derechos, Gamificación y Evolución Tecnológica</h2>
+
+<div class="grid md:grid-cols-2 gap-6 text-sm mb-6">
+<div>
+<h3 class="font-bold text-lg mb-2 text-purple-800 border-b pb-1">Derechos de Autor</h3>
+<p class="mb-2"><strong>Morales:</strong> Reconocimiento de autor y no alteración (perpetuos).<br><strong>Patrimoniales:</strong> Compensación económica (Copyright).</p>
+<ul class="space-y-2 mt-3">
+<li class="bg-purple-50 p-2 rounded"><strong>Copyright:</strong> Reserva todos los derechos de uso.</li>
+<li class="bg-purple-50 p-2 rounded"><strong>Copyleft:</strong> Uso libre, obliga misma licencia en derivadas.</li>
+<li class="bg-purple-50 p-2 rounded"><strong>Creative Commons:</strong> Permisos específicos (copia/distribución).</li>
+<li class="bg-purple-50 p-2 rounded"><strong>Dominio Público:</strong> Derechos patrimoniales expirados.</li>
+<li class="bg-purple-50 p-2 rounded"><strong>Open Access:</strong> Difusión gratuita de investigación.</li>
+</ul>
+</div>
+<div>
+<h3 class="font-bold text-lg mb-2 text-purple-800 border-b pb-1">Gamificación</h3>
+<p class="mb-2">Elementos del diseño gamificado para incrementar motivación:</p>
+<ul class="list-disc pl-5 space-y-1">
+<li><strong>Objetivos:</strong> Metas claras.</li>
+<li><strong>Perfiles (Richard Bartle):</strong> Killers, Achievers, Explorers, Socializers.</li>
+<li><strong>Narrativa:</strong> Historia/contexto.</li>
+<li><strong>Mecánicas:</strong> Reglas (puntos, niveles, desafíos).</li>
+<li><strong>Componentes:</strong> Avatares, insignias, misiones.</li>
+<li><strong>Apps:</strong> Classcraft, Quizziz, Minecraft Edu.</li>
+</ul>
+</div>
+</div>
+
+<h3 class="font-bold text-lg mb-3 text-slate-800 text-center">Evolución Tecnológica: TIC, TAC y TEP</h3>
+<div class="grid md:grid-cols-3 gap-4 text-sm text-center">
+<div class="p-4 bg-slate-50 rounded-xl border border-slate-200 shadow-sm">
+<h4 class="font-black text-purple-700 text-xl mb-1">TIC</h4>
+<p class="font-bold text-slate-800 mb-2">El "QUÉ"</p>
+<p class="text-xs text-slate-600">Herramientas (hardware y software). Acceso y gestión de la información.</p>
+</div>
+<div class="p-4 bg-slate-50 rounded-xl border border-slate-200 shadow-sm">
+<h4 class="font-black text-purple-700 text-xl mb-1">TAC</h4>
+<p class="font-bold text-slate-800 mb-2">El "CÓMO"</p>
+<p class="text-xs text-slate-600">Uso pedagógico de herramientas para construir conocimiento.</p>
+</div>
+<div class="p-4 bg-slate-50 rounded-xl border border-slate-200 shadow-sm">
+<h4 class="font-black text-purple-700 text-xl mb-1">TEP</h4>
+<p class="font-bold text-slate-800 mb-2">El "PARA QUÉ"</p>
+<p class="text-xs text-slate-600">Generar impacto, crear comunidad y fomentar participación social.</p>
+</div>
+</div>
+</div>
+
+<!-- UNIDAD 4: GLOSARIO Y REPASO -->
+<div id="moo-repaso" class="content-card border-t-8 border-purple-500">
+<h2 class="text-2xl font-bold mb-4 text-purple-900">4. Glosario y Cuestionario de Repaso</h2>
+<div class="exam-tip">Intenta responder la pregunta antes de desplegar el acordeón. ¡Excelente práctica para tu examen!</div>
+
+<h3 class="font-bold text-lg mb-3 border-b pb-2">Glosario de Conceptos Claves</h3>
+<div class="grid md:grid-cols-2 gap-4 text-sm text-slate-700 mb-8">
+<p><strong>Accesibilidad:</strong> Capacidad de un recurso para ser usado por personas con diversas capacidades.</p>
+<p><strong>Diseño Instruccional:</strong> Proceso que hace los pasos de instrucción explícitos y replicables.</p>
+<p><strong>LMS:</strong> Learning Management System; plataformas virtuales.</p>
+<p><strong>REA:</strong> Recursos Educativos Abiertos; legalmente libres.</p>
+<p><strong>Retícula:</strong> Estructura lógica, punto de partida para la composición.</p>
+<p><strong>Semiótica:</strong> Estudio de signos y símbolos como elementos de comunicación.</p>
+</div>
+
+<h3 class="font-bold text-lg mb-3 border-b pb-2">Cuestionario de Repaso</h3>
+<div class="space-y-2">
+<details>
+<summary>1. ¿Cuál es el objetivo primordial de los materiales didácticos?</summary>
+<div class="details-content bg-green-50 text-green-800 font-medium">Mejorar la calidad de la educación a través de un diseño inclusivo y versátil.</div>
+</details>
+<details>
+<summary>2. ¿Qué diferencia a los derechos morales de los patrimoniales?</summary>
+<div class="details-content bg-green-50 text-green-800 font-medium">Los derechos morales protegen la autoría e integridad de la obra (son perpetuos); los patrimoniales se refieren a la explotación económica (Copyright).</div>
+</details>
+<details>
+<summary>3. Según Richard Bartle, ¿cuáles son los 4 perfiles en gamificación?</summary>
+<div class="details-content bg-green-50 text-green-800 font-medium">Killers, Achievers, Explorers y Socializers.</div>
+</details>
+<details>
+<summary>4. ¿Qué elemento gráfico se usa para establecer niveles de lectura?</summary>
+<div class="details-content bg-green-50 text-green-800 font-medium">La jerarquía.</div>
+</details>
+<details>
+<summary>5. Explique brevemente la diferencia entre TAC y TEP.</summary>
+<div class="details-content bg-green-50 text-green-800 font-medium">Las TAC se centran en el uso pedagógico para aprender; las TEP se centran en el uso de la tecnología para participar y generar impacto social.</div>
+</details>
+<details>
+<summary>6. ¿Qué función cumple la "escala" en una composición visual?</summary>
+<div class="details-content bg-green-50 text-green-800 font-medium">Generar contrastes visuales mediante la variación de tamaño de los objetos.</div>
+</details>
+<details>
+<summary>7. ¿Qué requisito facilita la navegación para deficiencias motóricas?</summary>
+<div class="details-content bg-green-50 text-green-800 font-medium">El uso de interfaces que permitan el acceso mediante el teclado (tabulador y enter).</div>
+</details>
+<details>
+<summary>8. ¿Qué implica una licencia de "Dominio Público"?</summary>
+<div class="details-content bg-green-50 text-green-800 font-medium">Que los derechos patrimoniales han expirado, permitiendo la explotación de la obra siempre que se respeten los derechos morales.</div>
+</details>
+</div>
+
+</div>
+</section>
+
 </main>
 
 <footer class="bg-slate-900 text-slate-400 py-12 text-center text-sm border-t border-slate-800">
@@ -270,24 +453,19 @@ section [id] { scroll-margin-top: 190px; } /* Ajuste para anclas */
 
 <script>
 function switchTab(tab) {
-const teoriaSection = document.getElementById('section-teoria');
-const modelosSection = document.getElementById('section-modelos');
-const teoriaBtn = document.getElementById('tab-teoria');
-const modelosBtn = document.getElementById('tab-modelos');
-
-if (tab === 'teoria') {
-teoriaSection.style.display = 'block';
-modelosSection.style.display = 'none';
-teoriaBtn.classList.add('tab-active-teoria');
-modelosBtn.classList.remove('tab-active-modelos');
-window.scrollTo({ top: 0, behavior: 'smooth' });
+const tabs = ['teoria', 'modelos', 'moodle'];
+tabs.forEach(t => {
+const section = document.getElementById('section-' + t);
+const btn = document.getElementById('tab-' + t);
+if (t === tab) {
+section.style.display = 'block';
+btn.classList.add('tab-active-' + t);
 } else {
-teoriaSection.style.display = 'none';
-modelosSection.style.display = 'block';
-modelosBtn.classList.add('tab-active-modelos');
-teoriaBtn.classList.remove('tab-active-teoria');
-window.scrollTo({ top: 0, behavior: 'smooth' });
+section.style.display = 'none';
+btn.classList.remove('tab-active-' + t);
 }
+});
+window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 </script>
 </body>
