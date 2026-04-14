@@ -3,216 +3,329 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Diseño de Materiales Educativos | Guía 2026</title>
+    <title>Master en Diseño Educativo | Interactivo 2026</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Inter:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;600;800&family=Plus+Jakarta+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Inter', sans-serif; scroll-behavior: smooth; }
-        h1, h2, h3, h4, h5 { font-family: 'Outfit', sans-serif; }
-        .sticky-tabs { position: sticky; top: 0; z-index: 50; }
-        .content-card { @apply bg-white p-6 md:p-8 rounded-3xl border border-slate-200 shadow-sm mb-8 transition-all hover:shadow-md; }
+        :root {
+            --primary: #6366f1;
+            --secondary: #a855f7;
+            --bg-dark: #0f172a;
+        }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #f8fafc; color: #1e293b; }
+        h1, h2, h3 { font-family: 'Outfit', sans-serif; }
+
+        /* Efecto de Glassmorphism */
+        .glass-nav { background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(226, 232, 240, 0.8); }
         
-        /* Cajas de Alerta de Examen */
-        .exam-tip { @apply bg-indigo-50 border-l-4 border-indigo-500 p-4 rounded-r-xl my-4 text-sm relative; }
-        .exam-tip::before { content: "🎯 Clave USICAM / Examen"; @apply block font-bold text-indigo-700 mb-1 text-xs uppercase tracking-wider; }
+        /* Flashcards Flip Effect */
+        .card-container { perspective: 1000px; width: 100%; height: 200px; cursor: pointer; }
+        .card-inner { position: relative; width: 100%; height: 100%; transition: transform 0.6s; transform-style: preserve-3d; }
+        .card-container:hover .card-inner { transform: rotateY(180deg); }
+        .card-front, .card-back { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 1.5rem; display: flex; align-items: center; justify-content: center; padding: 1.5rem; text-align: center; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); }
+        .card-front { background: white; border: 2px solid #e2e8f0; }
+        .card-back { background: var(--primary); color: white; transform: rotateY(180deg); }
 
-        /* Acordeones estilizados */
-        details { @apply bg-slate-50 border border-slate-200 rounded-xl mb-3 overflow-hidden transition-all; }
-        summary { @apply p-4 font-bold cursor-pointer select-none flex justify-between items-center text-slate-800 bg-white hover:bg-slate-50; }
-        summary::after { content: '\f078'; font-family: "Font Awesome 6 Free"; font-weight: 900; @apply text-slate-400 transition-transform; }
-        details[open] summary::after { transform: rotate(180deg); }
-        .details-content { @apply p-5 text-sm text-slate-600 border-t border-slate-200 bg-white; }
+        /* Exam Tip Badge */
+        .exam-badge { @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-amber-100 text-amber-800 border border-amber-200 mb-2; }
 
-        .tab-active-pedagogy { @apply bg-indigo-700 text-white shadow-lg shadow-indigo-200 scale-105; }
-        .tab-active-tech { @apply bg-cyan-600 text-white shadow-lg shadow-cyan-200 scale-105; }
-        section [id] { scroll-margin-top: 190px; } 
+        /* Progress Bar */
+        .progress-bar { height: 6px; background: #e2e8f0; border-radius: 3px; overflow: hidden; }
+        .progress-fill { height: 100%; background: linear-gradient(90deg, var(--primary), var(--secondary)); width: 0%; transition: width 0.5s ease; }
+
+        .sidebar-link { @apply flex items-center gap-3 px-4 py-3 rounded-xl transition-all text-slate-600 hover:bg-indigo-50 hover:text-indigo-600 font-medium; }
+        .sidebar-active { @apply bg-indigo-600 text-white shadow-lg shadow-indigo-200 hover:bg-indigo-700 hover:text-white; }
     </style>
 </head>
-<body class="bg-slate-100 text-slate-800">
+<body class="bg-slate-50">
 
-<header class="bg-indigo-950 text-white pt-10 pb-20 px-6 text-center relative overflow-hidden">
-    <div class="absolute inset-0 opacity-10">
-        <svg width="100%" height="100%" viewBox="0 0 100 100" preserveAspectRatio="none"><path d="M0 100 C 30 0 70 0 100 100 Z" fill="white"></path></svg>
+<aside class="fixed left-0 top-0 h-full w-64 bg-white border-r border-slate-200 p-6 hidden lg:block z-50">
+    <div class="mb-10">
+        <h2 class="text-xl font-extrabold text-indigo-600 flex items-center gap-2">
+            <i class="fa-solid fa-layer-group"></i> Pedagogía-X
+        </h2>
+        <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest mt-1">Plataforma de Estudio 2026</p>
     </div>
-    <span class="bg-cyan-500 text-white text-[10px] font-bold uppercase px-3 py-1 rounded-full mb-4 inline-block relative z-10 tracking-widest">Tecno-Pedagogía Avanzada</span>
-    <h1 class="text-3xl md:text-5xl font-extrabold tracking-tight relative z-10 mt-2">Diseño de Materiales Educativos</h1>
-    <p class="text-slate-400 mt-3 text-sm md:text-base font-light relative z-10 max-w-2xl mx-auto">Ingeniería de experiencias de aprendizaje, modelos instruccionales y accesibilidad (DUA) para el ciclo 2025-2026.</p>
-</header>
+    
+    <nav class="space-y-2">
+        <button onclick="showSection('intro')" id="btn-intro" class="sidebar-link w-full sidebar-active"><i class="fa-solid fa-house"></i> Dashboard</button>
+        <button onclick="showSection('teoria')" id="btn-teoria" class="sidebar-link w-full"><i class="fa-solid fa-book-open"></i> Epistemología</button>
+        <button onclick="showSection('modelos')" id="btn-modelos" class="sidebar-link w-full"><i class="fa-solid fa-diagram-project"></i> Modelos (ADDIE)</button>
+        <button onclick="showSection('tecnologia')" id="btn-tecnologia" class="sidebar-link w-full"><i class="fa-solid fa-microchip"></i> IA y Herramientas</button>
+        <button onclick="showSection('simulador')" id="btn-simulador" class="sidebar-link w-full border-t border-slate-100 pt-4 text-rose-600 hover:bg-rose-50 hover:text-rose-700"><i class="fa-solid fa-vial"></i> Simulador USICAM</button>
+    </nav>
+</aside>
 
-<nav class="sticky-tabs bg-white/95 backdrop-blur-md border-b border-slate-200 py-4 shadow-sm">
-    <div class="max-w-5xl mx-auto flex justify-center gap-2 md:gap-4 px-4">
-        <button onclick="switchTab('pedagogy')" id="tab-pedagogy" class="tab-btn flex-1 py-3 px-2 md:px-6 rounded-2xl font-bold flex flex-col md:flex-row items-center justify-center gap-1 md:gap-3 transition-all text-slate-500 hover:bg-slate-100 tab-active-pedagogy text-xs md:text-sm">
-            <i class="fa-solid fa-brain text-lg"></i> <span>Pedagogía y Teoría</span>
-        </button>
-        <button onclick="switchTab('tech')" id="tab-tech" class="tab-btn flex-1 py-3 px-2 md:px-6 rounded-2xl font-bold flex flex-col md:flex-row items-center justify-center gap-1 md:gap-3 transition-all text-slate-500 hover:bg-slate-100 text-xs md:text-sm">
-            <i class="fa-solid fa-laptop-code text-lg"></i> <span>Modelos y Herramientas</span>
-        </button>
-    </div>
-</nav>
-
-<main class="max-w-5xl mx-auto px-4 md:px-6 py-8">
-
-<section id="section-pedagogy" class="content-view block animate-in fade-in duration-500">
-    <div class="mb-8 grid grid-cols-2 md:grid-cols-4 gap-2 text-[10px] md:text-xs font-bold uppercase tracking-wider">
-        <a href="#fnd-evolucion" class="bg-indigo-100 text-indigo-700 p-3 rounded-xl text-center hover:bg-indigo-200">1. Evolución</a>
-        <a href="#fnd-jonassen" class="bg-indigo-100 text-indigo-700 p-3 rounded-xl text-center hover:bg-indigo-200">2. Jonassen</a>
-        <a href="#fnd-dale" class="bg-indigo-100 text-indigo-700 p-3 rounded-xl text-center hover:bg-indigo-200">3. Cono de Dale</a>
-        <a href="#fnd-dua" class="bg-indigo-100 text-indigo-700 p-3 rounded-xl text-center hover:bg-indigo-200">4. DUA (Inclusión)</a>
-    </div>
-
-    <div id="fnd-evolucion" class="content-card border-t-8 border-indigo-800">
-        <h2 class="text-2xl font-bold mb-4 text-indigo-900">1. Evolución Epistemológica</h2>
-        <div class="exam-tip">Relaciona: 60s=Conductismo (Lineal), 80s=Cognitivismo (Procesos), 90s=Constructivismo (Andamiaje), XXI=Conectivismo (Redes).</div>
-        <details>
-            <summary>Paradigmas Históricos</summary>
-            <div class="details-content space-y-3">
-                <p><strong>Conductismo:</strong> Materiales lineales, estímulo-respuesta, refuerzo constante.</p>
-                <p><strong>Cognitivismo:</strong> Prioriza la memoria, percepción y conexiones con aprendizaje previo.</p>
-                <p><strong>Constructivismo:</strong> El material es un "andamio" para resolver problemas auténticos.</p>
-                <p><strong>Conectivismo (Siemens):</strong> El aprendizaje es la conexión de nodos en una red digital.</p>
-            </div>
-        </details>
-    </div>
-
-    <div id="fnd-jonassen" class="content-card border-t-8 border-indigo-700">
-        <h2 class="text-2xl font-bold mb-4 text-indigo-900">2. El Modelo de Jonassen</h2>
-        <p class="text-sm text-slate-600 mb-4">El estudiante "aprende haciendo" con el problema en el centro.</p>
-        <div class="grid md:grid-cols-2 gap-4">
-            <ul class="text-xs space-y-2 bg-slate-50 p-4 rounded-xl border border-slate-200">
-                <li><strong>1. Preguntas/Casos:</strong> El desafío real que conduce el aprendizaje.</li>
-                <li><strong>2. Casos Relacionados:</strong> Referencias analógicas previas.</li>
-                <li><strong>3. Recursos de Información:</strong> Datos para construir modelos mentales.</li>
-            </ul>
-            <ul class="text-xs space-y-2 bg-slate-50 p-4 rounded-xl border border-slate-200">
-                <li><strong>4. Herramientas Cognitivas:</strong> Software para procesar la complejidad.</li>
-                <li><strong>5. Colaboración:</strong> Espacios de construcción social.</li>
-                <li><strong>6. Apoyo Contextual:</strong> Adaptación a factores ambientales.</li>
-            </ul>
+<main class="lg:ml-64 p-4 md:p-8">
+    
+    <header class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
+        <div>
+            <h1 id="section-title" class="text-3xl font-extrabold text-slate-900 tracking-tight">Bienvenido, Docente</h1>
+            <p class="text-slate-500">Diseño de Materiales Educativos e Ingeniería del Aprendizaje.</p>
         </div>
-    </div>
-
-    <div id="fnd-dale" class="content-card border-t-8 border-indigo-600">
-        <h2 class="text-2xl font-bold mb-4 text-indigo-900">3. El Cono de la Experiencia (Edgar Dale)</h2>
-        <div class="exam-tip">A mayor base del cono (concreción/hacer), mayor retención. Los símbolos abstractos (leer/oír) están en la punta.</div>
-        <table class="w-full text-xs border-collapse">
-            <thead><tr class="bg-indigo-50"><th class="p-2 border">Nivel</th><th class="p-2 border">Ejemplos</th></tr></thead>
-            <tbody>
-                <tr><td class="p-2 border font-bold">Experiencias Directas</td><td class="p-2 border">Hechos reales, experimentos, práctica real.</td></tr>
-                <tr><td class="p-2 border font-bold">Representativas</td><td class="p-2 border">Maquetas, modelos 3D, simulaciones.</td></tr>
-                <tr><td class="p-2 border font-bold">Audiovisuales</td><td class="p-2 border">Videos, televisión educativa.</td></tr>
-                <tr><td class="p-2 border font-bold">Símbolos Visuales/Verbales</td><td class="p-2 border">Libros, pizarras, diagramas abstractos.</td></tr>
-            </tbody>
-        </table>
-    </div>
-
-    <div id="fnd-dua" class="content-card border-t-8 border-indigo-500">
-        <h2 class="text-2xl font-bold mb-4 text-indigo-900">4. DUA: Diseño Universal para el Aprendizaje</h2>
-        <div class="exam-tip">Concepto clave para USICAM: "Eliminar barreras" y "Flexibilidad". No es para alumnos con discapacidad solamente, es para TODOS.</div>
-        <div class="space-y-3">
-            <div class="p-3 bg-purple-50 rounded-lg border border-purple-100"><strong>Representación (¿Qué?):</strong> Ofrecer información en múltiples formatos (visual, audio, texto).</div>
-            <div class="p-3 bg-blue-50 rounded-lg border border-blue-100"><strong>Compromiso (¿Por qué?):</strong> Captar interés, autonomía y relevancia.</div>
-            <div class="p-3 bg-green-50 rounded-lg border border-green-100"><strong>Acción y Expresión (¿Cómo?):</strong> Permitir que el alumno demuestre lo que sabe de distintas formas.</div>
-        </div>
-    </div>
-</section>
-
-<section id="section-tech" class="content-view hidden animate-in fade-in duration-500">
-    <div class="mb-8 grid grid-cols-2 md:grid-cols-4 gap-2 text-[10px] md:text-xs font-bold uppercase tracking-wider">
-        <a href="#met-addie" class="bg-cyan-100 text-cyan-700 p-3 rounded-xl text-center hover:bg-cyan-200">1. ADDIE y Modelos</a>
-        <a href="#met-ia" class="bg-cyan-100 text-cyan-700 p-3 rounded-xl text-center hover:bg-cyan-200">2. IA y Tendencias</a>
-        <a href="#met-evaluacion" class="bg-cyan-100 text-cyan-700 p-3 rounded-xl text-center hover:bg-cyan-200">3. Calidad (LORI)</a>
-        <a href="#met-local" class="bg-cyan-100 text-cyan-700 p-3 rounded-xl text-center hover:bg-cyan-200">4. Formación (GDL)</a>
-    </div>
-
-    <div id="met-addie" class="content-card border-t-8 border-cyan-600">
-        <h2 class="text-2xl font-bold mb-4 text-cyan-900">1. Modelos de Diseño Instruccional</h2>
-        <div class="exam-tip">ADDIE es el modelo base iterativo. ASSURE integra los eventos de Gagné. 4C/ID es para tareas complejas.</div>
-        <div class="grid md:grid-cols-2 gap-4 text-xs">
-            <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
-                <h4 class="font-bold text-cyan-700 mb-2">Fases de ADDIE</h4>
-                <p><strong>A:</strong> Análisis | <strong>D:</strong> Diseño (Guion/Storyboarding) | <strong>D:</strong> Desarrollo (Producción) | <strong>I:</strong> Implementación | <strong>E:</strong> Evaluación.</p>
+        <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200 min-w-[200px]">
+            <div class="flex justify-between text-xs font-bold mb-2">
+                <span>PROGRESO DE ESTUDIO</span>
+                <span id="progress-text">0%</span>
             </div>
-            <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
-                <h4 class="font-bold text-cyan-700 mb-2">Otros Modelos</h4>
-                <ul class="list-disc pl-4">
-                    <li><strong>ASSURE:</strong> Analiza al alumno y requiere participación activa.</li>
-                    <li><strong>Merrill:</strong> 5 principios centrados en la tarea.</li>
-                    <li><strong>Dick y Carey:</strong> Modelo sistémico coherente.</li>
-                </ul>
+            <div class="progress-bar">
+                <div id="progress-fill" class="progress-fill"></div>
             </div>
         </div>
-    </div>
+    </header>
 
-    <div id="met-ia" class="content-card border-t-8 border-cyan-500">
-        <h2 class="text-2xl font-bold mb-4 text-cyan-900">2. IA y Tendencias 2026</h2>
-        <div class="grid md:grid-cols-3 gap-3 text-[11px]">
-            <div class="bg-slate-50 p-3 rounded-lg"><strong>Microlearning:</strong> Píldoras de 5-10 min (mejora retención).</div>
-            <div class="bg-slate-50 p-3 rounded-lg"><strong>Gamificación:</strong> Mecánicas de juego (puntos/niveles).</div>
-            <div class="bg-slate-50 p-3 rounded-lg"><strong>IA Generativa:</strong> Creación rápida de guiones y avatares (Synthesia).</div>
+    <section id="content-intro" class="animate-in fade-in duration-700">
+        <div class="grid md:grid-cols-3 gap-6">
+            <div class="md:col-span-2 space-y-6">
+                <div class="bg-indigo-600 rounded-3xl p-8 text-white relative overflow-hidden shadow-2xl shadow-indigo-200">
+                    <div class="relative z-10">
+                        <h2 class="text-2xl font-bold mb-2">¿Sabías que...?</h2>
+                        <p class="text-indigo-100 text-sm max-w-md">El 90% de los materiales educativos actuales fallan por falta de accesibilidad. En 2026, el enfoque DUA no es una opción, es la base del diseño.</p>
+                        <button onclick="showSection('teoria')" class="mt-4 bg-white text-indigo-600 px-6 py-2 rounded-xl text-sm font-bold hover:bg-indigo-50 transition-colors">Empezar Lectura</button>
+                    </div>
+                    <i class="fa-solid fa-brain absolute -right-4 -bottom-4 text-white/10 text-9xl"></i>
+                </div>
+
+                <h3 class="font-bold text-lg text-slate-800">Flashcards Rápidas (Conceptos Oro)</h3>
+                <div class="grid sm:grid-cols-2 gap-4">
+                    <div class="card-container">
+                        <div class="card-inner">
+                            <div class="card-front"><p class="font-bold">¿Qué es el Conectivismo?</p></div>
+                            <div class="card-back"><p class="text-sm">Teoría de Siemens donde el aprendizaje es la conexión de nodos en una red.</p></div>
+                        </div>
+                    </div>
+                    <div class="card-container">
+                        <div class="card-inner">
+                            <div class="card-front"><p class="font-bold">¿En qué consiste el DUA?</p></div>
+                            <div class="card-back"><p class="text-sm">Diseño Universal para el Aprendizaje: Representación, Acción y Compromiso.</p></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="space-y-6">
+                <div class="bg-white p-6 rounded-3xl border border-slate-200">
+                    <h3 class="font-bold mb-4 flex items-center gap-2"><i class="fa-solid fa-location-dot text-rose-500"></i> Ruta Jalisco</h3>
+                    <div class="space-y-4">
+                        <div class="border-l-2 border-indigo-100 pl-4 py-1">
+                            <p class="text-xs font-bold text-slate-400">UDG VIRTUAL</p>
+                            <p class="text-sm font-semibold">Mta. Tecnologías para el Aprendizaje</p>
+                        </div>
+                        <div class="border-l-2 border-indigo-100 pl-4 py-1">
+                            <p class="text-xs font-bold text-slate-400">ITESO</p>
+                            <p class="text-sm font-semibold">Diseño Estratégico & UX</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <h3 class="font-bold text-lg mt-6 mb-2">Software de Autoría</h3>
-        <ul class="text-sm space-y-1">
-            <li><strong>Articulate 360:</strong> El estándar para cursos interactivos.</li>
-            <li><strong>Mindsmith:</strong> Diseño asistido por IA.</li>
-            <li><strong>Canvas/Moodle:</strong> Sistemas de gestión (LMS).</li>
-        </ul>
-    </div>
+    </section>
 
-    <div id="met-evaluacion" class="content-card border-t-8 border-cyan-400">
-        <h2 class="text-2xl font-bold mb-4 text-cyan-900">3. Evaluación de la Calidad (RED)</h2>
-        <div class="exam-tip">LORI evalúa 9 dimensiones (desde contenido hasta accesibilidad). COdA es para profesores-autores.</div>
-        <details>
-            <summary>Dimensiones LORI (9)</summary>
-            <div class="details-content">
-                Calidad de Contenido, Objetivos, Retroalimentación, Motivación, Diseño, Usabilidad, Accesibilidad, Reusabilidad y Estándares.
+    <section id="content-teoria" class="hidden space-y-6 animate-in slide-in-from-right duration-500">
+        <div class="bg-white p-8 rounded-3xl border border-slate-200">
+            <span class="exam-badge">Pregunta Frecuente</span>
+            <h2 class="text-2xl font-bold mb-4">Evolución del Diseño Instruccional</h2>
+            
+            <div class="relative border-l-2 border-indigo-200 ml-4 space-y-8">
+                <div class="relative pl-8">
+                    <div class="absolute left-[-9px] top-0 w-4 h-4 rounded-full bg-indigo-600 border-4 border-white"></div>
+                    <h4 class="font-bold text-indigo-600">1960: Conductismo</h4>
+                    <p class="text-sm text-slate-600">Materiales lineales, estímulo-respuesta. El alumno es receptor pasivo.</p>
+                </div>
+                <div class="relative pl-8">
+                    <div class="absolute left-[-9px] top-0 w-4 h-4 rounded-full bg-indigo-400 border-4 border-white"></div>
+                    <h4 class="font-bold text-indigo-400">1980: Cognitivismo</h4>
+                    <p class="text-sm text-slate-600">Enfoque en procesos internos: memoria y procesamiento de información.</p>
+                </div>
+                <div class="relative pl-8">
+                    <div class="absolute left-[-9px] top-0 w-4 h-4 rounded-full bg-indigo-300 border-4 border-white"></div>
+                    <h4 class="font-bold text-indigo-300">1990: Constructivismo</h4>
+                    <p class="text-sm text-slate-600">El material es un "andamio" (Vygotsky). Aprendizaje basado en la experiencia.</p>
+                </div>
             </div>
-        </details>
-    </div>
 
-    <div id="met-local" class="content-card border-t-8 border-cyan-300">
-        <h2 class="text-2xl font-bold mb-4 text-cyan-900">4. Formación en Guadalajara</h2>
-        <div class="grid md:grid-cols-2 gap-4 text-sm">
-            <div class="p-4 bg-white rounded-xl border border-slate-200">
-                <h4 class="font-bold text-indigo-700">UDG (Virtual/Presencial)</h4>
-                <p class="text-xs">Maestría en Tecnologías para el Aprendizaje. Ejes: Diseño, Docencia y Gestión.</p>
-            </div>
-            <div class="p-4 bg-white rounded-xl border border-slate-200">
-                <h4 class="font-bold text-indigo-700">ITESO</h4>
-                <p class="text-xs">Maestría en Diseño Estratégico e Innovación Social. Enfoque en UX/UI educativo.</p>
+            <div class="mt-8 bg-slate-50 p-6 rounded-2xl border border-slate-200">
+                <h3 class="font-bold mb-3 flex items-center gap-2 text-indigo-800"><i class="fa-solid fa-triangle-exclamation"></i> El Cono de Dale</h3>
+                <p class="text-sm mb-4">Esencial para el diseño: Mientras más <strong>abstracto</strong> sea el medio (texto), menos retención. Mientras más <strong>concreto</strong> (experiencia directa), mayor aprendizaje.</p>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-2 text-center text-[10px] font-bold">
+                    <div class="p-2 bg-indigo-100 rounded-lg">LEER (10%)</div>
+                    <div class="p-2 bg-indigo-200 rounded-lg">OÍR (20%)</div>
+                    <div class="p-2 bg-indigo-300 rounded-lg">VER/OÍR (50%)</div>
+                    <div class="p-2 bg-indigo-500 text-white rounded-lg">HACER (90%)</div>
+                </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
+
+    <section id="content-modelos" class="hidden space-y-6 animate-in slide-in-from-right duration-500">
+        <div class="grid md:grid-cols-2 gap-6">
+            <div class="bg-white p-8 rounded-3xl border border-slate-200">
+                <h2 class="text-2xl font-bold mb-6 text-indigo-900">Modelo ADDIE</h2>
+                <div class="space-y-4">
+                    <div class="flex gap-4 items-start">
+                        <div class="bg-indigo-600 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold flex-shrink-0">A</div>
+                        <div><h4 class="font-bold">Análisis</h4><p class="text-xs text-slate-500">¿Quién es el alumno? ¿Qué necesita?</p></div>
+                    </div>
+                    <div class="flex gap-4 items-start">
+                        <div class="bg-indigo-500 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold flex-shrink-0">D</div>
+                        <div><h4 class="font-bold">Diseño</h4><p class="text-xs text-slate-500">Storyboarding y selección de medios.</p></div>
+                    </div>
+                    <div class="flex gap-4 items-start">
+                        <div class="bg-indigo-400 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold flex-shrink-0">D</div>
+                        <div><h4 class="font-bold">Desarrollo</h4><p class="text-xs text-slate-500">Producción real del material digital.</p></div>
+                    </div>
+                    <div class="flex gap-4 items-start">
+                        <div class="bg-indigo-300 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold flex-shrink-0">I</div>
+                        <div><h4 class="font-bold">Implementación</h4><p class="text-xs text-slate-500">Entrega al usuario (LMS).</p></div>
+                    </div>
+                    <div class="flex gap-4 items-start">
+                        <div class="bg-indigo-200 text-slate-700 w-8 h-8 rounded-full flex items-center justify-center font-bold flex-shrink-0">E</div>
+                        <div><h4 class="font-bold">Evaluación</h4><p class="text-xs text-slate-500">¿Funcionó? Mejora continua.</p></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="space-y-6">
+                <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm">
+                    <h3 class="font-bold mb-4 text-rose-600"><i class="fa-solid fa-universal-access"></i> El DUA (Imperdible)</h3>
+                    <div class="space-y-2 text-sm">
+                        <details class="group bg-slate-50 rounded-xl border border-slate-100">
+                            <summary class="p-3 cursor-pointer font-semibold list-none flex justify-between">Múltiples de Representación <i class="fa-solid fa-plus text-xs mt-1"></i></summary>
+                            <p class="p-3 text-xs text-slate-600">Dar opciones de tamaño de letra, contraste, audio y video.</p>
+                        </details>
+                        <details class="group bg-slate-50 rounded-xl border border-slate-100">
+                            <summary class="p-3 cursor-pointer font-semibold list-none flex justify-between">Múltiples de Compromiso <i class="fa-solid fa-plus text-xs mt-1"></i></summary>
+                            <p class="p-3 text-xs text-slate-600">Fomentar la autonomía y reducir distracciones.</p>
+                        </details>
+                        <details class="group bg-slate-50 rounded-xl border border-slate-100">
+                            <summary class="p-3 cursor-pointer font-semibold list-none flex justify-between">Múltiples de Acción <i class="fa-solid fa-plus text-xs mt-1"></i></summary>
+                            <p class="p-3 text-xs text-slate-600">Dejar que el alumno demuestre lo aprendido con arte, texto o voz.</p>
+                        </details>
+                    </div>
+                </div>
+                <div class="bg-indigo-900 p-6 rounded-3xl text-white">
+                    <h4 class="font-bold mb-2">💡 Tip de 5to Semestre</h4>
+                    <p class="text-[11px] text-indigo-200">En tu examen USICAM, si te preguntan por tareas complejas, la respuesta siempre será <strong>Modelo 4C/ID</strong>.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="content-tecnologia" class="hidden space-y-6 animate-in slide-in-from-right duration-500">
+        <div class="bg-white p-8 rounded-3xl border border-slate-200">
+            <h2 class="text-2xl font-bold mb-6">Herramientas & IA Generativa 2026</h2>
+            <div class="grid md:grid-cols-3 gap-6">
+                <div class="p-4 rounded-2xl bg-indigo-50 border border-indigo-100">
+                    <i class="fa-solid fa-robot text-indigo-600 text-2xl mb-3"></i>
+                    <h4 class="font-bold">Mindsmith</h4>
+                    <p class="text-xs text-slate-600">Autoría nativa con IA para generar cursos en minutos.</p>
+                </div>
+                <div class="p-4 rounded-2xl bg-purple-50 border border-purple-100">
+                    <i class="fa-solid fa-video text-purple-600 text-2xl mb-3"></i>
+                    <h4 class="font-bold">Synthesia</h4>
+                    <p class="text-xs text-slate-600">Avatares realistas para videos de capacitación sin cámara.</p>
+                </div>
+                <div class="p-4 rounded-2xl bg-cyan-50 border border-cyan-100">
+                    <i class="fa-solid fa-gamepad text-cyan-600 text-2xl mb-3"></i>
+                    <h4 class="font-bold">Articulate 360</h4>
+                    <p class="text-xs text-slate-600">El estándar de la industria para interactividad avanzada.</p>
+                </div>
+            </div>
+
+            <div class="mt-8 overflow-hidden rounded-2xl border border-slate-200">
+                <table class="w-full text-sm">
+                    <thead class="bg-slate-50 font-bold">
+                        <tr><th class="p-4 text-left">Instrumento de Calidad</th><th class="p-4 text-left">Uso Principal</th></tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-100">
+                        <tr><td class="p-4"><strong>LORI</strong></td><td class="p-4">Evaluación de 9 dimensiones (expertos).</td></tr>
+                        <tr><td class="p-4"><strong>COdA</strong></td><td class="p-4">Guía para el profesor-autor (Didáctico + Técnico).</td></tr>
+                        <tr><td class="p-4"><strong>ECOBA</strong></td><td class="p-4">Pertinencia y aseguramiento de competencias.</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <section id="content-simulador" class="hidden space-y-6 animate-in zoom-in duration-300">
+        <div class="max-w-2xl mx-auto bg-white p-10 rounded-[3rem] shadow-2xl shadow-indigo-100 border border-slate-100">
+            <div id="quiz-container">
+                <span class="text-xs font-black text-indigo-600 uppercase tracking-widest">Desafío Rápido</span>
+                <h2 id="quiz-question" class="text-2xl font-bold mt-2 mb-8">¿Cuál es el modelo instruccional basado en el "Aprender Haciendo" y que pone el problema en el centro?</h2>
+                
+                <div class="space-y-3">
+                    <button onclick="checkAnswer(false, this)" class="w-full p-4 rounded-2xl border-2 border-slate-100 text-left hover:border-indigo-600 transition-all font-medium">A) Modelo ADDIE Lineal</button>
+                    <button onclick="checkAnswer(true, this)" class="w-full p-4 rounded-2xl border-2 border-slate-100 text-left hover:border-indigo-600 transition-all font-medium">B) Modelo de David Jonassen</button>
+                    <button onclick="checkAnswer(false, this)" class="w-full p-4 rounded-2xl border-2 border-slate-100 text-left hover:border-indigo-600 transition-all font-medium">C) Teoría Conductista de Skinner</button>
+                </div>
+            </div>
+            <div id="quiz-result" class="hidden text-center">
+                <i class="fa-solid fa-circle-check text-green-500 text-6xl mb-4"></i>
+                <h3 class="text-2xl font-bold mb-2">¡Correcto!</h3>
+                <p class="text-slate-500 text-sm mb-6">Jonassen es el pilar del diseño constructivista moderno.</p>
+                <button onclick="resetQuiz()" class="bg-indigo-600 text-white px-8 py-3 rounded-2xl font-bold">Volver a Intentar</button>
+            </div>
+        </div>
+    </section>
 
 </main>
 
-<footer class="bg-slate-900 text-slate-400 py-12 text-center text-sm border-t border-slate-800">
-    <p class="font-bold text-white mb-2">Estudio para USICAM y Pedagogía Práctica</p>
-    <p>Guadalajara, Jalisco | 2026</p>
-</footer>
-
 <script>
-    function switchTab(tab) {
-        const pedagogySection = document.getElementById('section-pedagogy');
-        const techSection = document.getElementById('section-tech');
-        const pedagogyBtn = document.getElementById('tab-pedagogy');
-        const techBtn = document.getElementById('tab-tech');
+    const sections = ['intro', 'teoria', 'modelos', 'tecnologia', 'simulador'];
+    let completedSteps = new Set();
 
-        if (tab === 'pedagogy') {
-            pedagogySection.style.display = 'block';
-            techSection.style.display = 'none';
-            pedagogyBtn.classList.add('tab-active-pedagogy');
-            techBtn.classList.remove('tab-active-tech');
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+    function showSection(id) {
+        // Ocultar todas
+        sections.forEach(s => {
+            document.getElementById(`content-${s}`).classList.add('hidden');
+            document.getElementById(`btn-${s}`)?.classList.remove('sidebar-active');
+        });
+
+        // Mostrar seleccionada
+        document.getElementById(`content-${id}`).classList.remove('hidden');
+        document.getElementById(`btn-${id}`)?.classList.add('sidebar-active');
+
+        // Actualizar Titulo
+        const titles = {
+            intro: 'Dashboard de Estudio',
+            teoria: 'Fundamentos Epistemológicos',
+            modelos: 'Metodologías de Diseño',
+            tecnologia: 'Tecnología Educativa 2026',
+            simulador: 'Simulador de Evaluación'
+        };
+        document.getElementById('section-title').innerText = titles[id];
+
+        // Track Progress
+        completedSteps.add(id);
+        const progress = (completedSteps.size / sections.length) * 100;
+        document.getElementById('progress-fill').style.width = `${progress}%`;
+        document.getElementById('progress-text').innerText = `${Math.round(progress)}%`;
+        
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function checkAnswer(isCorrect, btn) {
+        if(isCorrect) {
+            btn.classList.add('bg-green-50', 'border-green-600', 'text-green-700');
+            setTimeout(() => {
+                document.getElementById('quiz-container').classList.add('hidden');
+                document.getElementById('quiz-result').classList.remove('hidden');
+            }, 500);
         } else {
-            pedagogySection.style.display = 'none';
-            techSection.style.display = 'block';
-            techBtn.classList.add('tab-active-tech');
-            pedagogyBtn.classList.remove('tab-active-pedagogy');
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            btn.classList.add('bg-rose-50', 'border-rose-600', 'text-rose-700');
+            btn.classList.add('animate-shake');
+            setTimeout(() => btn.classList.remove('bg-rose-50', 'border-rose-600', 'text-rose-700'), 1000);
         }
     }
+
+    function resetQuiz() {
+        document.getElementById('quiz-container').classList.remove('hidden');
+        document.getElementById('quiz-result').classList.add('hidden');
+        const buttons = document.querySelectorAll('#quiz-container button');
+        buttons.forEach(b => b.classList.remove('bg-green-50', 'border-green-600', 'text-green-700'));
+    }
 </script>
+
 </body>
 </html>
