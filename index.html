@@ -17,11 +17,12 @@
     <style>
         body { font-family: 'Inter', sans-serif; }
         h1, h2, h3 { font-family: 'Outfit', sans-serif; }
+        .quote-fade { transition: opacity 0.3s ease-in-out; }
     </style>
 </head>
 <body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col">
 
-    <header class="bg-slate-900 text-white pt-16 pb-32 px-6 text-center relative overflow-hidden shrink-0 shadow-lg">
+    <header class="bg-slate-900 text-white pt-16 pb-44 px-6 text-center relative overflow-hidden shrink-0 shadow-lg">
         <div class="absolute inset-0 opacity-10 pointer-events-none">
             <svg width="100%" height="100%" viewBox="0 0 100 100" preserveAspectRatio="none">
                 <path d="M0 100 C 20 0 50 0 100 100 Z" fill="white"></path>
@@ -36,8 +37,7 @@
                 Banco de Recursos:<br><span class="text-blue-400">Pedagogía</span>
             </h1>
 
-            <!-- SECCIÓN DE FRASES METACOGNITIVAS -->
-            <div id="quoteContainer" class="max-w-2xl mx-auto mb-10 min-h-[80px] flex flex-col justify-center items-center">
+            <div id="quoteContainer" class="max-w-2xl mx-auto mb-10 min-h-[100px] flex flex-col justify-center items-center">
                 <div class="quote-fade">
                     <p id="quoteText" class="text-slate-300 text-lg md:text-xl italic font-light leading-relaxed">
                         "Cargando inspiración..."
@@ -64,26 +64,7 @@
         </div>
     </header>
 
-    <main class="flex-grow max-w-6xl mx-auto px-6 w-full -mt-16 relative z-20 pb-20">
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8" id="cardsContainer">
-            <p class="text-slate-400 text-base md:text-lg font-light max-w-2xl mx-auto mb-10">
-                Guías interactivas nivel examen, líneas del tiempo históricas y plantillas universitarias en un solo lugar.
-            </p>
-            
-            <div class="relative max-w-xl mx-auto group">
-                <i class="fa-solid fa-magnifying-glass absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-blue-500 transition-colors text-lg"></i>
-                <input 
-                    type="text" 
-                    id="searchInput" 
-                    onkeyup="filtrarRecursos()" 
-                    placeholder="Buscar un recurso, guía o formato..." 
-                    class="w-full bg-white text-slate-900 rounded-2xl py-4 pl-14 pr-6 focus:outline-none focus:ring-4 focus:ring-blue-500/30 transition-all shadow-2xl font-medium text-base md:text-lg border-2 border-transparent focus:border-blue-500"
-                >
-            </div>
-        </div>
-    </header>
-
-    <main class="flex-grow max-w-6xl mx-auto px-6 w-full -mt-16 relative z-20 pb-20">
+    <main class="flex-grow max-w-6xl mx-auto px-6 w-full -mt-24 relative z-20 pb-20">
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8" id="cardsContainer">
             
             <div class="card bg-white rounded-3xl p-6 md:p-8 shadow-sm border border-slate-200 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col group">
@@ -119,10 +100,10 @@
                     Línea del Tiempo Histórica
                 </h3>
                 <p class="text-slate-500 text-sm mb-8 flex-grow leading-relaxed">
-                    Explora la evolución interactiva de los planes, programas y reformas en México desde 1920 hasta 2018.
+                    Explora la evolución interactiva de los planes, programas y reformas en México.
                 </p>
                 <a href="lineadetiempo.html" class="mt-auto block w-full text-center bg-slate-900 hover:bg-emerald-600 text-white py-3.5 rounded-xl font-bold transition-all shadow-md hover:shadow-lg">
-                    Abrir Línea del Tiempo <i class="fa-solid fa-arrow-right ml-2 text-sm"></i>
+                    Abrir Línea <i class="fa-solid fa-arrow-right ml-2 text-sm"></i>
                 </a>
             </div>
 
@@ -139,7 +120,7 @@
                     Galería de Videos IA
                 </h3>
                 <p class="text-slate-500 text-sm mb-8 flex-grow leading-relaxed">
-                    Repositorio de videoclips educativos generados con inteligencia artificial y demostraciones de sistemas.
+                    Repositorio de videoclips educativos generados con inteligencia artificial.
                 </p>
                 <a href="videosia.html" class="mt-auto block w-full text-center bg-indigo-600 hover:bg-indigo-700 text-white py-3.5 rounded-xl font-bold transition-all shadow-md hover:shadow-lg">
                     Ver Videos <i class="fa-solid fa-play ml-2 text-sm"></i>
@@ -156,10 +137,10 @@
                     </span>
                 </div>
                 <h3 class="text-2xl font-bold text-slate-800 mb-3 group-hover:text-purple-600 transition-colors">
-                    Plantillas y Formatos APA
+                    Plantillas y APA
                 </h3>
                 <p class="text-slate-500 text-sm mb-8 flex-grow leading-relaxed">
-                    Base de datos con estructuras para ensayos, reportes de lectura y referencias APA 7 listas para copiar y pegar.
+                    Estructuras para ensayos y referencias APA 7 listas para usar.
                 </p>
                 <a href="plantillas.html" class="mt-auto block w-full text-center bg-slate-900 hover:bg-purple-600 text-white py-3.5 rounded-xl font-bold transition-all shadow-md hover:shadow-lg">
                     Abrir Plantillas <i class="fa-solid fa-arrow-right ml-2 text-sm"></i>
@@ -179,7 +160,7 @@
                     Simulador de Examen
                 </h3>
                 <p class="text-slate-500 text-sm mb-8 flex-grow leading-relaxed">
-                    Pon a prueba tus conocimientos con reactivos sobre la evaluación de la materia en curso.
+                    Pon a prueba tus conocimientos con reactivos sobre la evaluación actual.
                 </p>
                 <button disabled class="mt-auto block w-full text-center bg-slate-100 text-slate-400 border border-slate-200 py-3.5 rounded-xl font-bold cursor-not-allowed">
                     <i class="fa-solid fa-lock mr-2 text-sm"></i> Próximamente
@@ -199,7 +180,7 @@
                     Generador de Equipos
                 </h3>
                 <p class="text-slate-500 text-sm mb-8 flex-grow leading-relaxed">
-                    Crea grupos de trabajo aleatorios de 2 o 3 personas de forma rápida y equitativa para tus clases.
+                    Crea grupos de trabajo aleatorios de forma rápida y equitativa.
                 </p>
                 <a href="equipos.html" class="mt-auto block w-full text-center bg-slate-900 hover:bg-orange-600 text-white py-3.5 rounded-xl font-bold transition-all shadow-md hover:shadow-lg">
                     Abrir Generador <i class="fa-solid fa-shuffle ml-2 text-sm"></i>
@@ -217,7 +198,6 @@
     </footer>
 
     <script>
-        // LISTA DE FRASES (Sistematización de la Metacognición)
         const frases = [
             { text: "La educación no cambia al mundo, cambia a las personas que van a cambiar el mundo.", author: "Paulo Freire" },
             { text: "Andábamos sin buscarnos pero sabiendo que andábamos para encontrarnos.", author: "Julio Cortázar" },
@@ -234,58 +214,44 @@
         function generarFrase() {
             const index = Math.floor(Math.random() * frases.length);
             const fraseSeleccionada = frases[index];
-            
             const textoElem = document.getElementById("quoteText");
             const autorElem = document.getElementById("quoteAuthor");
             const container = document.querySelector(".quote-fade");
 
-            // Efecto de parpadeo suave
             container.style.opacity = 0;
-            
             setTimeout(() => {
                 textoElem.innerText = `"${fraseSeleccionada.text}"`;
                 autorElem.innerText = `- ${fraseSeleccionada.author}`;
                 container.style.opacity = 1;
             }, 300);
         }
-        // Función de Filtrado
-        function filtrarRecursos() {
-            var input, filter, container, cards, h3, i, txtValue;
-            input = document.getElementById("searchInput");
-            filter = input.value.toUpperCase();
-            container = document.getElementById("cardsContainer");
-            cards = container.getElementsByClassName("card");
 
-            for (i = 0; i < cards.length; i++) {
-                h3 = cards[i].getElementsByTagName("h3")[0];
+        function filtrarRecursos() {
+            let input = document.getElementById("searchInput");
+            let filter = input.value.toUpperCase();
+            let container = document.getElementById("cardsContainer");
+            let cards = container.getElementsByClassName("card");
+
+            for (let i = 0; i < cards.length; i++) {
+                let h3 = cards[i].getElementsByTagName("h3")[0];
                 if (h3) {
-                    txtValue = h3.textContent || h3.innerText;
-                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                        cards[i].style.display = "";
-                    } else {
-                        cards[i].style.display = "none";
-                    }
+                    let txtValue = h3.textContent || h3.innerText;
+                    cards[i].style.display = txtValue.toUpperCase().indexOf(filter) > -1 ? "" : "none";
                 }
             }
         }
 
-        // 2. Registro del Service Worker (PWA)
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
+        window.addEventListener('load', () => {
+            generarFrase();
+            if ('serviceWorker' in navigator) {
                 navigator.serviceWorker.register('sw.js')
                     .then(reg => console.log('PWA lista', reg))
                     .catch(err => console.log('Error PWA', err));
-            });
-        }
+            }
+        });
 
-        // 3. Título Dinámico (Nudging)
-        window.onblur = function () {
-            document.title = "¡No te vayas! Sigue estudiando 📚";
-        };
-        window.onfocus = function () {
-            document.title = "Recursos Pedagógicos";
-        };
+        window.onblur = () => { document.title = "¡No te vayas! Sigue estudiando 📚"; };
+        window.onfocus = () => { document.title = "Recursos Pedagógicos"; };
     </script>
-
 </body>
 </html>
