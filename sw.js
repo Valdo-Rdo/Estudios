@@ -1,4 +1,4 @@
-const CACHE_NAME = 'pedagogia-v1';
+const CACHE_NAME = 'pedagogia-v2';
 const ASSETS = [
   'index.html',
   'videosia.html',
