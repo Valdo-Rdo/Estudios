@@ -5,10 +5,9 @@
   "display": "standalone",
   "background_color": "#0f172a",
   "theme_color": "#0f172a",
-  "description": "Plataforma de estudio y recursos didácticos para universitarios.",
   "icons": [
     {
-      "src": "https://cdn-icons-png.flaticon.com/512/2436/2436636.png",
+      "src": "favicon.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
