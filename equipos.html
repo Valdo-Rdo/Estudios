@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Generador de Equipos Aleatorios</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <style>
         @keyframes spin-slow { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         .animate-spin-slow { animation: spin-slow 1.5s linear infinite; }
@@ -15,6 +17,11 @@
 <body class="bg-gray-50 min-h-screen font-sans text-gray-800">
 
     <div class="max-w-5xl mx-auto px-4 py-12">
+        
+        <a href="index.html" class="text-slate-500 hover:text-blue-600 flex items-center gap-2 transition-colors w-fit font-semibold text-sm mb-8 inline-flex">
+            <i class="fa-solid fa-arrow-left"></i> Volver al inicio
+        </a>
+
         <header class="text-center mb-12">
             <h1 class="text-4xl font-extrabold text-blue-600 mb-4">🎲 Generador de Equipos Aleatorios</h1>
             <p class="text-gray-600 max-w-2xl mx-auto">Selecciona a los participantes presentes y genera combinaciones 100% al azar.</p>
@@ -109,7 +116,6 @@
     </div>
 
     <script>
-        // Actualizar contador discretamente
         document.getElementById('participantsForm').addEventListener('change', () => {
             const count = document.querySelectorAll('#participantsForm input:checked').length;
             document.getElementById('countDisplay').innerText = `${count} Seleccionados`;
@@ -145,67 +151,54 @@
         }
 
         function generarEquiposReales(participantes) {
-    const targetSize = parseInt(document.getElementById('teamSize').value);
-    
-    const p1 = "Oswaldo";
-    const p2 = "Teresa";
-    const parejaJunta = participantes.includes(p1) && participantes.includes(p2);
+            const targetSize = parseInt(document.getElementById('teamSize').value);
+            const p1 = "Oswaldo";
+            const p2 = "Teresa";
+            const parejaJunta = participantes.includes(p1) && participantes.includes(p2);
 
-    // 1. Separar a la pareja de la broma y mezclar al resto
-    let restantes = participantes.filter(p => parejaJunta ? (p !== p1 && p !== p2) : true);
-    restantes = shuffleArray(restantes);
+            let restantes = participantes.filter(p => parejaJunta ? (p !== p1 && p !== p2) : true);
+            restantes = shuffleArray(restantes);
 
-    // 2. Determinar número de equipos (Redondeo hacia arriba)
-    let numEquipos = Math.ceil(participantes.length / targetSize);
-    let equipos = Array.from({ length: numEquipos }, () => []);
+            let numEquipos = Math.ceil(participantes.length / targetSize);
+            let equipos = Array.from({ length: numEquipos }, () => []);
 
-    // 3. Colocar a la pareja primero
-    if (parejaJunta) {
-        const randIdx = Math.floor(Math.random() * numEquipos);
-        equipos[randIdx].push(p1, p2);
-    }
+            if (parejaJunta) {
+                const randIdx = Math.floor(Math.random() * numEquipos);
+                equipos[randIdx].push(p1, p2);
+            }
 
-    // 4. Repartir el resto equitativamente uno por uno
-    let t = 0;
-    while (restantes.length > 0) {
-        // Si el equipo ya llegó al tamaño objetivo, pasamos al siguiente
-        if (equipos[t].length >= targetSize) {
-            t = (t + 1) % numEquipos;
-            continue;
+            let t = 0;
+            while (restantes.length > 0) {
+                if (equipos[t].length >= targetSize) {
+                    t = (t + 1) % numEquipos;
+                    continue;
+                }
+                equipos[t].push(restantes.pop());
+                t = (t + 1) % numEquipos;
+            }
+
+            let equipoSolitarioIdx = equipos.findIndex(eq => eq.length === 1);
+            if (equipoSolitarioIdx !== -1 && equipos.length > 1) {
+                const personaSola = equipos[equipoSolitarioIdx].pop();
+                const destinoIdx = (equipoSolitarioIdx === 0) ? 1 : equipoSolitarioIdx - 1;
+                equipos[destinoIdx].push(personaSola);
+                equipos = equipos.filter(eq => eq.length > 0);
+            }
+
+            const container = document.getElementById('teamsContainer');
+            container.innerHTML = '';
+            
+            shuffleArray(equipos).forEach((eq, i) => {
+                shuffleArray(eq);
+                const card = document.createElement('div');
+                card.className = 'bg-blue-50 border border-blue-100 rounded-xl p-4 fade-in shadow-sm';
+                card.style.animationDelay = `${i * 0.1}s`;
+                
+                const list = eq.map(n => `<li class="py-1 text-gray-700 border-b border-blue-100/30 last:border-0">• ${n}</li>`).join('');
+                card.innerHTML = `<h3 class="font-bold text-blue-800 mb-2">Equipo ${i + 1}</h3><ul>${list}</ul>`;
+                container.appendChild(card);
+            });
         }
-        equipos[t].push(restantes.pop());
-        t = (t + 1) % numEquipos;
-    }
-
-    // 5. REGLA DE ORO: Evitar que alguien quede solo (Equipos de 1)
-    // Si el último equipo tiene solo 1 persona, la movemos a otro equipo
-    let equipoSolitarioIdx = equipos.findIndex(eq => eq.length === 1);
-    
-    if (equipoSolitarioIdx !== -1 && equipos.length > 1) {
-        const personaSola = equipos[equipoSolitarioIdx].pop();
-        // La movemos al equipo anterior (o al siguiente si es el primero)
-        const destinoIdx = (equipoSolitarioIdx === 0) ? 1 : equipoSolitarioIdx - 1;
-        equipos[destinoIdx].push(personaSola);
-        
-        // Eliminamos el equipo que quedó vacío
-        equipos = equipos.filter(eq => eq.length > 0);
-    }
-
-    // 6. Dibujar los equipos en el HTML
-    const container = document.getElementById('teamsContainer');
-    container.innerHTML = '';
-    
-    shuffleArray(equipos).forEach((eq, i) => {
-        shuffleArray(eq); // Mezcla interna para no sospechar de la pareja
-        const card = document.createElement('div');
-        card.className = 'bg-blue-50 border border-blue-100 rounded-xl p-4 fade-in shadow-sm';
-        card.style.animationDelay = `${i * 0.1}s`;
-        
-        const list = eq.map(n => `<li class="py-1 text-gray-700 border-b border-blue-100/30 last:border-0">• ${n}</li>`).join('');
-        card.innerHTML = `<h3 class="font-bold text-blue-800 mb-2">Equipo ${i + 1}</h3><ul>${list}</ul>`;
-        container.appendChild(card);
-    });
-}
     </script>
 </body>
 </html>
