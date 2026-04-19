@@ -1,11 +1,17 @@
 {
   "name": "Recursos Pedagógicos",
   "short_name": "Pedagogía",
-  "start_url": "index.html",
+  "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#0f172a",
   "theme_color": "#0f172a",
- "icons": [
+  "icons": [
+    {
+      "src": "favicon.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
     {
       "src": "favicon.png",
       "sizes": "512x512",
@@ -13,3 +19,4 @@
       "purpose": "any maskable"
     }
   ]
+}
