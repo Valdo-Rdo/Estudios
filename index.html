@@ -217,6 +217,37 @@
     </footer>
 
     <script>
+        // LISTA DE FRASES (Sistematización de la Metacognición)
+        const frases = [
+            { text: "La educación no cambia al mundo, cambia a las personas que van a cambiar el mundo.", author: "Paulo Freire" },
+            { text: "Andábamos sin buscarnos pero sabiendo que andábamos para encontrarnos.", author: "Julio Cortázar" },
+            { text: "El objetivo de la educación es crear personas capaces de hacer cosas nuevas.", author: "Jean Piaget" },
+            { text: "Saber que se sabe lo que se sabe y que no se sabe lo que no se sabe; esa es la verdadera sabiduría.", author: "Confucio" },
+            { text: "La cultura es un adorno en la prosperidad y un refugio en la adversidad.", author: "Gabriel García Márquez" },
+            { text: "En algún lugar de un libro hay una frase esperándonos para darle un sentido a la existencia.", author: "Miguel de Cervantes" },
+            { text: "Aprender sin reflexionar es malgastar la energía.", author: "Confucio" },
+            { text: "Podrán cortar todas las flores, pero no podrán detener la primavera.", author: "Pablo Neruda" },
+            { text: "La inteligencia no es solo conocimiento, sino la destreza de aplicar los conocimientos en la práctica.", author: "Aristóteles" },
+            { text: "Lo que vemos depende principalmente de lo que buscamos.", author: "John Lubbock" }
+        ];
+
+        function generarFrase() {
+            const index = Math.floor(Math.random() * frases.length);
+            const fraseSeleccionada = frases[index];
+            
+            const textoElem = document.getElementById("quoteText");
+            const autorElem = document.getElementById("quoteAuthor");
+            const container = document.querySelector(".quote-fade");
+
+            // Efecto de parpadeo suave
+            container.style.opacity = 0;
+            
+            setTimeout(() => {
+                textoElem.innerText = `"${fraseSeleccionada.text}"`;
+                autorElem.innerText = `- ${fraseSeleccionada.author}`;
+                container.style.opacity = 1;
+            }, 300);
+        }
         // Función de Filtrado
         function filtrarRecursos() {
             var input, filter, container, cards, h3, i, txtValue;
