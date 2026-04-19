@@ -2,14 +2,14 @@
 <html lang="es">
 <head>
     <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#0f172a">
+    
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Recursos Pedagógicos</title>
+    <title>Recursos Pedagógicos PRO</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
-    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800;900&family=Inter:wght@300;400;500;700&display=swap" rel="stylesheet">
     
     <style>
@@ -146,7 +146,7 @@
                     Simulador de Examen
                 </h3>
                 <p class="text-slate-500 text-sm mb-8 flex-grow leading-relaxed">
-                    Pon a prueba tus conocimientos con reactivos de opción múltiple sobre el examen de evaluación de la materia en curso.
+                    Pon a prueba tus conocimientos con reactivos sobre la evaluación de la materia en curso.
                 </p>
                 <button disabled class="mt-auto block w-full text-center bg-slate-100 text-slate-400 border border-slate-200 py-3.5 rounded-xl font-bold cursor-not-allowed">
                     <i class="fa-solid fa-lock mr-2 text-sm"></i> Próximamente
@@ -178,12 +178,13 @@
 
     <footer class="bg-white border-t border-slate-200 py-10 mt-auto text-center">
         <div class="max-w-6xl mx-auto px-6">
-            <h2 class="text-xl font-black text-slate-800 tracking-tight mb-2">Recursos Pedagógicos</h2>
+            <h2 class="text-xl font-black text-slate-800 tracking-tight mb-2">Recursos Pedagógicos PRO</h2>
             <p class="text-sm text-slate-500 font-medium">Plataforma de Estudio Colaborativo | 2026</p>
         </div>
     </footer>
 
     <script>
+        // Función de Filtrado
         function filtrarRecursos() {
             var input, filter, container, cards, h3, i, txtValue;
             input = document.getElementById("searchInput");
@@ -203,6 +204,23 @@
                 }
             }
         }
+
+        // 2. Registro del Service Worker (PWA)
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('sw.js')
+                    .then(reg => console.log('PWA lista', reg))
+                    .catch(err => console.log('Error PWA', err));
+            });
+        }
+
+        // 3. Título Dinámico (Nudging)
+        window.onblur = function () {
+            document.title = "¡No te vayas! Sigue estudiando 📚";
+        };
+        window.onfocus = function () {
+            document.title = "Recursos Pedagógicos PRO";
+        };
     </script>
 
 </body>
