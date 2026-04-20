@@ -10,10 +10,16 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Inter:wght@300;400;500;700&display=swap" rel="stylesheet">
 <style>
-body { font-family: 'Inter', sans-serif; scroll-behavior: smooth; }
+body { font-family: 'Inter', sans-serif; scroll-behavior: smooth; overflow-x: hidden; }
 h1, h2, h3, h4, h5 { font-family: 'Outfit', sans-serif; }
 .sticky-tabs { position: sticky; top: 0; z-index: 50; }
 .content-card { @apply bg-white p-6 md:p-8 rounded-3xl border border-slate-200 shadow-sm mb-8 transition-all hover:shadow-md; }
+
+/* Sidebar */
+#sidebar { transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); z-index: 100; }
+.sidebar-open { transform: translateX(0); }
+.sidebar-closed { transform: translateX(-100%); }
+.menu-toggle { position: fixed; top: 20px; left: 20px; width: 50px; height: 50px; @apply bg-indigo-600 text-white rounded-full flex items-center justify-center shadow-lg hover:bg-indigo-700 transition-all z-[110] cursor-pointer; }
 
 /* Cajas de Alerta de Examen */
 .exam-tip { @apply bg-amber-50 border-l-4 border-amber-500 p-4 rounded-r-xl my-4 text-sm relative; }
@@ -26,18 +32,38 @@ summary::after { content: '\f078'; font-family: "Font Awesome 6 Free"; font-weig
 details[open] summary::after { transform: rotate(180deg); }
 .details-content { @apply p-5 text-sm text-slate-600 border-t border-slate-200 bg-white; }
 
-.tab-active-teoria { @apply bg-indigo-700 text-white shadow-lg shadow-indigo-200 scale-105; }
-.tab-active-modelos { @apply bg-teal-600 text-white shadow-lg shadow-teal-200 scale-105; }
-.tab-active-moodle { @apply bg-purple-600 text-white shadow-lg shadow-purple-200 scale-105; }
+/* Pestañas Activas */
+.tab-active-teoria { @apply bg-indigo-700 text-white shadow-lg shadow-indigo-200 scale-105 border-transparent; }
+.tab-active-modelos { @apply bg-teal-600 text-white shadow-lg shadow-teal-200 scale-105 border-transparent; }
+.tab-active-moodle { @apply bg-purple-600 text-white shadow-lg shadow-purple-200 scale-105 border-transparent; }
+.tab-active-estrategico { @apply bg-amber-600 text-white shadow-lg shadow-amber-200 scale-105 border-transparent; }
 section [id] { scroll-margin-top: 190px; } /* Ajuste para anclas */
 </style>
 </head>
 <body class="bg-slate-100 text-slate-800">
 
-<!-- HEADER -->
+<div class="menu-toggle" onclick="toggleSidebar()">
+    <i class="fa-solid fa-bars text-xl"></i>
+</div>
+
+<aside id="sidebar" class="fixed inset-y-0 left-0 w-80 bg-slate-900 text-slate-300 sidebar-closed overflow-y-auto shadow-2xl">
+    <div class="p-6">
+        <div class="flex justify-between items-center mb-8 text-white">
+            <h2 class="font-extrabold text-xl tracking-tight">Navegación</h2>
+            <button onclick="toggleSidebar()"><i class="fa-solid fa-xmark text-2xl hover:text-red-400 transition-colors"></i></button>
+        </div>
+        <nav class="space-y-4 text-sm">
+            <a href="javascript:void(0)" onclick="switchTab('teoria'); toggleSidebar()" class="block py-2 border-b border-slate-800 hover:text-white">1. Teoría y Taxonomía</a>
+            <a href="javascript:void(0)" onclick="switchTab('modelos'); toggleSidebar()" class="block py-2 border-b border-slate-800 hover:text-white">2. Modelos y Evaluación</a>
+            <a href="javascript:void(0)" onclick="switchTab('moodle'); toggleSidebar()" class="block py-2 border-b border-slate-800 hover:text-white">3. Contenido Moodle</a>
+            <a href="javascript:void(0)" onclick="switchTab('estrategico'); toggleSidebar()" class="block py-2 border-b border-slate-800 hover:text-white text-amber-400 font-bold">4. Estratégico</a>
+        </nav>
+    </div>
+</aside>
+
 <header class="bg-slate-900 text-white pt-16 pb-24 px-6 text-center relative overflow-hidden">
-    <a href="index.html" class="absolute top-4 left-4 md:top-8 md:left-8 bg-white/20 hover:bg-white/30 text-white px-4 py-2 rounded-xl backdrop-blur-lg transition-all text-xs font-bold flex items-center gap-2 border border-white/40 z-[100]">
-        <i class="fa-solid fa-arrow-left"></i> Volver al inicio
+    <a href="index.html" class="absolute top-4 right-4 md:top-8 md:right-8 bg-white/20 hover:bg-white/30 text-white px-4 py-2 rounded-xl backdrop-blur-lg transition-all text-xs font-bold flex items-center gap-2 border border-white/40 z-[100]">
+        <i class="fa-solid fa-house"></i> Inicio
     </a>
 
     <div class="absolute inset-0 opacity-10">
@@ -48,37 +74,27 @@ section [id] { scroll-margin-top: 190px; } /* Ajuste para anclas */
     <h1 class="text-3xl md:text-5xl font-extrabold tracking-tight relative z-10 mt-2">Diseño de Materiales Educativos</h1>
 </header>
 
-<!-- NAVEGADOR STICKY -->
 <nav class="sticky-tabs bg-white/95 backdrop-blur-md border-b border-slate-200 py-4 shadow-sm">
 <div class="max-w-5xl mx-auto flex flex-wrap justify-center gap-2 md:gap-4 px-4">
-<button onclick="switchTab('teoria')" id="tab-teoria" class="tab-btn flex-1 min-w-[120px] py-3 px-2 md:px-6 rounded-2xl font-bold flex flex-col md:flex-row items-center justify-center gap-1 md:gap-3 transition-all text-slate-500 hover:bg-slate-100 tab-active-teoria text-xs md:text-sm">
-<i class="fa-solid fa-brain text-lg"></i> <span>1. Teoría y Taxonomía</span>
+<button onclick="switchTab('teoria')" id="tab-teoria" class="tab-btn flex-1 min-w-[120px] py-3 px-2 md:px-6 rounded-2xl font-bold flex flex-col md:flex-row items-center justify-center gap-1 md:gap-3 transition-all text-slate-500 hover:bg-slate-100 tab-active-teoria text-xs md:text-sm border border-transparent">
+<i class="fa-solid fa-brain text-lg"></i> <span>1. Teoría</span>
 </button>
-<button onclick="switchTab('modelos')" id="tab-modelos" class="tab-btn flex-1 min-w-[120px] py-3 px-2 md:px-6 rounded-2xl font-bold flex flex-col md:flex-row items-center justify-center gap-1 md:gap-3 transition-all text-slate-500 hover:bg-slate-100 text-xs md:text-sm">
-<i class="fa-solid fa-sitemap text-lg"></i> <span>2. Modelos y Evaluación</span>
+<button onclick="switchTab('modelos')" id="tab-modelos" class="tab-btn flex-1 min-w-[120px] py-3 px-2 md:px-6 rounded-2xl font-bold flex flex-col md:flex-row items-center justify-center gap-1 md:gap-3 transition-all text-slate-500 hover:bg-slate-100 text-xs md:text-sm border border-transparent">
+<i class="fa-solid fa-sitemap text-lg"></i> <span>2. Modelos</span>
 </button>
-<button onclick="switchTab('moodle')" id="tab-moodle" class="tab-btn flex-1 min-w-[120px] py-3 px-2 md:px-6 rounded-2xl font-bold flex flex-col md:flex-row items-center justify-center gap-1 md:gap-3 transition-all text-slate-500 hover:bg-slate-100 text-xs md:text-sm">
-<i class="fa-solid fa-graduation-cap text-lg"></i> <span>3. Contenido Moodle</span>
+<button onclick="switchTab('moodle')" id="tab-moodle" class="tab-btn flex-1 min-w-[120px] py-3 px-2 md:px-6 rounded-2xl font-bold flex flex-col md:flex-row items-center justify-center gap-1 md:gap-3 transition-all text-slate-500 hover:bg-slate-100 text-xs md:text-sm border border-transparent">
+<i class="fa-solid fa-graduation-cap text-lg"></i> <span>3. Moodle</span>
 </button>
-<button onclick="switchTab('estrategico')" id="tab-estrategico" class="tab-btn flex-1 py-3 px-4 rounded-xl font-bold transition-all text-xs md:text-sm text-slate-500 bg-indigo-50 text-indigo-700 border border-indigo-100"></i> <span>4. Estrategico</span>
+<button onclick="switchTab('estrategico')" id="tab-estrategico" class="tab-btn flex-1 min-w-[120px] py-3 px-2 md:px-6 rounded-2xl font-bold flex flex-col md:flex-row items-center justify-center gap-1 md:gap-3 transition-all text-amber-700 bg-amber-50 hover:bg-amber-100 text-xs md:text-sm border border-amber-200">
+<i class="fa-solid fa-chess-board text-lg"></i> <span>4. Estratégico</span>
 </button>
 </div>
 </nav>
 
 <main class="max-w-5xl mx-auto px-4 md:px-6 py-8">
 
-<!-- ========================================================= -->
-<!-- PESTAÑA 1: TEORÍA, TAXONOMÍA Y DUA -->
-<!-- ========================================================= -->
 <section id="section-teoria" class="content-view block animate-in fade-in duration-500">
-<div class="mb-8 grid grid-cols-2 md:grid-cols-4 gap-2 text-[10px] md:text-xs font-bold uppercase tracking-wider">
-<a href="#teo-paradigmas" class="bg-indigo-100 text-indigo-700 p-3 rounded-xl text-center hover:bg-indigo-200">1. Paradigmas</a>
-<a href="#teo-jonassen" class="bg-indigo-100 text-indigo-700 p-3 rounded-xl text-center hover:bg-indigo-200">2. Jonassen</a>
-<a href="#teo-dale" class="bg-indigo-100 text-indigo-700 p-3 rounded-xl text-center hover:bg-indigo-200">3. Cono de Dale</a>
-<a href="#teo-dua" class="bg-indigo-100 text-indigo-700 p-3 rounded-xl text-center hover:bg-indigo-200">4. DUA</a>
-</div>
 
-<!-- UNIDAD 1: PARADIGMAS -->
 <div id="teo-paradigmas" class="content-card border-t-8 border-indigo-800">
 <h2 class="text-2xl font-bold mb-4 text-indigo-900">1. Evolución Epistemológica del Diseño</h2>
 <div class="exam-tip">Identifica la palabra clave de cada época: Conductismo (Lineal), Cognitivismo (Procesos internos), Constructivismo (Andamiaje), Conectivismo (Nodos).</div>
@@ -103,7 +119,6 @@ section [id] { scroll-margin-top: 190px; } /* Ajuste para anclas */
 </div>
 </div>
 
-<!-- UNIDAD 2: JONASSEN -->
 <div id="teo-jonassen" class="content-card border-t-8 border-indigo-700">
 <h2 class="text-2xl font-bold mb-4 text-indigo-900">2. Ambientes Constructivistas (Modelo Jonassen)</h2>
 <div class="exam-tip">Para Jonassen, el diseño no parte de un "tema", parte de un "Problema o Caso" central.</div>
@@ -118,7 +133,6 @@ section [id] { scroll-margin-top: 190px; } /* Ajuste para anclas */
 </ul>
 </div>
 
-<!-- UNIDAD 3: CONO DE DALE -->
 <div id="teo-dale" class="content-card border-t-8 border-indigo-600">
 <h2 class="text-2xl font-bold mb-4 text-indigo-900">3. Taxonomía y Cono de Edgar Dale</h2>
 <div class="exam-tip">A mayor nivel de abstracción (leer/escuchar) menor retención. A mayor nivel de concreción (hacer/simular) mayor retención.</div>
@@ -144,7 +158,6 @@ section [id] { scroll-margin-top: 190px; } /* Ajuste para anclas */
 </table>
 </div>
 
-<!-- UNIDAD 4: DUA -->
 <div id="teo-dua" class="content-card border-t-8 border-indigo-500">
 <h2 class="text-2xl font-bold mb-4 text-indigo-900">4. Diseño Universal para el Aprendizaje (DUA)</h2>
 <div class="exam-tip">El DUA busca eliminar barreras curriculares. Debes memorizar sus 3 principios y las preguntas que responden (Qué, Por qué, Cómo).</div>
@@ -166,18 +179,8 @@ section [id] { scroll-margin-top: 190px; } /* Ajuste para anclas */
 </div>
 </section>
 
-<!-- ========================================================= -->
-<!-- PESTAÑA 2: MODELOS INSTRUCCIONALES Y EVALUACIÓN -->
-<!-- ========================================================= -->
 <section id="section-modelos" class="content-view hidden animate-in fade-in duration-500">
-<div class="mb-8 grid grid-cols-2 md:grid-cols-4 gap-2 text-[10px] md:text-xs font-bold uppercase tracking-wider">
-<a href="#mod-addie" class="bg-teal-100 text-teal-700 p-3 rounded-xl text-center hover:bg-teal-200">1. ADDIE / ASSURE</a>
-<a href="#mod-complejos" class="bg-teal-100 text-teal-700 p-3 rounded-xl text-center hover:bg-teal-200">2. Modelos Complejos</a>
-<a href="#mod-evaluacion" class="bg-teal-100 text-teal-700 p-3 rounded-xl text-center hover:bg-teal-200">3. Evaluación LORI/COdA</a>
-<a href="#mod-tendencias" class="bg-teal-100 text-teal-700 p-3 rounded-xl text-center hover:bg-teal-200">4. Tendencias</a>
-</div>
 
-<!-- UNIDAD 1: ADDIE / ASSURE -->
 <div id="mod-addie" class="content-card border-t-8 border-teal-600">
 <h2 class="text-2xl font-bold mb-4 text-teal-900">1. Modelos Base: ADDIE y ASSURE</h2>
 <div class="exam-tip">ADDIE es interactivo/iterativo. Su fase más crítica es "Diseño" (donde se hace el guion). ASSURE incorpora los eventos de Gagné y es ideal para Blended Learning.</div>
@@ -201,7 +204,6 @@ section [id] { scroll-margin-top: 190px; } /* Ajuste para anclas */
 </div>
 </div>
 
-<!-- UNIDAD 2: MODELOS COMPLEJOS -->
 <div id="mod-complejos" class="content-card border-t-8 border-teal-500">
 <h2 class="text-2xl font-bold mb-4 text-teal-900">2. Modelos para Tareas Complejas</h2>
 <div class="exam-tip">En reactivos sobre educación superior o formación corporativa, busca las opciones 4C/ID o Merrill.</div>
@@ -222,7 +224,6 @@ section [id] { scroll-margin-top: 190px; } /* Ajuste para anclas */
 </div>
 </div>
 
-<!-- UNIDAD 3: EVALUACIÓN DE MATERIALES -->
 <div id="mod-evaluacion" class="content-card border-t-8 border-teal-400">
 <h2 class="text-2xl font-bold mb-4 text-teal-900">3. Evaluación de Recursos Educativos Digitales (RED)</h2>
 <div class="exam-tip">Distingue los instrumentos: LORI evalúa 9 dimensiones mediante expertos. COdA equilibra lo didáctico y lo tecnológico en 10 criterios.</div>
@@ -248,7 +249,6 @@ section [id] { scroll-margin-top: 190px; } /* Ajuste para anclas */
 </table>
 </div>
 
-<!-- UNIDAD 4: TENDENCIAS -->
 <div id="mod-tendencias" class="content-card border-t-8 border-teal-300">
 <h2 class="text-2xl font-bold mb-4 text-teal-900">4. Tendencias y Herramientas (2025-2026)</h2>
 
@@ -273,18 +273,8 @@ section [id] { scroll-margin-top: 190px; } /* Ajuste para anclas */
 </div>
 </section>
 
-<!-- ========================================================= -->
-<!-- PESTAÑA 3: CONTENIDO MOODLE -->
-<!-- ========================================================= -->
 <section id="section-moodle" class="content-view hidden animate-in fade-in duration-500">
-<div class="mb-8 grid grid-cols-2 md:grid-cols-4 gap-2 text-[10px] md:text-xs font-bold uppercase tracking-wider">
-<a href="#moo-fundamentos" class="bg-purple-100 text-purple-700 p-3 rounded-xl text-center hover:bg-purple-200">1. Fundamentos</a>
-<a href="#moo-diseno" class="bg-purple-100 text-purple-700 p-3 rounded-xl text-center hover:bg-purple-200">2. Diseño Gráfico</a>
-<a href="#moo-derechos" class="bg-purple-100 text-purple-700 p-3 rounded-xl text-center hover:bg-purple-200">3. Gamificación y Ley</a>
-<a href="#moo-repaso" class="bg-purple-100 text-purple-700 p-3 rounded-xl text-center hover:bg-purple-200">4. Glosario y Repaso</a>
-</div>
 
-<!-- UNIDAD 1: FUNDAMENTOS Y ELABORACIÓN -->
 <div id="moo-fundamentos" class="content-card border-t-8 border-purple-800">
 <h2 class="text-2xl font-bold mb-4 text-purple-900">1. Fundamentos y Regulación de Materiales</h2>
 <div class="exam-tip">El objetivo primordial de los materiales didácticos es <strong>mejorar la calidad de la educación</strong> mediante un diseño inclusivo y versátil.</div>
@@ -311,7 +301,6 @@ section [id] { scroll-margin-top: 190px; } /* Ajuste para anclas */
 </div>
 </div>
 
-<!-- UNIDAD 2: DISEÑO GRÁFICO Y ACCESIBILIDAD -->
 <div id="moo-diseno" class="content-card border-t-8 border-purple-700">
 <h2 class="text-2xl font-bold mb-4 text-purple-900">2. Diseño Gráfico y Accesibilidad</h2>
 <p class="text-sm text-slate-600 mb-4">El diseño gráfico resuelve problemas de comunicación visual mediante la integración de elementos semióticos.</p>
@@ -348,7 +337,6 @@ section [id] { scroll-margin-top: 190px; } /* Ajuste para anclas */
 </div>
 </div>
 
-<!-- UNIDAD 3: DERECHOS, GAMIFICACIÓN Y TIC -->
 <div id="moo-derechos" class="content-card border-t-8 border-purple-600">
 <h2 class="text-2xl font-bold mb-4 text-purple-900">3. Derechos, Gamificación y Evolución Tecnológica</h2>
 
@@ -398,7 +386,6 @@ section [id] { scroll-margin-top: 190px; } /* Ajuste para anclas */
 </div>
 </div>
 
-<!-- UNIDAD 4: GLOSARIO Y REPASO -->
 <div id="moo-repaso" class="content-card border-t-8 border-purple-500">
 <h2 class="text-2xl font-bold mb-4 text-purple-900">4. Glosario y Cuestionario de Repaso</h2>
 <div class="exam-tip">Intenta responder la pregunta antes de desplegar el acordeón. ¡Excelente práctica para tu examen!</div>
@@ -448,103 +435,99 @@ section [id] { scroll-margin-top: 190px; } /* Ajuste para anclas */
 <div class="details-content bg-green-50 text-green-800 font-medium">Que los derechos patrimoniales han expirado, permitiendo la explotación de la obra siempre que se respeten los derechos morales.</div>
 </details>
 </div>
+</div>
+</section>
 
-   <!-- Estrategico --> 
-    <section id="section-teoria" class="content-view block"> </section>
-    <section id="section-modelos" class="content-view hidden"> </section>
-    <section id="section-moodle" class="content-view hidden"> </section>
+<section id="section-estrategico" class="content-view hidden animate-in fade-in duration-500">
 
-    <section id="section-estrategico" class="content-view hidden animate-in fade-in duration-500">
-        
-        <div id="inf-evolucion" class="content-card border-t-8 border-indigo-600">
-            <h2 class="text-3xl font-black text-slate-900 mb-6 leading-tight">Evolución y Aplicación en la Era Digital</h2>
-            <div class="prose prose-slate text-sm text-slate-600 space-y-4">
-                <p>En el ecosistema educativo contemporáneo, los recursos actúan como <strong>catalizadores</strong> que articulan la interacción entre docente, discente y conocimiento.</p>
-                <div class="grid md:grid-cols-2 gap-4 mt-6">
-                    <div class="bg-indigo-50 p-5 rounded-2xl border border-indigo-100">
-                        <h4 class="font-bold text-indigo-800 mb-2">Recursos Tradicionales</h4>
-                        <p class="text-xs">Definidos por materialidad física, estabilidad y una función transparente (el soporte dicta el uso).</p>
-                    </div>
-                    <div class="bg-indigo-50 p-5 rounded-2xl border border-indigo-100">
-                        <h4 class="font-bold text-indigo-800 mb-2">Recursos Digitales</h4>
-                        <p class="text-xs">Intrínsecamente procesables, portabilizados y distribuidos en medios electrónicos. Cambio de paradigma.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
+<div id="inf-evolucion" class="content-card border-t-8 border-amber-600">
+<h2 class="text-3xl font-black text-slate-900 mb-6 leading-tight">Evolución y Aplicación en la Era Digital</h2>
+<div class="prose prose-slate text-sm text-slate-600 space-y-4">
+<p>En el ecosistema educativo contemporáneo, los recursos actúan como <strong>catalizadores</strong> que articulan la interacción entre docente, discente y conocimiento.</p>
+<div class="grid md:grid-cols-2 gap-4 mt-6">
+<div class="bg-amber-50 p-5 rounded-2xl border border-amber-100">
+<h4 class="font-bold text-amber-800 mb-2">Recursos Tradicionales</h4>
+<p class="text-xs">Definidos por materialidad física, estabilidad y una función transparente (el soporte dicta el uso).</p>
+</div>
+<div class="bg-amber-50 p-5 rounded-2xl border border-amber-100">
+<h4 class="font-bold text-amber-800 mb-2">Recursos Digitales</h4>
+<p class="text-xs">Intrínsecamente procesables, portabilizados y distribuidos en medios electrónicos. Cambio de paradigma.</p>
+</div>
+</div>
+</div>
+</div>
 
-        <div id="inf-comparativa" class="content-card border-t-8 border-teal-500">
-            <h2 class="text-2xl font-bold mb-6 text-teal-900">Análisis Comparativo: Estabilidad vs. Versatilidad</h2>
-            <div class="overflow-x-auto">
-                <table class="w-full text-sm border-collapse bg-white shadow-sm rounded-lg overflow-hidden">
-                    <thead>
-                        <tr class="bg-teal-600 text-white text-left text-xs">
-                            <th class="p-4 border-b border-teal-700">Criterio</th>
-                            <th class="p-4 border-b border-teal-700">Recursos Tradicionales</th>
-                            <th class="p-4 border-b border-teal-700">Recursos Digitales</th>
-                        </tr>
-                    </thead>
-                    <tbody class="text-slate-600">
-                        <tr>
-                            <td class="p-4 border-b font-bold bg-slate-50">Naturaleza</td>
-                            <td class="p-4 border-b">Específicos y estables.</td>
-                            <td class="p-4 border-b font-medium text-teal-700">Proteicos (múltiples formas).</td>
-                        </tr>
-                        <tr>
-                            <td class="p-4 border-b font-bold bg-slate-50">Evolución</td>
-                            <td class="p-4 border-b">Cambio lento (ej. el pizarrón).</td>
-                            <td class="p-4 border-b">Inestables (cambio rápido).</td>
-                        </tr>
-                        <tr>
-                            <td class="p-4 border-b font-bold bg-slate-50">Funcionamiento</td>
-                            <td class="p-4 border-b">Transparente (forma = función).</td>
-                            <td class="p-4 border-b">Opaco (caja negra interna).</td>
-                        </tr>
-                        <tr>
-                            <td class="p-4 border-b font-bold bg-slate-50">Uso Sugerido</td>
-                            <td class="p-4 border-b">Estandarizado.</td>
-                            <td class="p-4 border-b">Sujeto a caducidad temprana.</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div class="exam-tip">Recuerda el factor <strong>"So What?"</strong>: Lo digital aumenta la carga docente debido a la necesidad de "traducción pedagógica" constante.</div>
-        </div>
+<div id="inf-comparativa" class="content-card border-t-8 border-amber-500">
+<h2 class="text-2xl font-bold mb-6 text-amber-900">Análisis Comparativo: Estabilidad vs. Versatilidad</h2>
+<div class="overflow-x-auto">
+<table class="w-full text-sm border-collapse bg-white shadow-sm rounded-lg overflow-hidden">
+<thead>
+<tr class="bg-amber-600 text-white text-left text-xs">
+<th class="p-4 border-b border-amber-700">Criterio</th>
+<th class="p-4 border-b border-amber-700">Recursos Tradicionales</th>
+<th class="p-4 border-b border-amber-700">Recursos Digitales</th>
+</tr>
+</thead>
+<tbody class="text-slate-600">
+<tr>
+<td class="p-4 border-b font-bold bg-slate-50">Naturaleza</td>
+<td class="p-4 border-b">Específicos y estables.</td>
+<td class="p-4 border-b font-medium text-amber-700">Proteicos (múltiples formas).</td>
+</tr>
+<tr>
+<td class="p-4 border-b font-bold bg-slate-50">Evolución</td>
+<td class="p-4 border-b">Cambio lento (ej. el pizarrón).</td>
+<td class="p-4 border-b">Inestables (cambio rápido).</td>
+</tr>
+<tr>
+<td class="p-4 border-b font-bold bg-slate-50">Funcionamiento</td>
+<td class="p-4 border-b">Transparente (forma = función).</td>
+<td class="p-4 border-b">Opaco (caja negra interna).</td>
+</tr>
+<tr>
+<td class="p-4 border-b font-bold bg-slate-50">Uso Sugerido</td>
+<td class="p-4 border-b">Estandarizado.</td>
+<td class="p-4 border-b">Sujeto a caducidad temprana.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="exam-tip">Recuerda el factor <strong>"So What?"</strong>: Lo digital aumenta la carga docente debido a la necesidad de "traducción pedagógica" constante.</div>
+</div>
 
-        <div id="inf-tpack" class="content-card border-t-8 border-purple-600">
-            <h2 class="text-2xl font-bold mb-4 text-purple-900">Marcos Teóricos de Implementación</h2>
-            <div class="space-y-6 text-sm">
-                <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200">
-                    <h3 class="font-black text-purple-800 mb-3 uppercase tracking-tighter italic text-xl">Modelo TPACK</h3>
-                    <p class="mb-4">Interacción entre Contenido (CK), Pedagogía (PK) y Tecnología (TK).</p>
-                    <ul class="space-y-2">
-                        <li class="flex gap-2 text-xs"><b class="text-purple-700">PCK:</b> Transformar el contenido para enseñar.</li>
-                        <li class="flex gap-2 text-xs"><b class="text-purple-700">TCK:</b> Cómo la tecnología cambia la disciplina.</li>
-                        <li class="flex gap-2 text-xs"><b class="text-purple-700">TPK:</b> Cómo la enseñanza cambia al usar tecnología.</li>
-                    </ul>
-                </div>
+<div id="inf-tpack" class="content-card border-t-8 border-amber-400">
+<h2 class="text-2xl font-bold mb-4 text-amber-900">Marcos Teóricos de Implementación</h2>
+<div class="space-y-6 text-sm">
+<div class="bg-slate-50 p-6 rounded-2xl border border-slate-200">
+<h3 class="font-black text-amber-800 mb-3 uppercase tracking-tighter italic text-xl">Modelo TPACK</h3>
+<p class="mb-4">Interacción entre Contenido (CK), Pedagogía (PK) y Tecnología (TK).</p>
+<ul class="space-y-2">
+<li class="flex gap-2 text-xs"><b class="text-amber-700">PCK:</b> Transformar el contenido para enseñar.</li>
+<li class="flex gap-2 text-xs"><b class="text-amber-700">TCK:</b> Cómo la tecnología cambia la disciplina.</li>
+<li class="flex gap-2 text-xs"><b class="text-amber-700">TPK:</b> Cómo la enseñanza cambia al usar tecnología.</li>
+</ul>
+</div>
 
-                <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200">
-                    <h3 class="font-bold text-slate-800 mb-3">Niveles de Alfabetización (Martin)</h3>
-                    <div class="flex flex-col gap-2">
-                        <span class="bg-white p-2 rounded border-l-4 border-green-500"><b>1. Competencia:</b> Habilidades básicas operativas.</span>
-                        <span class="bg-white p-2 rounded border-l-4 border-blue-500"><b>2. Uso Digital:</b> Aplicación profesional y crítica.</span>
-                        <span class="bg-white p-2 rounded border-l-4 border-purple-500"><b>3. Transformación:</b> Innovación y creación de conocimiento.</span>
-                    </div>
-                </div>
-            </div>
-        </div>
+<div class="bg-slate-50 p-6 rounded-2xl border border-slate-200">
+<h3 class="font-bold text-slate-800 mb-3">Niveles de Alfabetización (Martin)</h3>
+<div class="flex flex-col gap-2">
+<span class="bg-white p-2 rounded border-l-4 border-green-500"><b>1. Competencia:</b> Habilidades básicas operativas.</span>
+<span class="bg-white p-2 rounded border-l-4 border-blue-500"><b>2. Uso Digital:</b> Aplicación profesional y crítica.</span>
+<span class="bg-white p-2 rounded border-l-4 border-purple-500"><b>3. Transformación:</b> Innovación y creación de conocimiento.</span>
+</div>
+</div>
+</div>
+</div>
 
-        <div id="inf-comunes" class="content-card border-t-8 border-orange-500">
-            <h2 class="text-2xl font-bold mb-4 text-orange-900">Gestión de Bienes Comunes (Elinor Ostrom)</h2>
-            <p class="text-xs text-slate-500 mb-4 uppercase font-bold">Principios para Comunidades de Práctica Docente:</p>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs text-slate-700">
-                <div class="p-3 bg-orange-50 rounded-lg">Límites claros del grupo.</div>
-                <div class="p-3 bg-orange-50 rounded-lg">Participación en la modificación de reglas.</div>
-                <div class="p-3 bg-orange-50 rounded-lg">Monitoreo y sanciones graduadas por pares.</div>
-                <div class="p-3 bg-orange-50 rounded-lg">Mecanismos accesibles de resolución de conflictos.</div>
-            </div>
-        </div>
+<div id="inf-comunes" class="content-card border-t-8 border-amber-300">
+<h2 class="text-2xl font-bold mb-4 text-amber-900">Gestión de Bienes Comunes (Elinor Ostrom)</h2>
+<p class="text-xs text-slate-500 mb-4 uppercase font-bold">Principios para Comunidades de Práctica Docente:</p>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs text-slate-700">
+<div class="p-3 bg-amber-50 rounded-lg">Límites claros del grupo.</div>
+<div class="p-3 bg-amber-50 rounded-lg">Participación en la modificación de reglas.</div>
+<div class="p-3 bg-amber-50 rounded-lg">Monitoreo y sanciones graduadas por pares.</div>
+<div class="p-3 bg-amber-50 rounded-lg">Mecanismos accesibles de resolución de conflictos.</div>
+</div>
 </div>
 </section>
 
@@ -556,20 +539,40 @@ section [id] { scroll-margin-top: 190px; } /* Ajuste para anclas */
 </footer>
 
 <script>
-function switchTab(tab) {
-const tabs = ['teoria', 'modelos', 'moodle'];
-tabs.forEach(t => {
-const section = document.getElementById('section-' + t);
-const btn = document.getElementById('tab-' + t);
-if (t === tab) {
-section.style.display = 'block';
-btn.classList.add('tab-active-' + t);
-} else {
-section.style.display = 'none';
-btn.classList.remove('tab-active-' + t);
+function toggleSidebar() {
+    const sb = document.getElementById('sidebar');
+    sb.classList.toggle('sidebar-closed');
+    sb.classList.toggle('sidebar-open');
 }
-});
-window.scrollTo({ top: 0, behavior: 'smooth' });
+
+function switchTab(tab) {
+    const tabs = ['teoria', 'modelos', 'moodle', 'estrategico'];
+    tabs.forEach(t => {
+        const section = document.getElementById('section-' + t);
+        const btn = document.getElementById('tab-' + t);
+        
+        if (t === tab) {
+            section.style.display = 'block';
+            btn.classList.add('tab-active-' + t);
+            btn.classList.remove('text-slate-500'); // Quita el gris para resaltar
+            
+            // Especiales por color según diseño original
+            if (t === 'estrategico') {
+                btn.classList.add('text-amber-700', 'bg-amber-50', 'border-amber-200');
+                btn.classList.remove('border-transparent');
+            }
+        } else {
+            section.style.display = 'none';
+            btn.classList.remove('tab-active-' + t);
+            btn.classList.add('text-slate-500'); // Regresa el gris
+            
+            if (t === 'estrategico') {
+                btn.classList.remove('text-amber-700', 'bg-amber-50', 'border-amber-200');
+                btn.classList.add('border-transparent');
+            }
+        }
+    });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 </script>
 </body>
