@@ -3,41 +3,91 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Guía de Examen | Diseño de Materiales Educativos</title>
+<title>Guía Completa | Licenciatura en Pedagogía</title>
 <link rel="icon" type="image/png" href="favicon.png">
 <link rel="apple-touch-icon" href="favicon.png">
-<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.tailwindcss.com">
+</script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Inter:wght@300;400;500;700&display=swap" rel="stylesheet">
 <style>
-body { font-family: 'Inter', sans-serif; scroll-behavior: smooth; overflow-x: hidden; }
-h1, h2, h3, h4, h5 { font-family: 'Outfit', sans-serif; }
-.sticky-tabs { position: sticky; top: 0; z-index: 50; }
-.content-card { @apply bg-white p-6 md:p-8 rounded-3xl border border-slate-200 shadow-sm mb-8 transition-all hover:shadow-md; }
-
-/* Sidebar */
-#sidebar { transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); z-index: 100; }
-.sidebar-open { transform: translateX(0); }
-.sidebar-closed { transform: translateX(-100%); }
-.menu-toggle { position: fixed; top: 20px; left: 20px; width: 50px; height: 50px; @apply bg-indigo-600 text-white rounded-full flex items-center justify-center shadow-lg hover:bg-indigo-700 transition-all z-[110] cursor-pointer; }
-
-/* Cajas de Alerta de Examen */
-.exam-tip { @apply bg-amber-50 border-l-4 border-amber-500 p-4 rounded-r-xl my-4 text-sm relative; }
-.exam-tip::before { content: "🎯 Reactivo de Examen"; @apply block font-bold text-amber-700 mb-1 text-xs uppercase tracking-wider; }
-
-/* Acordeones estilizados para digerir texto masivo */
-details { @apply bg-slate-50 border border-slate-200 rounded-xl mb-3 overflow-hidden transition-all; }
-summary { @apply p-4 font-bold cursor-pointer select-none flex justify-between items-center text-slate-800 bg-white hover:bg-slate-50; }
-summary::after { content: '\f078'; font-family: "Font Awesome 6 Free"; font-weight: 900; @apply text-slate-400 transition-transform; }
-details[open] summary::after { transform: rotate(180deg); }
-.details-content { @apply p-5 text-sm text-slate-600 border-t border-slate-200 bg-white; }
-
-/* Pestañas Activas */
-.tab-active-teoria { @apply bg-indigo-700 text-white shadow-lg shadow-indigo-200 scale-105 border-transparent; }
-.tab-active-modelos { @apply bg-teal-600 text-white shadow-lg shadow-teal-200 scale-105 border-transparent; }
-.tab-active-moodle { @apply bg-purple-600 text-white shadow-lg shadow-purple-200 scale-105 border-transparent; }
-.tab-active-estrategico { @apply bg-amber-600 text-white shadow-lg shadow-amber-200 scale-105 border-transparent; }
-section [id] { scroll-margin-top: 190px; } /* Ajuste para anclas */
+body {
+    font-family: 'Inter', sans-serif;
+    scroll-behavior: smooth;
+    overflow-x: hidden;
+}
+h1, h2, h3, h4, h5 {
+    font-family: 'Outfit', sans-serif;
+}
+.sticky-tabs {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+}
+.content-card {
+    @apply bg-white p-6 md:p-8 rounded-3xl border border-slate-200 shadow-sm mb-8 transition-all hover:shadow-md;
+}
+#sidebar {
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 100;
+}
+.sidebar-open {
+    transform: translateX(0);
+}
+.sidebar-closed {
+    transform: translateX(-100%);
+}
+.menu-toggle {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    width: 50px;
+    height: 50px;
+    @apply bg-indigo-600 text-white rounded-full flex items-center justify-center shadow-lg hover:bg-indigo-700 transition-all z-[110] cursor-pointer;
+}
+.exam-tip {
+    @apply bg-amber-50 border-l-4 border-amber-500 p-4 rounded-r-xl my-4 text-sm relative;
+}
+.exam-tip::before {
+    content: "🎯 Punto clave";
+    @apply block font-bold text-amber-700 mb-1 text-xs uppercase tracking-wider;
+}
+details {
+    @apply bg-slate-50 border border-slate-200 rounded-xl mb-3 overflow-hidden transition-all;
+}
+summary {
+    @apply p-4 font-bold cursor-pointer select-none flex justify-between items-center text-slate-800 bg-white hover:bg-slate-50;
+}
+summary::after {
+    content: '\f078';
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+    @apply text-slate-400 transition-transform;
+}
+details[open] summary::after {
+    transform: rotate(180deg);
+}
+.details-content {
+    @apply p-5 text-sm text-slate-600 border-t border-slate-200 bg-white;
+}
+.tab-active-curricular {
+    @apply bg-indigo-700 text-white shadow-lg shadow-indigo-200 scale-105 border-transparent;
+}
+.tab-active-diagnostico {
+    @apply bg-teal-600 text-white shadow-lg shadow-teal-200 scale-105 border-transparent;
+}
+.tab-active-didactica {
+    @apply bg-purple-600 text-white shadow-lg shadow-purple-200 scale-105 border-transparent;
+}
+.tab-active-instruccional {
+    @apply bg-amber-600 text-white shadow-lg shadow-amber-200 scale-105 border-transparent;
+}
+.tab-active-psico {
+    @apply bg-rose-600 text-white shadow-lg shadow-rose-200 scale-105 border-transparent;
+}
+section [id] {
+    scroll-margin-top: 190px;
+}
 </style>
 </head>
 <body class="bg-slate-100 text-slate-800">
@@ -53,10 +103,11 @@ section [id] { scroll-margin-top: 190px; } /* Ajuste para anclas */
             <button onclick="toggleSidebar()"><i class="fa-solid fa-xmark text-2xl hover:text-red-400 transition-colors"></i></button>
         </div>
         <nav class="space-y-4 text-sm">
-            <a href="javascript:void(0)" onclick="switchTab('teoria'); toggleSidebar()" class="block py-2 border-b border-slate-800 hover:text-white">1. Teoría y Taxonomía</a>
-            <a href="javascript:void(0)" onclick="switchTab('modelos'); toggleSidebar()" class="block py-2 border-b border-slate-800 hover:text-white">2. Modelos y Evaluación</a>
-            <a href="javascript:void(0)" onclick="switchTab('moodle'); toggleSidebar()" class="block py-2 border-b border-slate-800 hover:text-white">3. Contenido Moodle</a>
-            <a href="javascript:void(0)" onclick="switchTab('estrategico'); toggleSidebar()" class="block py-2 border-b border-slate-800 hover:text-white text-amber-400 font-bold">4. Estratégico</a>
+            <a href="javascript:void(0)" onclick="switchTab('curricular'); toggleSidebar()" class="block py-2 border-b border-slate-800 hover:text-white">1. Teoría Curricular</a>
+            <a href="javascript:void(0)" onclick="switchTab('diagnostico'); toggleSidebar()" class="block py-2 border-b border-slate-800 hover:text-white">2. Diagnóstico Pedagógico</a>
+            <a href="javascript:void(0)" onclick="switchTab('didactica'); toggleSidebar()" class="block py-2 border-b border-slate-800 hover:text-white">3. Didáctica y Recursos Tec.</a>
+            <a href="javascript:void(0)" onclick="switchTab('instruccional'); toggleSidebar()" class="block py-2 border-b border-slate-800 hover:text-white">4. Modelos de Diseño Instruc.</a>
+            <a href="javascript:void(0)" onclick="switchTab('psico'); toggleSidebar()" class="block py-2 border-b border-slate-800 hover:text-white text-rose-400 font-bold">5. Psicopedagogía</a>
         </nav>
     </div>
 </aside>
@@ -65,468 +116,516 @@ section [id] { scroll-margin-top: 190px; } /* Ajuste para anclas */
     <a href="index.html" class="absolute top-4 right-4 md:top-8 md:right-8 bg-white/20 hover:bg-white/30 text-white px-4 py-2 rounded-xl backdrop-blur-lg transition-all text-xs font-bold flex items-center gap-2 border border-white/40 z-[100]">
         <i class="fa-solid fa-house"></i> Inicio
     </a>
-
     <div class="absolute inset-0 opacity-10">
         <svg width="100%" height="100%" viewBox="0 0 100 100" preserveAspectRatio="none"><path d="M0 100 C 20 0 50 0 100 100 Z" fill="white"></path></svg>
     </div>
-    
-    <span class="bg-indigo-600 text-white text-[10px] font-bold uppercase px-3 py-1 rounded-full mb-4 inline-block relative z-10 tracking-widest">Temario Oficial 2026</span>
-    <h1 class="text-3xl md:text-5xl font-extrabold tracking-tight relative z-10 mt-2">Diseño de Materiales Educativos</h1>
+    <span class="bg-indigo-600 text-white text-[10px] font-bold uppercase px-3 py-1 rounded-full mb-4 inline-block relative z-10 tracking-widest">Guía de Preparación 2026</span>
+    <h1 class="text-3xl md:text-5xl font-extrabold tracking-tight relative z-10 mt-2">Licenciatura en Pedagogía</h1>
 </header>
 
 <nav class="sticky-tabs bg-white/95 backdrop-blur-md border-b border-slate-200 py-4 shadow-sm">
-<div class="max-w-5xl mx-auto flex flex-wrap justify-center gap-2 md:gap-4 px-4">
-<button onclick="switchTab('teoria')" id="tab-teoria" class="tab-btn flex-1 min-w-[120px] py-3 px-2 md:px-6 rounded-2xl font-bold flex flex-col md:flex-row items-center justify-center gap-1 md:gap-3 transition-all text-slate-500 hover:bg-slate-100 tab-active-teoria text-xs md:text-sm border border-transparent">
-<i class="fa-solid fa-brain text-lg"></i> <span>1. Teoría</span>
-</button>
-<button onclick="switchTab('modelos')" id="tab-modelos" class="tab-btn flex-1 min-w-[120px] py-3 px-2 md:px-6 rounded-2xl font-bold flex flex-col md:flex-row items-center justify-center gap-1 md:gap-3 transition-all text-slate-500 hover:bg-slate-100 text-xs md:text-sm border border-transparent">
-<i class="fa-solid fa-sitemap text-lg"></i> <span>2. Modelos</span>
-</button>
-<button onclick="switchTab('moodle')" id="tab-moodle" class="tab-btn flex-1 min-w-[120px] py-3 px-2 md:px-6 rounded-2xl font-bold flex flex-col md:flex-row items-center justify-center gap-1 md:gap-3 transition-all text-slate-500 hover:bg-slate-100 text-xs md:text-sm border border-transparent">
-<i class="fa-solid fa-graduation-cap text-lg"></i> <span>3. Moodle</span>
-</button>
-<button onclick="switchTab('estrategico')" id="tab-estrategico" class="tab-btn flex-1 min-w-[120px] py-3 px-2 md:px-6 rounded-2xl font-bold flex flex-col md:flex-row items-center justify-center gap-1 md:gap-3 transition-all text-amber-700 bg-amber-50 hover:bg-amber-100 text-xs md:text-sm border border-amber-200">
-<i class="fa-solid fa-chess-board text-lg"></i> <span>4. Estratégico</span>
-</button>
-</div>
+    <div class="max-w-6xl mx-auto flex flex-wrap justify-center gap-2 md:gap-4 px-4">
+        <button onclick="switchTab('curricular')" id="tab-curricular" class="tab-btn flex-1 min-w-[100px] py-3 px-2 md:px-4 rounded-2xl font-bold flex flex-col md:flex-row items-center justify-center gap-1 md:gap-2 transition-all text-slate-500 hover:bg-slate-100 tab-active-curricular text-xs md:text-sm border border-transparent">
+            <i class="fa-solid fa-book-open text-lg"></i> <span>1. Teoría Curricular</span>
+        </button>
+        <button onclick="switchTab('diagnostico')" id="tab-diagnostico" class="tab-btn flex-1 min-w-[100px] py-3 px-2 md:px-4 rounded-2xl font-bold flex flex-col md:flex-row items-center justify-center gap-1 md:gap-2 transition-all text-slate-500 hover:bg-slate-100 text-xs md:text-sm border border-transparent">
+            <i class="fa-solid fa-magnifying-glass-chart text-lg"></i> <span>2. Diagnóstico</span>
+        </button>
+        <button onclick="switchTab('didactica')" id="tab-didactica" class="tab-btn flex-1 min-w-[100px] py-3 px-2 md:px-4 rounded-2xl font-bold flex flex-col md:flex-row items-center justify-center gap-1 md:gap-2 transition-all text-slate-500 hover:bg-slate-100 text-xs md:text-sm border border-transparent">
+            <i class="fa-solid fa-laptop-code text-lg"></i> <span>3. Didáctica y Tec.</span>
+        </button>
+        <button onclick="switchTab('instruccional')" id="tab-instruccional" class="tab-btn flex-1 min-w-[100px] py-3 px-2 md:px-4 rounded-2xl font-bold flex flex-col md:flex-row items-center justify-center gap-1 md:gap-2 transition-all text-slate-500 hover:bg-slate-100 text-xs md:text-sm border border-transparent">
+            <i class="fa-solid fa-sitemap text-lg"></i> <span>4. Diseño Instruc.</span>
+        </button>
+        <button onclick="switchTab('psico')" id="tab-psico" class="tab-btn flex-1 min-w-[100px] py-3 px-2 md:px-4 rounded-2xl font-bold flex flex-col md:flex-row items-center justify-center gap-1 md:gap-2 transition-all text-slate-500 hover:bg-slate-100 text-xs md:text-sm border border-transparent">
+            <i class="fa-solid fa-brain text-lg"></i> <span>5. Psicopedagogía</span>
+        </button>
+    </div>
 </nav>
 
-<main class="max-w-5xl mx-auto px-4 md:px-6 py-8">
+<main class="max-w-6xl mx-auto px-4 md:px-6 py-8">
 
-<section id="section-teoria" class="content-view block animate-in fade-in duration-500">
+<!------------------- PESTAÑA 1: TEORÍA CURRICULAR ------------------->
+<section id="section-curricular" class="content-view block animate-in fade-in duration-500">
 
-<div id="teo-paradigmas" class="content-card border-t-8 border-indigo-800">
-<h2 class="text-2xl font-bold mb-4 text-indigo-900">1. Evolución Epistemológica del Diseño</h2>
-<div class="exam-tip">Identifica la palabra clave de cada época: Conductismo (Lineal), Cognitivismo (Procesos internos), Constructivismo (Andamiaje), Conectivismo (Nodos).</div>
-
-<div class="grid md:grid-cols-2 gap-4 text-sm">
-<div class="bg-slate-50 p-4 rounded-lg border border-slate-200">
-<h4 class="font-bold text-indigo-700 border-b pb-1 mb-2">Conductismo (Años 60)</h4>
-<p>Materiales lineales y prescriptivos. Enfocados en obtener respuestas medibles mediante el refuerzo constante. Alumno como receptor pasivo.</p>
-</div>
-<div class="bg-slate-50 p-4 rounded-lg border border-slate-200">
-<h4 class="font-bold text-indigo-700 border-b pb-1 mb-2">Cognitivismo (Años 80)</h4>
-<p>Desplaza el interés a procesos internos: memoria, percepción. El material busca generar conexiones con el aprendizaje previo.</p>
-</div>
-<div class="bg-slate-50 p-4 rounded-lg border border-slate-200">
-<h4 class="font-bold text-indigo-700 border-b pb-1 mb-2">Constructivismo (Años 90)</h4>
-<p>El conocimiento es una interpretación personal. Los materiales son <strong>"andamios"</strong> o herramientas para resolver problemas auténticos.</p>
-</div>
-<div class="bg-slate-50 p-4 rounded-lg border border-slate-200">
-<h4 class="font-bold text-indigo-700 border-b pb-1 mb-2">Conectivismo (Siglo XXI - Siemens)</h4>
-<p>Aprendizaje como proceso de conexión de nodos/redes. Exige materiales que fomenten la actualización constante.</p>
-</div>
-</div>
+<div class="content-card border-t-8 border-indigo-800">
+<h2 class="text-2xl font-bold mb-4 text-indigo-900">📌 Resumen de Teoría Curricular</h2>
+<p class="text-sm text-slate-600 mb-4">Estudia <strong>qué se enseña, por qué se enseña eso y no otra cosa, y cómo se organiza el conocimiento en la escuela</strong>. No se limita a lo técnico (hacer planes de estudio), sino que analiza el currículo como un campo de disputa donde distintos grupos sociales imponen sus valores, conocimientos y visiones del mundo. El pedagogo que domina esta materia entiende que el currículo nunca es neutral: es un <strong>documento de identidad</strong> que forma un tipo específico de ser humano.</p>
 </div>
 
-<div id="teo-jonassen" class="content-card border-t-8 border-indigo-700">
-<h2 class="text-2xl font-bold mb-4 text-indigo-900">2. Ambientes Constructivistas (Modelo Jonassen)</h2>
-<div class="exam-tip">Para Jonassen, el diseño no parte de un "tema", parte de un "Problema o Caso" central.</div>
-<p class="text-sm text-slate-600 mb-4">El material educativo debe proveer 6 elementos para que el estudiante "aprenda haciendo":</p>
-<ul class="list-disc pl-5 space-y-2 text-sm text-slate-700">
-<li><strong>Preguntas/Problemas:</strong> El desafío real que conduce el aprendizaje.</li>
-<li><strong>Casos Relacionados:</strong> Experiencias analógicas previas como referencia.</li>
-<li><strong>Recursos de Información:</strong> Datos para construir modelos mentales.</li>
-<li><strong>Herramientas Cognitivas:</strong> Medios/Software para procesar la complejidad de la tarea.</li>
-<li><strong>Herramientas de Colaboración:</strong> Espacios para construcción social.</li>
-<li><strong>Apoyo Social/Contextual:</strong> Adaptación al entorno del estudiante.</li>
-</ul>
-</div>
-
-<div id="teo-dale" class="content-card border-t-8 border-indigo-600">
-<h2 class="text-2xl font-bold mb-4 text-indigo-900">3. Taxonomía y Cono de Edgar Dale</h2>
-<div class="exam-tip">A mayor nivel de abstracción (leer/escuchar) menor retención. A mayor nivel de concreción (hacer/simular) mayor retención.</div>
-
-<h3 class="font-bold text-lg mb-2">Clasificación Básica</h3>
-<ul class="text-sm space-y-1 mb-6 text-slate-700">
-<li><strong>Estructurados:</strong> Adquiridos comercialmente (mapas, bloques lógicos).</li>
-<li><strong>No Estructurados:</strong> Elaborados en el aula (carteles, maquetas).</li>
-<li><strong>Durabilidad:</strong> Fungibles (tizas, plastilina) vs No Fungibles (libros, computadoras).</li>
-</ul>
-
-<table class="w-full text-sm border-collapse bg-white shadow-sm rounded-lg overflow-hidden">
-<thead>
-<tr class="bg-indigo-50 text-left"><th class="p-3 border">Nivel de Concreción</th><th class="p-3 border">Ejemplos</th><th class="p-3 border">Vía Sensorial</th></tr>
-</thead>
-<tbody>
-<tr><td class="p-3 border font-bold text-indigo-800">Experiencias Directas</td><td class="p-3 border">Práctica real, experimentos.</td><td class="p-3 border">Multisensorial</td></tr>
-<tr><td class="p-3 border font-bold text-indigo-700">Representativas</td><td class="p-3 border">Maquetas, modelos 3D, títeres.</td><td class="p-3 border">Visual / Táctil</td></tr>
-<tr><td class="p-3 border font-bold text-indigo-600">Medios Audiovisuales</td><td class="p-3 border">Videos interactivos, TV.</td><td class="p-3 border">Visual / Auditiva</td></tr>
-<tr><td class="p-3 border font-bold text-slate-600">Imágenes Fijas</td><td class="p-3 border">Fotografías, infografías.</td><td class="p-3 border">Visual</td></tr>
-<tr><td class="p-3 border font-bold text-slate-500">Símbolos Verbales</td><td class="p-3 border">Textos escritos, pizarra, diagramas.</td><td class="p-3 border">Visual (Abstracto)</td></tr>
-</tbody>
-</table>
-</div>
-
-<div id="teo-dua" class="content-card border-t-8 border-indigo-500">
-<h2 class="text-2xl font-bold mb-4 text-indigo-900">4. Diseño Universal para el Aprendizaje (DUA)</h2>
-<div class="exam-tip">El DUA busca eliminar barreras curriculares. Debes memorizar sus 3 principios y las preguntas que responden (Qué, Por qué, Cómo).</div>
-
-<div class="space-y-4">
-<details open>
-<summary>1. Múltiples Medios de Representación (El "Qué")</summary>
-<div class="details-content">Presentar la información en distintos formatos (visual, auditivo, texto). Permitir personalización de subtítulos, tamaño de fuente y contraste.</div>
-</details>
-<details open>
-<summary>2. Múltiples Medios de Compromiso (El "Por qué")</summary>
-<div class="details-content">Captar el interés del alumno ofreciendo opciones de autonomía, relevancia personal, y promoviendo el juego para mantener el esfuerzo constante.</div>
-</details>
-<details open>
-<summary>3. Múltiples Medios de Acción y Expresión (El "Cómo")</summary>
-<div class="details-content">Permitir que el estudiante demuestre lo aprendido de diversas maneras (escrito, hablado, proyectos creativos) y optimizar el uso de tecnologías de asistencia.</div>
-</details>
-</div>
-</div>
-</section>
-
-<section id="section-modelos" class="content-view hidden animate-in fade-in duration-500">
-
-<div id="mod-addie" class="content-card border-t-8 border-teal-600">
-<h2 class="text-2xl font-bold mb-4 text-teal-900">1. Modelos Base: ADDIE y ASSURE</h2>
-<div class="exam-tip">ADDIE es interactivo/iterativo. Su fase más crítica es "Diseño" (donde se hace el guion). ASSURE incorpora los eventos de Gagné y es ideal para Blended Learning.</div>
-
-<div class="grid md:grid-cols-2 gap-6">
-<div class="bg-white border border-slate-200 p-4 rounded-xl shadow-sm">
-<h3 class="font-bold text-lg border-b pb-2 mb-3 text-teal-800">Fases del Modelo ADDIE</h3>
-<ul class="text-sm space-y-3 text-slate-700">
-<li><strong>Análisis:</strong> Identificar problema y perfil del estudiante.</li>
-<li><strong>Diseño:</strong> Creación de ruta, storyboarding y enfoque pedagógico.</li>
-<li><strong>Desarrollo:</strong> Elaboración física/digital de los recursos.</li>
-<li><strong>Implementación:</strong> Entrega del material al estudiante (ej. subir a un LMS).</li>
-<li><strong>Evaluación:</strong> Medición formativa y sumativa para mejora continua.</li>
-</ul>
-</div>
-<div class="bg-white border border-slate-200 p-4 rounded-xl shadow-sm">
-<h3 class="font-bold text-lg border-b pb-2 mb-3 text-teal-800">Modelo ASSURE</h3>
-<p class="text-sm text-slate-700 mb-2">Desarrollado por Heinich. Parte de las características concretas del estudiante y sus estilos de aprendizaje.</p>
-<p class="text-sm text-slate-700">Fomenta la participación activa y comprometida, asegurando el uso efectivo de los medios didácticos en el aula.</p>
-</div>
-</div>
-</div>
-
-<div id="mod-complejos" class="content-card border-t-8 border-teal-500">
-<h2 class="text-2xl font-bold mb-4 text-teal-900">2. Modelos para Tareas Complejas</h2>
-<div class="exam-tip">En reactivos sobre educación superior o formación corporativa, busca las opciones 4C/ID o Merrill.</div>
-
-<div class="space-y-4 text-sm text-slate-700">
-<div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
-<h4 class="font-bold text-teal-800 text-base">Modelo 4C/ID (Cuatro Componentes)</h4>
-<p>No divide el contenido en fragmentos aislados, integra habilidades mediante tareas reales. Componentes: 1) Tareas de aprendizaje, 2) Información de apoyo, 3) Procedimientos recurrentes, 4) Práctica guiada.</p>
-</div>
-<div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
-<h4 class="font-bold text-teal-800 text-base">Principios de Instrucción de Merrill (MPI)</h4>
-<p>Se basa en 5 pilares: Centralidad en la tarea, Activación (conocimientos previos), Demostración, Aplicación, e Integración (en su mundo real).</p>
-</div>
-<div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
-<h4 class="font-bold text-teal-800 text-base">Modelo de Dick y Carey</h4>
-<p>Modelo sistémico que exige coherencia absoluta estableciendo relaciones directas entre objetivos, contenidos y la estrategia de evaluación.</p>
-</div>
-</div>
-</div>
-
-<div id="mod-evaluacion" class="content-card border-t-8 border-teal-400">
-<h2 class="text-2xl font-bold mb-4 text-teal-900">3. Evaluación de Recursos Educativos Digitales (RED)</h2>
-<div class="exam-tip">Distingue los instrumentos: LORI evalúa 9 dimensiones mediante expertos. COdA equilibra lo didáctico y lo tecnológico en 10 criterios.</div>
-
-<table class="w-full text-sm border-collapse bg-white mt-4 shadow-sm rounded-lg overflow-hidden">
-<thead>
-<tr class="bg-teal-50 text-left"><th class="p-3 border">Instrumento</th><th class="p-3 border">Características / Dimensiones Principales</th></tr>
-</thead>
-<tbody>
-<tr>
-<td class="p-3 border font-bold text-teal-800">LORI</td>
-<td class="p-3 border text-slate-600">Analiza 9 dimensiones con escala de 5 estrellas: Calidad de contenido, Objetivos, Adaptación, Motivación, Diseño, Usabilidad, Accesibilidad, Reusabilidad y Estándares. Utilizado por paneles de expertos.</td>
-</tr>
-<tr>
-<td class="p-3 border font-bold text-teal-800">COdA</td>
-<td class="p-3 border text-slate-600">Herramienta para el Profesor-Autor. Consiste en 10 criterios: 5 de carácter didáctico y 5 de carácter tecnológico (usabilidad, accesibilidad, interoperabilidad).</td>
-</tr>
-<tr>
-<td class="p-3 border font-bold text-teal-800">ECOBA</td>
-<td class="p-3 border text-slate-600">Evaluación iterativa centrada en asegurar el cumplimiento de competencias.</td>
-</tr>
-</tbody>
-</table>
-</div>
-
-<div id="mod-tendencias" class="content-card border-t-8 border-teal-300">
-<h2 class="text-2xl font-bold mb-4 text-teal-900">4. Tendencias y Herramientas (2025-2026)</h2>
-
-<div class="grid md:grid-cols-2 gap-6 text-sm">
-<div class="bg-slate-50 p-5 rounded-xl border border-slate-200">
-<h4 class="font-bold text-slate-800 mb-3 border-b pb-2">Metodologías Emergentes</h4>
-<ul class="list-disc pl-5 space-y-2 text-slate-600">
-<li><strong>Microlearning:</strong> Píldoras de conocimiento de 5-10 minutos. Optimiza retención frente a déficit de atención.</li>
-<li><strong>Gamificación:</strong> Uso de mecánicas de juego (puntos, insignias) para combatir el abandono escolar.</li>
-<li><strong>IA Generativa:</strong> Automatización de contenidos y Learning Analytics para personalizar rutas.</li>
-</ul>
-</div>
-<div class="bg-slate-50 p-5 rounded-xl border border-slate-200">
-<h4 class="font-bold text-slate-800 mb-3 border-b pb-2">Software de Autoría / LMS</h4>
-<ul class="list-disc pl-5 space-y-2 text-slate-600">
-<li><strong>Articulate 360 / Adobe Captivate:</strong> Interactividad avanzada y simulaciones.</li>
-<li><strong>Mindsmith / Synthesia:</strong> Autoría nativa en IA y avatares virtuales.</li>
-<li><strong>Moodle / Canvas:</strong> Sistemas de Gestión de Aprendizaje (LMS) dominantes.</li>
-</ul>
-</div>
-</div>
-</div>
-</section>
-
-<section id="section-moodle" class="content-view hidden animate-in fade-in duration-500">
-
-<div id="moo-fundamentos" class="content-card border-t-8 border-purple-800">
-<h2 class="text-2xl font-bold mb-4 text-purple-900">1. Fundamentos y Regulación de Materiales</h2>
-<div class="exam-tip">El objetivo primordial de los materiales didácticos es <strong>mejorar la calidad de la educación</strong> mediante un diseño inclusivo y versátil.</div>
-
-<div class="grid md:grid-cols-2 gap-6 text-sm text-slate-700">
-<div>
-<h3 class="font-bold text-lg mb-2 text-purple-800 border-b pb-1">Diseño Reflexivo</h3>
-<p class="mb-2">Implica considerar cuidadosamente tres aspectos:</p>
-<ul class="list-disc pl-5 space-y-1">
-<li><strong>Propósito claro:</strong> Cada actividad y recurso debe alinearse a objetivos amplios.</li>
-<li><strong>Estrategia:</strong> Asegura que los materiales sean estratégicamente efectivos.</li>
-<li><strong>Adaptación:</strong> Considerar el perfil del destinatario (edad, nivel, conocimientos, habilidades).</li>
-</ul>
-</div>
-<div>
-<h3 class="font-bold text-lg mb-2 text-purple-800 border-b pb-1">Elaboración y Regulación</h3>
-<p class="mb-2">Requiere una planificación estructurada que considere:</p>
-<ul class="list-disc pl-5 space-y-1">
-<li><strong>Selección:</strong> Basada en el tema y destinatarios para una transmisión efectiva.</li>
-<li><strong>Regulación:</strong> Instrucciones de implementación, contexto de uso, normas de seguridad y supervisión.</li>
-<li><strong>Duración:</strong> Tiempo estimado para desarrollar actividades (vital para planificación curricular).</li>
-</ul>
-</div>
-</div>
-</div>
-
-<div id="moo-diseno" class="content-card border-t-8 border-purple-700">
-<h2 class="text-2xl font-bold mb-4 text-purple-900">2. Diseño Gráfico y Accesibilidad</h2>
-<p class="text-sm text-slate-600 mb-4">El diseño gráfico resuelve problemas de comunicación visual mediante la integración de elementos semióticos.</p>
-
-<h3 class="font-bold text-lg mt-4 mb-2 text-slate-800">Elementos Gráficos (Lupton y Phillips, 2016)</h3>
-<table class="w-full text-sm border-collapse bg-white shadow-sm rounded-lg overflow-hidden mb-6">
-<thead>
-<tr class="bg-purple-50 text-left"><th class="p-3 border">Elemento</th><th class="p-3 border">Descripción y Función</th></tr>
-</thead>
-<tbody>
-<tr><td class="p-3 border font-bold text-purple-800">Plano</td><td class="p-3 border">Resalta sectores de contenido; opaco, transparente, texturizado o liso.</td></tr>
-<tr><td class="p-3 border font-bold text-purple-800">Asimetría/Simetría</td><td class="p-3 border">Disposición de texto y objetos en el campo visual.</td></tr>
-<tr><td class="p-3 border font-bold text-purple-800">Escala</td><td class="p-3 border">Genera contrastes visuales; varía el tamaño aparente según el entorno.</td></tr>
-<tr><td class="p-3 border font-bold text-purple-800">Textura</td><td class="p-3 border">Genera sensaciones en el usuario y potencia mensajes.</td></tr>
-<tr><td class="p-3 border font-bold text-purple-800">Color</td><td class="p-3 border">Transmite estados de ánimo, codifica información y establece jerarquías.</td></tr>
-<tr><td class="p-3 border font-bold text-purple-800">Jerarquía</td><td class="p-3 border">Rompe la monotonía visual y establece distintos niveles de lectura.</td></tr>
-<tr><td class="p-3 border font-bold text-purple-800">Retícula</td><td class="p-3 border">Fundamento lógico y punto de partida para toda composición.</td></tr>
-<tr><td class="p-3 border font-bold text-purple-800">Símbolos</td><td class="p-3 border">Reducen volúmenes de texto o proponen lecturas alternativas.</td></tr>
-</tbody>
-</table>
-
-<h3 class="font-bold text-lg mb-2 text-slate-800">Recomendaciones de Accesibilidad</h3>
-<div class="bg-slate-50 p-4 rounded-xl border border-slate-200 text-sm">
-<ul class="list-disc pl-5 space-y-1 text-slate-700 grid md:grid-cols-2 gap-x-4">
-<li><strong>Refuerzo textual:</strong> Textos alternativos para multimedia.</li>
-<li><strong>Independencia del color:</strong> Comprensible sin depender solo del color.</li>
-<li><strong>Uso de etiquetas:</strong> Marcas y hojas de estilo adecuadas.</li>
-<li><strong>Lenguaje claro:</strong> Conciso y directo.</li>
-<li><strong>Tipografía accesible:</strong> Aptos para deficiencias visuales.</li>
-<li><strong>Control del usuario:</strong> Detener movimientos o parpadeos.</li>
-<li><strong>Navegación asistida:</strong> Uso del teclado (tab y enter) para deficiencias motóricas.</li>
-<li><strong>Multiplataforma:</strong> Navegable en cualquier OS.</li>
-</ul>
-</div>
-</div>
-
-<div id="moo-derechos" class="content-card border-t-8 border-purple-600">
-<h2 class="text-2xl font-bold mb-4 text-purple-900">3. Derechos, Gamificación y Evolución Tecnológica</h2>
-
-<div class="grid md:grid-cols-2 gap-6 text-sm mb-6">
-<div>
-<h3 class="font-bold text-lg mb-2 text-purple-800 border-b pb-1">Derechos de Autor</h3>
-<p class="mb-2"><strong>Morales:</strong> Reconocimiento de autor y no alteración (perpetuos).<br><strong>Patrimoniales:</strong> Compensación económica (Copyright).</p>
-<ul class="space-y-2 mt-3">
-<li class="bg-purple-50 p-2 rounded"><strong>Copyright:</strong> Reserva todos los derechos de uso.</li>
-<li class="bg-purple-50 p-2 rounded"><strong>Copyleft:</strong> Uso libre, obliga misma licencia en derivadas.</li>
-<li class="bg-purple-50 p-2 rounded"><strong>Creative Commons:</strong> Permisos específicos (copia/distribución).</li>
-<li class="bg-purple-50 p-2 rounded"><strong>Dominio Público:</strong> Derechos patrimoniales expirados.</li>
-<li class="bg-purple-50 p-2 rounded"><strong>Open Access:</strong> Difusión gratuita de investigación.</li>
-</ul>
-</div>
-<div>
-<h3 class="font-bold text-lg mb-2 text-purple-800 border-b pb-1">Gamificación</h3>
-<p class="mb-2">Elementos del diseño gamificado para incrementar motivación:</p>
-<ul class="list-disc pl-5 space-y-1">
-<li><strong>Objetivos:</strong> Metas claras.</li>
-<li><strong>Perfiles (Richard Bartle):</strong> Killers, Achievers, Explorers, Socializers.</li>
-<li><strong>Narrativa:</strong> Historia/contexto.</li>
-<li><strong>Mecánicas:</strong> Reglas (puntos, niveles, desafíos).</li>
-<li><strong>Componentes:</strong> Avatares, insignias, misiones.</li>
-<li><strong>Apps:</strong> Classcraft, Quizziz, Minecraft Edu.</li>
-</ul>
-</div>
-</div>
-
-<h3 class="font-bold text-lg mb-3 text-slate-800 text-center">Evolución Tecnológica: TIC, TAC y TEP</h3>
-<div class="grid md:grid-cols-3 gap-4 text-sm text-center">
-<div class="p-4 bg-slate-50 rounded-xl border border-slate-200 shadow-sm">
-<h4 class="font-black text-purple-700 text-xl mb-1">TIC</h4>
-<p class="font-bold text-slate-800 mb-2">El "QUÉ"</p>
-<p class="text-xs text-slate-600">Herramientas (hardware y software). Acceso y gestión de la información.</p>
-</div>
-<div class="p-4 bg-slate-50 rounded-xl border border-slate-200 shadow-sm">
-<h4 class="font-black text-purple-700 text-xl mb-1">TAC</h4>
-<p class="font-bold text-slate-800 mb-2">El "CÓMO"</p>
-<p class="text-xs text-slate-600">Uso pedagógico de herramientas para construir conocimiento.</p>
-</div>
-<div class="p-4 bg-slate-50 rounded-xl border border-slate-200 shadow-sm">
-<h4 class="font-black text-purple-700 text-xl mb-1">TEP</h4>
-<p class="font-bold text-slate-800 mb-2">El "PARA QUÉ"</p>
-<p class="text-xs text-slate-600">Generar impacto, crear comunidad y fomentar participación social.</p>
-</div>
-</div>
-</div>
-
-<div id="moo-repaso" class="content-card border-t-8 border-purple-500">
-<h2 class="text-2xl font-bold mb-4 text-purple-900">4. Glosario y Cuestionario de Repaso</h2>
-<div class="exam-tip">Intenta responder la pregunta antes de desplegar el acordeón. ¡Excelente práctica para tu examen!</div>
-
-<h3 class="font-bold text-lg mb-3 border-b pb-2">Glosario de Conceptos Claves</h3>
-<div class="grid md:grid-cols-2 gap-4 text-sm text-slate-700 mb-8">
-<p><strong>Accesibilidad:</strong> Capacidad de un recurso para ser usado por personas con diversas capacidades.</p>
-<p><strong>Diseño Instruccional:</strong> Proceso que hace los pasos de instrucción explícitos y replicables.</p>
-<p><strong>LMS:</strong> Learning Management System; plataformas virtuales.</p>
-<p><strong>REA:</strong> Recursos Educativos Abiertos; legalmente libres.</p>
-<p><strong>Retícula:</strong> Estructura lógica, punto de partida para la composición.</p>
-<p><strong>Semiótica:</strong> Estudio de signos y símbolos como elementos de comunicación.</p>
-</div>
-
-<h3 class="font-bold text-lg mb-3 border-b pb-2">Cuestionario de Repaso</h3>
-<div class="space-y-2">
-<details>
-<summary>1. ¿Cuál es el objetivo primordial de los materiales didácticos?</summary>
-<div class="details-content bg-green-50 text-green-800 font-medium">Mejorar la calidad de la educación a través de un diseño inclusivo y versátil.</div>
-</details>
-<details>
-<summary>2. ¿Qué diferencia a los derechos morales de los patrimoniales?</summary>
-<div class="details-content bg-green-50 text-green-800 font-medium">Los derechos morales protegen la autoría e integridad de la obra (son perpetuos); los patrimoniales se refieren a la explotación económica (Copyright).</div>
-</details>
-<details>
-<summary>3. Según Richard Bartle, ¿cuáles son los 4 perfiles en gamificación?</summary>
-<div class="details-content bg-green-50 text-green-800 font-medium">Killers, Achievers, Explorers y Socializers.</div>
-</details>
-<details>
-<summary>4. ¿Qué elemento gráfico se usa para establecer niveles de lectura?</summary>
-<div class="details-content bg-green-50 text-green-800 font-medium">La jerarquía.</div>
-</details>
-<details>
-<summary>5. Explique brevemente la diferencia entre TAC y TEP.</summary>
-<div class="details-content bg-green-50 text-green-800 font-medium">Las TAC se centran en el uso pedagógico para aprender; las TEP se centran en el uso de la tecnología para participar y generar impacto social.</div>
-</details>
-<details>
-<summary>6. ¿Qué función cumple la "escala" en una composición visual?</summary>
-<div class="details-content bg-green-50 text-green-800 font-medium">Generar contrastes visuales mediante la variación de tamaño de los objetos.</div>
-</details>
-<details>
-<summary>7. ¿Qué requisito facilita la navegación para deficiencias motóricas?</summary>
-<div class="details-content bg-green-50 text-green-800 font-medium">El uso de interfaces que permitan el acceso mediante el teclado (tabulador y enter).</div>
-</details>
-<details>
-<summary>8. ¿Qué implica una licencia de "Dominio Público"?</summary>
-<div class="details-content bg-green-50 text-green-800 font-medium">Que los derechos patrimoniales han expirado, permitiendo la explotación de la obra siempre que se respeten los derechos morales.</div>
-</details>
-</div>
-</div>
-</section>
-
-<section id="section-estrategico" class="content-view hidden animate-in fade-in duration-500">
-
-<div id="inf-evolucion" class="content-card border-t-8 border-amber-600">
-<h2 class="text-3xl font-black text-slate-900 mb-6 leading-tight">Evolución y Aplicación en la Era Digital</h2>
-<div class="prose prose-slate text-sm text-slate-600 space-y-4">
-<p>En el ecosistema educativo contemporáneo, los recursos actúan como <strong>catalizadores</strong> que articulan la interacción entre docente, discente y conocimiento.</p>
-<div class="grid md:grid-cols-2 gap-4 mt-6">
-<div class="bg-amber-50 p-5 rounded-2xl border border-amber-100">
-<h4 class="font-bold text-amber-800 mb-2">Recursos Tradicionales</h4>
-<p class="text-xs">Definidos por materialidad física, estabilidad y una función transparente (el soporte dicta el uso).</p>
-</div>
-<div class="bg-amber-50 p-5 rounded-2xl border border-amber-100">
-<h4 class="font-bold text-amber-800 mb-2">Recursos Digitales</h4>
-<p class="text-xs">Intrínsecamente procesables, portabilizados y distribuidos en medios electrónicos. Cambio de paradigma.</p>
-</div>
-</div>
-</div>
-</div>
-
-<div id="inf-comparativa" class="content-card border-t-8 border-amber-500">
-<h2 class="text-2xl font-bold mb-6 text-amber-900">Análisis Comparativo: Estabilidad vs. Versatilidad</h2>
+<div class="content-card border-t-8 border-indigo-700">
+<h2 class="text-2xl font-bold mb-4 text-indigo-900">🔑 Conceptos Clave</h2>
 <div class="overflow-x-auto">
 <table class="w-full text-sm border-collapse bg-white shadow-sm rounded-lg overflow-hidden">
-<thead>
-<tr class="bg-amber-600 text-white text-left text-xs">
-<th class="p-4 border-b border-amber-700">Criterio</th>
-<th class="p-4 border-b border-amber-700">Recursos Tradicionales</th>
-<th class="p-4 border-b border-amber-700">Recursos Digitales</th>
-</tr>
-</thead>
+<thead><tr class="bg-indigo-50 text-left"><th class="p-3 border">Concepto</th><th class="p-3 border">Definición precisa</th></tr></thead>
 <tbody class="text-slate-600">
-<tr>
-<td class="p-4 border-b font-bold bg-slate-50">Naturaleza</td>
-<td class="p-4 border-b">Específicos y estables.</td>
-<td class="p-4 border-b font-medium text-amber-700">Proteicos (múltiples formas).</td>
-</tr>
-<tr>
-<td class="p-4 border-b font-bold bg-slate-50">Evolución</td>
-<td class="p-4 border-b">Cambio lento (ej. el pizarrón).</td>
-<td class="p-4 border-b">Inestables (cambio rápido).</td>
-</tr>
-<tr>
-<td class="p-4 border-b font-bold bg-slate-50">Funcionamiento</td>
-<td class="p-4 border-b">Transparente (forma = función).</td>
-<td class="p-4 border-b">Opaco (caja negra interna).</td>
-</tr>
-<tr>
-<td class="p-4 border-b font-bold bg-slate-50">Uso Sugerido</td>
-<td class="p-4 border-b">Estandarizado.</td>
-<td class="p-4 border-b">Sujeto a caducidad temprana.</td>
-</tr>
+<tr><td class="p-3 border font-bold">Currículo formal</td><td class="p-3 border">Lo que está escrito en el plan de estudios oficial (objetivos, materias, evaluaciones).</td></tr>
+<tr><td class="p-3 border font-bold">Currículo real</td><td class="p-3 border">Lo que efectivamente se enseña en el aula, con las adaptaciones que hace el docente.</td></tr>
+<tr><td class="p-3 border font-bold">Currículo oculto</td><td class="p-3 border">Valores, normas y actitudes que se aprenden sin estar escritas (obediencia, competencia). Desarrollado por Philip Jackson y retomado por Apple.</td></tr>
+<tr><td class="p-3 border font-bold">Arbitrario cultural</td><td class="p-3 border">Concepto de Alicia de Alba: el currículo impone una selección de cultura que beneficia a ciertos grupos, haciéndola pasar por "la cultura válida".</td></tr>
+<tr><td class="p-3 border font-bold">Documento de identidad</td><td class="p-3 border">Concepto de Tomaz Tadeu da Silva: el currículo no refleja quiénes somos, sino que <strong>produce</strong> nuestra identidad (género, raza, clase, nación).</td></tr>
+<tr><td class="p-3 border font-bold">Justicia curricular</td><td class="p-3 border">Propuesta de Raewyn Connell: redistribuir equitativamente el conocimiento valioso y dignificar las identidades marginadas.</td></tr>
+<tr><td class="p-3 border font-bold">Perfil de egreso</td><td class="p-3 border">Conjunto de competencias, habilidades y valores que un estudiante debe tener al terminar un programa educativo.</td></tr>
+<tr><td class="p-3 border font-bold">Currículo rizomático</td><td class="p-3 border">Inspirado en Deleuze y Guattari: un currículo sin centro fijo, que se ramifica, conecta y transforma constantemente.</td></tr>
 </tbody>
 </table>
 </div>
-<div class="exam-tip">Recuerda el factor <strong>"So What?"</strong>: Lo digital aumenta la carga docente debido a la necesidad de "traducción pedagógica" constante.</div>
 </div>
 
-<div id="inf-tpack" class="content-card border-t-8 border-amber-400">
-<h2 class="text-2xl font-bold mb-4 text-amber-900">Marcos Teóricos de Implementación</h2>
-<div class="space-y-6 text-sm">
-<div class="bg-slate-50 p-6 rounded-2xl border border-slate-200">
-<h3 class="font-black text-amber-800 mb-3 uppercase tracking-tighter italic text-xl">Modelo TPACK</h3>
-<p class="mb-4">Interacción entre Contenido (CK), Pedagogía (PK) y Tecnología (TK).</p>
-<ul class="space-y-2">
-<li class="flex gap-2 text-xs"><b class="text-amber-700">PCK:</b> Transformar el contenido para enseñar.</li>
-<li class="flex gap-2 text-xs"><b class="text-amber-700">TCK:</b> Cómo la tecnología cambia la disciplina.</li>
-<li class="flex gap-2 text-xs"><b class="text-amber-700">TPK:</b> Cómo la enseñanza cambia al usar tecnología.</li>
+<div class="content-card border-t-8 border-indigo-600">
+<h2 class="text-2xl font-bold mb-4 text-indigo-900">📘 Bloque 1: Evolución Histórica del Pensamiento Curricular</h2>
+<div class="exam-tip">Se presentan tres grandes paradigmas: técnico-lineal, crítico-reconceptualista y poscrítico.</div>
+
+<div class="grid md:grid-cols-3 gap-4 text-sm">
+<div class="bg-slate-50 p-4 rounded-lg border border-slate-200">
+<h4 class="font-bold text-indigo-700 border-b pb-1 mb-2">Paradigma Técnico-Lineal (40-60)</h4>
+<p><strong>Ralph Tyler (1949):</strong> Modelo basado en cuatro preguntas: ¿qué objetivos?, ¿qué experiencias?, ¿cómo organizarlas?, ¿cómo evaluar?</p>
+<p><strong>Hilda Taba (1962):</strong> Amplió el modelo incluyendo diagnóstico de necesidades sociales y culturales. Siete pasos desde el diagnóstico hasta la evaluación continua.</p>
+<p class="text-red-600 text-xs mt-1">Crítica: Reduce el aprendizaje a lo medible; ignora el contexto social y político.</p>
+</div>
+<div class="bg-slate-50 p-4 rounded-lg border border-slate-200">
+<h4 class="font-bold text-indigo-700 border-b pb-1 mb-2">Paradigma Crítico (70-80)</h4>
+<p><strong>Michael Apple (1979):</strong> Denuncia que el currículo oficial reproduce las desigualdades de clase. Introduce el <strong>currículo oculto</strong> como transmisor de ideología dominante.</p>
+<p><strong>Henry Giroux:</strong> Propone la <strong>pedagogía crítica</strong>: la escuela debe ser un espacio de resistencia y transformación social. El docente es un intelectual transformador.</p>
+</div>
+<div class="bg-slate-50 p-4 rounded-lg border border-slate-200">
+<h4 class="font-bold text-indigo-700 border-b pb-1 mb-2">Paradigma Poscrítico (90+)</h4>
+<p><strong>Tomaz Tadeu da Silva:</strong> El currículo es un <strong>discurso que produce identidades</strong>. No "refleja" la realidad, la construye. Incorpora categorías de raza, género, sexualidad, etnia y cuerpo como ejes de análisis curricular.</p>
+</div>
+</div>
+</div>
+
+<div class="content-card border-t-8 border-indigo-500">
+<h2 class="text-2xl font-bold mb-4 text-indigo-900">📘 Bloque 2: El Currículo en Iberoamérica y la Perspectiva Decolonial</h2>
+<p class="text-sm text-slate-600 mb-4">En América Latina, la teoría curricular no se limitó a copiar modelos anglosajones. Surgió un pensamiento propio con fuerte compromiso político.</p>
+<h3 class="font-bold text-lg mb-2 text-indigo-800">Alicia de Alba y la "síntesis cultural"</h3>
+<p class="text-sm text-slate-600 mb-2">El currículo es una <strong>síntesis de elementos culturales</strong> (conocimientos, valores, costumbres, creencias) que distintos grupos sociales luchan por imponer o mantener. Esta síntesis implica:</p>
+<ul class="list-disc pl-5 space-y-1 text-sm text-slate-700 mb-4">
+<li><strong>Elementos hegemónicos:</strong> Impuestos por los grupos dominantes (visión empresarial, competitividad, individualismo).</li>
+<li><strong>Elementos de resistencia:</strong> Propuestas de grupos subalternos (saberes indígenas, pedagogías populares, educación comunitaria).</li>
+</ul>
+<h3 class="font-bold text-lg mb-2 text-indigo-800">Decolonialidad pedagógica</h3>
+<p class="text-sm text-slate-600 mb-2">América Latina debe pensarse desde su propio "locus de enunciación". La decolonialidad exige recuperar saberes marginados y construir una epistemología propia.</p>
+<h3 class="font-bold text-lg mb-2 text-indigo-800">La justicia curricular de Connell</h3>
+<p class="text-sm text-slate-600">Propone tres principios: redistribución del conocimiento valioso, reconocimiento de identidades diversas y participación democrática en la construcción curricular.</p>
+</div>
+
+<div class="content-card border-t-8 border-indigo-400">
+<h2 class="text-2xl font-bold mb-4 text-indigo-900">📘 Bloque 3: Metodología del Diseño Curricular</h2>
+<div class="grid md:grid-cols-2 gap-6 text-sm">
+<div>
+<h3 class="font-bold text-lg mb-2 text-indigo-800 border-b pb-1">Modelo de Glazman e Ibarrola</h3>
+<ol class="list-decimal pl-5 space-y-1 text-slate-700">
+<li>Determinación de objetivos generales del plan de estudios.</li>
+<li>Operacionalización de objetivos: desglosarlos en específicos y conductas observables.</li>
+<li>Jerarquización y secuenciación de contenidos.</li>
+<li>Determinación de estrategias didácticas y recursos.</li>
+<li>Evaluación del plan (interna y externa).</li>
+</ol>
+</div>
+<div>
+<h3 class="font-bold text-lg mb-2 text-indigo-800 border-b pb-1">Metodología integral de Frida Díaz Barriga</h3>
+<ol class="list-decimal pl-5 space-y-1 text-slate-700">
+<li><strong>Fundamentación:</strong> Análisis del contexto social, institucional y disciplinar.</li>
+<li><strong>Perfil de egreso:</strong> Definir competencias genéricas y específicas.</li>
+<li><strong>Estructura curricular:</strong> Organización por áreas, módulos o ejes.</li>
+<li><strong>Evaluación curricular continua:</strong> Retroalimentación desde la práctica y seguimiento de egresados.</li>
+</ol>
+</div>
+</div>
+</div>
+
+<div class="content-card border-t-8 border-indigo-300">
+<h2 class="text-2xl font-bold mb-4 text-indigo-900">👤 Autores y sus Aportes (para citar correctamente)</h2>
+<div class="overflow-x-auto">
+<table class="w-full text-sm border-collapse bg-white shadow-sm rounded-lg overflow-hidden">
+<thead><tr class="bg-indigo-50 text-left"><th class="p-3 border">Autor</th><th class="p-3 border">Obra clave</th><th class="p-3 border">Aporte principal</th></tr></thead>
+<tbody class="text-slate-600">
+<tr><td class="p-3 border font-bold">Ralph Tyler</td><td class="p-3 border">"Principios básicos del currículo" (1949)</td><td class="p-3 border">Modelo técnico de cuatro preguntas</td></tr>
+<tr><td class="p-3 border font-bold">Hilda Taba</td><td class="p-3 border">"Elaboración del currículo" (1962)</td><td class="p-3 border">Diagnóstico social como base del diseño</td></tr>
+<tr><td class="p-3 border font-bold">Michael Apple</td><td class="p-3 border">"Ideología y currículo" (1979)</td><td class="p-3 border">Currículo oculto y reproducción ideológica</td></tr>
+<tr><td class="p-3 border font-bold">Henry Giroux</td><td class="p-3 border">"Los profesores como intelectuales"</td><td class="p-3 border">Pedagogía crítica y resistencia</td></tr>
+<tr><td class="p-3 border font-bold">Alicia de Alba</td><td class="p-3 border">"Currículo: crisis, mito y perspectivas"</td><td class="p-3 border">Síntesis cultural y currículo como campo de disputa</td></tr>
+<tr><td class="p-3 border font-bold">Tomaz Tadeu da Silva</td><td class="p-3 border">"Documentos de identidad"</td><td class="p-3 border">Currículo poscrítico y producción de subjetividades</td></tr>
+<tr><td class="p-3 border font-bold">Raewyn Connell</td><td class="p-3 border">"Escuelas y justicia social"</td><td class="p-3 border">Justicia curricular</td></tr>
+<tr><td class="p-3 border font-bold">Frida Díaz Barriga</td><td class="p-3 border">"Metodología de diseño curricular"</td><td class="p-3 border">Modelo integral de diseño</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+
+<!------------------- PESTAÑA 2: DIAGNÓSTICO PEDAGÓGICO ------------------->
+<section id="section-diagnostico" class="content-view hidden animate-in fade-in duration-500">
+
+<div class="content-card border-t-8 border-teal-800">
+<h2 class="text-2xl font-bold mb-4 text-teal-900">📌 Resumen de Diagnóstico Pedagógico</h2>
+<p class="text-sm text-slate-600 mb-4">Es la disciplina que permite al pedagogo <strong>evaluar científicamente una situación educativa</strong> (individual, grupal o institucional) para identificar necesidades, dificultades, potencialidades y barreras, y a partir de ahí proponer intervenciones fundamentadas. No es un diagnóstico clínico ni psicológico, aunque usa herramientas de ambas disciplinas. Su finalidad última es <strong>mejorar los procesos educativos y promover la inclusión</strong>.</p>
+</div>
+
+<div class="content-card border-t-8 border-teal-700">
+<h2 class="text-2xl font-bold mb-4 text-teal-900">🔑 Conceptos Clave</h2>
+<div class="overflow-x-auto">
+<table class="w-full text-sm border-collapse bg-white shadow-sm rounded-lg overflow-hidden">
+<thead><tr class="bg-teal-50 text-left"><th class="p-3 border">Concepto</th><th class="p-3 border">Definición precisa</th></tr></thead>
+<tbody class="text-slate-600">
+<tr><td class="p-3 border font-bold">Diagnóstico pedagógico</td><td class="p-3 border">Proceso sistemático de recogida, análisis y valoración de información sobre una situación educativa para tomar decisiones de intervención.</td></tr>
+<tr><td class="p-3 border font-bold">BAP</td><td class="p-3 border">Barreras para el Aprendizaje y la Participación: obstáculos presentes en el entorno (físicos, actitudinales, curriculares) que limitan el aprendizaje. Sustituye al concepto de "necesidades educativas especiales".</td></tr>
+<tr><td class="p-3 border font-bold">Informe psicopedagógico</td><td class="p-3 border">Documento técnico y prescriptivo que recoge los resultados del diagnóstico, su interpretación y las recomendaciones de intervención.</td></tr>
+<tr><td class="p-3 border font-bold">Modelo psicométrico</td><td class="p-3 border">Enfoque tradicional centrado en medir aptitudes e inteligencia mediante tests estandarizados. Clasifica y etiqueta a los estudiantes.</td></tr>
+<tr><td class="p-3 border font-bold">Modelo ecológico</td><td class="p-3 border">Enfoque que analiza al estudiante en sus múltiples entornos (aula, familia, comunidad) y las interacciones entre ellos (Bronfenbrenner).</td></tr>
+<tr><td class="p-3 border font-bold">Modelo inclusivo</td><td class="p-3 border">Paradigma actual que busca identificar y eliminar BAP en lugar de "arreglar" al estudiante. Se basa en el DUA.</td></tr>
+<tr><td class="p-3 border font-bold">ZDP</td><td class="p-3 border">Zona de Desarrollo Próximo (Vygotsky): distancia entre lo que un estudiante puede hacer solo y lo que puede hacer con ayuda.</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div class="content-card border-t-8 border-teal-600">
+<h2 class="text-2xl font-bold mb-4 text-teal-900">📘 Bloque 1: Fundamentación Epistemológica</h2>
+<p class="text-sm text-slate-600 mb-4">El diagnóstico pedagógico no es sinónimo de diagnóstico psicológico ni de evaluación educativa. Tiene identidad propia: se centra en <strong>situaciones educativas</strong>, no solo en individuos; busca la <strong>mejora y la prevención</strong>, no solo la clasificación.</p>
+<div class="overflow-x-auto">
+<table class="w-full text-sm border-collapse bg-white shadow-sm rounded-lg overflow-hidden">
+<thead><tr class="bg-teal-50 text-left"><th class="p-3 border">Diagnóstico clínico</th><th class="p-3 border">Diagnóstico pedagógico</th></tr></thead>
+<tbody class="text-slate-600">
+<tr><td class="p-3 border">Busca patologías y trastornos</td><td class="p-3 border">Busca necesidades educativas y barreras</td></tr>
+<tr><td class="p-3 border">Centrado en el individuo</td><td class="p-3 border">Considera el contexto y la interacción</td></tr>
+<tr><td class="p-3 border">Finalidad: etiquetar y derivar</td><td class="p-3 border">Finalidad: comprender y proponer intervención educativa</td></tr>
+<tr><td class="p-3 border">Lenguaje médico</td><td class="p-3 border">Lenguaje pedagógico</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div class="content-card border-t-8 border-teal-500">
+<h2 class="text-2xl font-bold mb-4 text-teal-900">📘 Bloque 2: Modelos de Diagnóstico Pedagógico</h2>
+<div class="grid md:grid-cols-2 gap-4 text-sm">
+<div class="bg-slate-50 p-4 rounded-lg border border-slate-200">
+<h4 class="font-bold text-teal-700 border-b pb-1 mb-2">Modelo psicométrico</h4>
+<p>Mide inteligencia y aptitudes mediante tests estandarizados (WISC, Binet). Supone que las diferencias individuales explican el éxito o fracaso escolar.</p>
+<p class="text-red-600 text-xs mt-1">Crítica: etiqueta, ignora el contexto y subestima la educabilidad del sujeto.</p>
+</div>
+<div class="bg-slate-50 p-4 rounded-lg border border-slate-200">
+<h4 class="font-bold text-teal-700 border-b pb-1 mb-2">Modelo conductual</h4>
+<p>Identifica conductas problemáticas y las condiciones ambientales que las provocan. Herramientas: análisis funcional de la conducta, observación sistemática.</p>
+</div>
+<div class="bg-slate-50 p-4 rounded-lg border border-slate-200">
+<h4 class="font-bold text-teal-700 border-b pb-1 mb-2">Modelo cognitivo</h4>
+<p>Evalúa procesos mentales: atención, memoria, razonamiento. Herramientas: baterías neuropsicológicas, test de estilos cognitivos.</p>
+</div>
+<div class="bg-slate-50 p-4 rounded-lg border border-slate-200">
+<h4 class="font-bold text-teal-700 border-b pb-1 mb-2">Modelo ecológico</h4>
+<p>Analiza al estudiante en interacción con sus entornos (microsistema, mesosistema, exosistema, macrosistema) según Bronfenbrenner. Visión integral.</p>
+</div>
+</div>
+</div>
+
+<div class="content-card border-t-8 border-teal-400">
+<h2 class="text-2xl font-bold mb-4 text-teal-900">📘 Bloque 3: Fases del Proceso Diagnóstico</h2>
+<ol class="list-decimal pl-5 space-y-3 text-sm text-slate-700">
+<li><strong>Detección y derivación:</strong> Alguien (docente, familia) identifica señales de alerta: bajo rendimiento, conductas disruptivas, desmotivación.</li>
+<li><strong>Recogida de información:</strong> Selección de instrumentos adecuados: entrevistas, cuestionarios, pruebas estandarizadas, observación. Principio de <strong>triangulación</strong> (contrastar fuentes).</li>
+<li><strong>Análisis e interpretación:</strong> Se cruzan los datos, se buscan patrones, se formulan hipótesis diagnósticas a la luz de las teorías del aprendizaje.</li>
+<li><strong>Valoración y emisión del informe:</strong> Elaboración del informe psicopedagógico: datos del evaluado, motivo, instrumentos, resultados, interpretación, conclusiones, recomendaciones.</li>
+<li><strong>Intervención y seguimiento:</strong> Diseño de un plan de intervención (adaptaciones curriculares, apoyos) y seguimiento para evaluar efectividad.</li>
+</ol>
+</div>
+
+<div class="content-card border-t-8 border-teal-300">
+<h2 class="text-2xl font-bold mb-4 text-teal-900">🧪 Ejemplo Práctico: Caso Escolar</h2>
+<p class="text-sm text-slate-600"><strong>Situación:</strong> Juan, 9 años, tercer grado. La maestra reporta que no lee al nivel esperado, se distrae constantemente.</p>
+<ol class="list-decimal pl-5 space-y-2 text-sm text-slate-700 mt-2">
+<li><strong>Detección:</strong> La docente nota retraso y desmotivación.</li>
+<li><strong>Recogida:</strong> Entrevista a la madre (en casa no hay libros, pero Juan comprende cuando ella le lee). Se aplica PROLEC-R. Se observa que Juan se sienta atrás y no usa lentes (posible problema visual).</li>
+<li><strong>Análisis:</strong> PROLEC muestra dificultades en decodificación, pero buena comprensión oral. La observación revela que no ve bien el pizarrón.</li>
+<li><strong>Valoración:</strong> BAP principal es sensorial (problema visual no corregido) y metodológica (clase depende de lectura individual en silencio).</li>
+<li><strong>Informe:</strong> Recomienda examen visual, adaptaciones en el aula (audiolibros, lectura compartida) y programa de refuerzo fonológico.</li>
+<li><strong>Intervención:</strong> Se implementa y se da seguimiento a los dos meses. Juan mejora sustancialmente en lectura.</li>
+</ol>
+</div>
+</section>
+
+<!------------------- PESTAÑA 3: DIDÁCTICA Y RECURSOS TECNOLÓGICOS ------------------->
+<section id="section-didactica" class="content-view hidden animate-in fade-in duration-500">
+
+<div class="content-card border-t-8 border-purple-800">
+<h2 class="text-2xl font-bold mb-4 text-purple-900">📌 Resumen de Didáctica y Recursos Tecnológicos</h2>
+<p class="text-sm text-slate-600 mb-4">Fusiona la <strong>didáctica general</strong> (ciencia que estudia el proceso de enseñanza-aprendizaje) con la <strong>tecnología educativa</strong> (diseño y uso de recursos digitales con fundamento pedagógico). El pedagogo aprende a diseñar situaciones de aprendizaje efectivas, seleccionando y creando materiales que respondan a las necesidades cognitivas del estudiante, y no a modas tecnológicas.</p>
+</div>
+
+<div class="content-card border-t-8 border-purple-700">
+<h2 class="text-2xl font-bold mb-4 text-purple-900">🔑 Conceptos Clave</h2>
+<div class="overflow-x-auto">
+<table class="w-full text-sm border-collapse bg-white shadow-sm rounded-lg overflow-hidden">
+<thead><tr class="bg-purple-50 text-left"><th class="p-3 border">Concepto</th><th class="p-3 border">Definición precisa</th></tr></thead>
+<tbody class="text-slate-600">
+<tr><td class="p-3 border font-bold">Didáctica</td><td class="p-3 border">Ciencia que estudia el proceso de enseñanza-aprendizaje. Analiza, diseña, implementa y evalúa situaciones educativas intencionadas.</td></tr>
+<tr><td class="p-3 border font-bold">Transposición didáctica</td><td class="p-3 border">Proceso por el cual el "saber sabio" (científico) se transforma en "saber enseñado" (escolar). Término de Yves Chevallard.</td></tr>
+<tr><td class="p-3 border font-bold">SAMR</td><td class="p-3 border">Modelo de integración tecnológica con 4 niveles: Sustitución, Aumento, Modificación, Redefinición.</td></tr>
+<tr><td class="p-3 border font-bold">TPACK</td><td class="p-3 border">Modelo que postula que la integración efectiva de tecnología requiere la intersección de conocimientos Tecnológico, Pedagógico y de Contenido.</td></tr>
+<tr><td class="p-3 border font-bold">PLE</td><td class="p-3 border">Entorno Personal de Aprendizaje: conjunto de herramientas, fuentes de información, conexiones y actividades que cada persona utiliza para aprender.</td></tr>
+<tr><td class="p-3 border font-bold">LMS</td><td class="p-3 border">Learning Management System: plataforma de gestión de aprendizaje (Moodle, Canvas, Blackboard).</td></tr>
+<tr><td class="p-3 border font-bold">DUA</td><td class="p-3 border">Diseño Universal para el Aprendizaje: marco para diseñar currículos y materiales accesibles para todos desde el inicio.</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div class="content-card border-t-8 border-purple-600">
+<h2 class="text-2xl font-bold mb-4 text-purple-900">📘 Bloque 1: Fundamentación Didáctica y Elementos del Currículo</h2>
+<p class="text-sm text-slate-600 mb-4">La didáctica no es un recetario de técnicas. Es una disciplina que se ocupa de la teoría y la práctica de la enseñanza. Componentes del acto didáctico: <strong>docente, discente, contenido, método, contexto y evaluación</strong>.</p>
+<h3 class="font-bold text-lg mb-2 text-purple-800">Elementos del currículo oficial</h3>
+<ol class="list-decimal pl-5 space-y-1 text-sm text-slate-700 mb-4">
+<li><strong>Objetivos / Competencias:</strong> Lo que se espera que el estudiante logre (saber, saber hacer, saber ser).</li>
+<li><strong>Contenidos:</strong> Conjunto de conocimientos, procedimientos y actitudes.</li>
+<li><strong>Metodología:</strong> Estrategias y técnicas para facilitar el aprendizaje.</li>
+<li><strong>Evaluación:</strong> Procedimientos para recoger evidencias de aprendizaje.</li>
+<li><strong>Recursos:</strong> Materiales y herramientas, incluyendo los tecnológicos.</li>
+</ol>
+<h3 class="font-bold text-lg mb-2 text-purple-800">Alineamiento constructivo (Biggs)</h3>
+<p class="text-sm text-slate-600">Los objetivos, las actividades de aprendizaje y la evaluación deben estar <strong>coherentemente alineados</strong>.</p>
+</div>
+
+<div class="content-card border-t-8 border-purple-500">
+<h2 class="text-2xl font-bold mb-4 text-purple-900">📘 Bloque 2: Modelos de Integración Tecnológica (SAMR y TPACK)</h2>
+<div class="grid md:grid-cols-2 gap-6 text-sm">
+<div>
+<h3 class="font-bold text-lg mb-2 text-purple-800 border-b pb-1">Modelo SAMR (Puentedura)</h3>
+<ul class="space-y-2 text-slate-700">
+<li><strong>Sustitución:</strong> Tecnología como reemplazo directo sin cambio funcional (leer PDF en lugar de libro).</li>
+<li><strong>Aumento:</strong> Mejora funcional (PDF con búsqueda de palabras y diccionario integrado).</li>
+<li><strong>Modificación:</strong> Rediseño significativo de la tarea (Google Doc colaborativo con retroalimentación en tiempo real).</li>
+<li><strong>Redefinición:</strong> Creación de nuevas tareas antes imposibles (podcast debatiendo un tema histórico y compartirlo con audiencia global).</li>
 </ul>
 </div>
+<div>
+<h3 class="font-bold text-lg mb-2 text-purple-800 border-b pb-1">Modelo TPACK (Mishra y Koehler)</h3>
+<p class="text-slate-700 mb-2">El docente eficaz debe manejar tres círculos que se intersectan:</p>
+<ul class="space-y-1 text-slate-700">
+<li><strong>CK:</strong> Conocimiento del Contenido (qué enseñar).</li>
+<li><strong>PK:</strong> Conocimiento Pedagógico (cómo enseñar).</li>
+<li><strong>TK:</strong> Conocimiento Tecnológico (qué herramientas usar).</li>
+</ul>
+<p class="text-slate-700 mt-2">La intersección de los tres forma el <strong>TPACK</strong>, el conocimiento experto que distingue al profesional de la educación.</p>
+</div>
+</div>
+</div>
 
-<div class="bg-slate-50 p-6 rounded-2xl border border-slate-200">
-<h3 class="font-bold text-slate-800 mb-3">Niveles de Alfabetización (Martin)</h3>
-<div class="flex flex-col gap-2">
-<span class="bg-white p-2 rounded border-l-4 border-green-500"><b>1. Competencia:</b> Habilidades básicas operativas.</span>
-<span class="bg-white p-2 rounded border-l-4 border-blue-500"><b>2. Uso Digital:</b> Aplicación profesional y crítica.</span>
-<span class="bg-white p-2 rounded border-l-4 border-purple-500"><b>3. Transformación:</b> Innovación y creación de conocimiento.</span>
+<div class="content-card border-t-8 border-purple-400">
+<h2 class="text-2xl font-bold mb-4 text-purple-900">📘 Bloque 3: Diseño Tecnopedagógico y Aprendizaje Multimedia</h2>
+<h3 class="font-bold text-lg mb-2 text-purple-800">Principios de Mayer para el aprendizaje multimedia</h3>
+<ol class="list-decimal pl-5 space-y-1 text-sm text-slate-700 mb-4">
+<li><strong>Multimedia:</strong> Las personas aprenden mejor con palabras e imágenes que con solo palabras.</li>
+<li><strong>Contigüidad espacial:</strong> Palabras e imágenes correspondientes deben estar cerca entre sí.</li>
+<li><strong>Contigüidad temporal:</strong> Deben presentarse simultáneamente.</li>
+<li><strong>Coherencia:</strong> Eliminar material irrelevante (aunque sea "atractivo").</li>
+<li><strong>Modalidad:</strong> Mejor imágenes con audio que imágenes con texto escrito (evitar sobrecargar el canal visual).</li>
+<li><strong>Redundancia:</strong> No repetir la misma información en texto y audio simultáneamente.</li>
+<li><strong>Segmentación:</strong> Dividir el contenido en fragmentos manejables.</li>
+<li><strong>Personalización:</strong> Usar lenguaje conversacional (tú, nosotros) en lugar de formal.</li>
+</ol>
 </div>
+
+<div class="content-card border-t-8 border-purple-300">
+<h2 class="text-2xl font-bold mb-4 text-purple-900">🧪 Ejemplo Práctico de Diseño</h2>
+<p class="text-sm text-slate-600"><strong>Situación:</strong> Elaborar una unidad didáctica sobre "Ecosistemas" para 5° de primaria, integrando TIC.</p>
+<ul class="list-disc pl-5 space-y-2 text-sm text-slate-700 mt-2">
+<li><strong>Objetivo:</strong> "Comprender las interacciones entre seres vivos y su entorno, representando un ecosistema local en formato digital".</li>
+<li><strong>Metodología (aula invertida + ABP):</strong> Video interactivo en casa (H5P con preguntas incrustadas). En clase, en equipos, investigan un ecosistema local y crean presentación colaborativa con Google Slides.</li>
+<li><strong>Recursos:</strong> Video interactivo, cámara del celular, Google Slides, rúbrica digital (Google Forms).</li>
+<li><strong>Nivel SAMR alcanzado:</strong> Redefinición (combinan investigación de campo real con creación digital colaborativa y rúbrica automatizada).</li>
+</ul>
+</div>
+</section>
+
+<!------------------- PESTAÑA 4: MODELOS DE DISEÑO INSTRUCCIONAL ------------------->
+<section id="section-instruccional" class="content-view hidden animate-in fade-in duration-500">
+
+<div class="content-card border-t-8 border-amber-800">
+<h2 class="text-2xl font-bold mb-4 text-amber-900">📌 Resumen de Modelos de Diseño Instruccional</h2>
+<p class="text-sm text-slate-600 mb-4">El Diseño Instruccional (DI) es la <strong>ingeniería del aprendizaje</strong>. Consiste en aplicar principios teóricos sobre cómo aprenden las personas para construir experiencias formativas estructuradas, eficaces y medibles. Esta materia dota al pedagogo de las metodologías y herramientas para diseñar cursos, talleres, programas de capacitación y materiales educativos (presenciales, virtuales e híbridos) con rigor técnico. El profesional de DI es un <strong>arquitecto de experiencias de aprendizaje</strong>.</p>
+</div>
+
+<div class="content-card border-t-8 border-amber-700">
+<h2 class="text-2xl font-bold mb-4 text-amber-900">🔑 Conceptos Clave</h2>
+<div class="overflow-x-auto">
+<table class="w-full text-sm border-collapse bg-white shadow-sm rounded-lg overflow-hidden">
+<thead><tr class="bg-amber-50 text-left"><th class="p-3 border">Concepto</th><th class="p-3 border">Definición precisa</th></tr></thead>
+<tbody class="text-slate-600">
+<tr><td class="p-3 border font-bold">Diseño Instruccional</td><td class="p-3 border">Proceso sistemático de planificar, desarrollar, implementar y evaluar experiencias de aprendizaje basadas en teorías del aprendizaje.</td></tr>
+<tr><td class="p-3 border font-bold">ADDIE</td><td class="p-3 border">Modelo clásico de DI con cinco fases: Análisis, Diseño, Desarrollo, Implementación y Evaluación. Es lineal y exhaustivo.</td></tr>
+<tr><td class="p-3 border font-bold">SAM</td><td class="p-3 border">Modelo ágil de DI basado en iteraciones rápidas, prototipado y retroalimentación continua.</td></tr>
+<tr><td class="p-3 border font-bold">Nueve eventos de Gagné</td><td class="p-3 border">Secuencia diseñada para optimizar el procesamiento de información: ganar atención, informar objetivos, estimular recuerdo previo, presentar contenido, guiar aprendizaje, provocar desempeño, dar retroalimentación, evaluar, promover retención.</td></tr>
+<tr><td class="p-3 border font-bold">Kirkpatrick</td><td class="p-3 border">Modelo de evaluación del impacto formativo con cuatro niveles: Reacción, Aprendizaje, Comportamiento, Resultados.</td></tr>
+<tr><td class="p-3 border font-bold">ROI</td><td class="p-3 border">Métrica propuesta por Phillips que calcula el retorno económico de la formación.</td></tr>
+<tr><td class="p-3 border font-bold">Carga cognitiva</td><td class="p-3 border">Cantidad de esfuerzo mental requerido para procesar información. El DI debe gestionar tres tipos: intrínseca, extrínseca y relevante.</td></tr>
+<tr><td class="p-3 border font-bold">LXD</td><td class="p-3 border">Learning Experience Design: evolución del DI que incorpora principios de UX, emoción, motivación y narrativa.</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div class="content-card border-t-8 border-amber-600">
+<h2 class="text-2xl font-bold mb-4 text-amber-900">📘 Bloque 1: Modelos de Diseño Instruccional</h2>
+<div class="grid md:grid-cols-2 gap-6 text-sm">
+<div class="bg-slate-50 p-4 rounded-lg border border-slate-200">
+<h4 class="font-bold text-amber-800 border-b pb-1 mb-2">Modelo ADDIE (lineal y documental)</h4>
+<ul class="space-y-1 text-slate-700">
+<li><strong>Análisis:</strong> Evaluar necesidades, perfil de la audiencia, recursos.</li>
+<li><strong>Diseño:</strong> Redactar objetivos, seleccionar estrategias y medios.</li>
+<li><strong>Desarrollo:</strong> Crear materiales (guiones, videos, guías).</li>
+<li><strong>Implementación:</strong> Ejecutar la formación (subir al LMS).</li>
+<li><strong>Evaluación:</strong> Formativa (durante) y sumativa (al final).</li>
+</ul>
+</div>
+<div class="bg-slate-50 p-4 rounded-lg border border-slate-200">
+<h4 class="font-bold text-amber-800 border-b pb-1 mb-2">Modelo SAM (ágil e iterativo)</h4>
+<p class="text-slate-700 mb-2">Tres fases repetidas en ciclos cortos:</p>
+<ol class="list-decimal pl-5 space-y-1 text-slate-700">
+<li><strong>Evaluación / Preparación:</strong> Reunir información básica.</li>
+<li><strong>Diseño iterativo:</strong> Crear prototipos, probarlos con usuarios, ajustar y repetir.</li>
+<li><strong>Desarrollo iterativo:</strong> Construir versión definitiva con mejoras continuas.</li>
+</ol>
 </div>
 </div>
 </div>
 
-<div id="inf-comunes" class="content-card border-t-8 border-amber-300">
-<h2 class="text-2xl font-bold mb-4 text-amber-900">Gestión de Bienes Comunes (Elinor Ostrom)</h2>
-<p class="text-xs text-slate-500 mb-4 uppercase font-bold">Principios para Comunidades de Práctica Docente:</p>
-<div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs text-slate-700">
-<div class="p-3 bg-amber-50 rounded-lg">Límites claros del grupo.</div>
-<div class="p-3 bg-amber-50 rounded-lg">Participación en la modificación de reglas.</div>
-<div class="p-3 bg-amber-50 rounded-lg">Monitoreo y sanciones graduadas por pares.</div>
-<div class="p-3 bg-amber-50 rounded-lg">Mecanismos accesibles de resolución de conflictos.</div>
+<div class="content-card border-t-8 border-amber-500">
+<h2 class="text-2xl font-bold mb-4 text-amber-900">📘 Bloque 2: Nueve Eventos de Instrucción de Gagné</h2>
+<ol class="list-decimal pl-5 space-y-2 text-sm text-slate-700">
+<li><strong>Ganar la atención:</strong> Sorpresa, pregunta, anécdota.</li>
+<li><strong>Informar los objetivos</strong> al estudiante.</li>
+<li><strong>Estimular el recuerdo</strong> de conocimientos previos.</li>
+<li><strong>Presentar el contenido:</strong> Organizado, claro, con ejemplos.</li>
+<li><strong>Guiar el aprendizaje:</strong> Demostraciones, casos, andamiaje.</li>
+<li><strong>Provocar el desempeño:</strong> Actividades prácticas.</li>
+<li><strong>Proporcionar retroalimentación:</strong> Inmediata y específica.</li>
+<li><strong>Evaluar el desempeño:</strong> Formalmente.</li>
+<li><strong>Promover la retención y transferencia:</strong> Aplicación a situaciones nuevas.</li>
+</ol>
+</div>
+
+<div class="content-card border-t-8 border-amber-400">
+<h2 class="text-2xl font-bold mb-4 text-amber-900">📘 Bloque 3: Evaluación de Impacto Formativo (Kirkpatrick)</h2>
+<div class="overflow-x-auto">
+<table class="w-full text-sm border-collapse bg-white shadow-sm rounded-lg overflow-hidden">
+<thead><tr class="bg-amber-50 text-left"><th class="p-3 border">Nivel</th><th class="p-3 border">Qué mide</th><th class="p-3 border">Métodos</th></tr></thead>
+<tbody class="text-slate-600">
+<tr><td class="p-3 border font-bold">1. Reacción</td><td class="p-3 border">Satisfacción de los participantes</td><td class="p-3 border">Encuestas de satisfacción, sondeos</td></tr>
+<tr><td class="p-3 border font-bold">2. Aprendizaje</td><td class="p-3 border">Conocimientos, habilidades adquiridas</td><td class="p-3 border">Exámenes, rúbricas, simulaciones</td></tr>
+<tr><td class="p-3 border font-bold">3. Comportamiento</td><td class="p-3 border">Transferencia al puesto de trabajo</td><td class="p-3 border">Observación, entrevistas a supervisores (3-6 meses después)</td></tr>
+<tr><td class="p-3 border font-bold">4. Resultados</td><td class="p-3 border">Impacto en la organización</td><td class="p-3 border">Indicadores de productividad, calidad, reducción de errores</td></tr>
+</tbody>
+</table>
+</div>
+<p class="text-sm text-slate-600 mt-2"><strong>ROI (Phillips, Nivel 5):</strong> Calcula el retorno económico. Fórmula: ROI = (Beneficio neto – Costo del programa) / Costo del programa × 100.</p>
+</div>
+</section>
+
+<!------------------- PESTAÑA 5: PSICOPEDAGOGÍA ------------------->
+<section id="section-psico" class="content-view hidden animate-in fade-in duration-500">
+
+<div class="content-card border-t-8 border-rose-800">
+<h2 class="text-2xl font-bold mb-4 text-rose-900">📌 Resumen de Psicopedagogía</h2>
+<p class="text-sm text-slate-600 mb-4">La Psicopedagogía estudia la <strong>relación entre los procesos psicológicos del desarrollo, el aprendizaje y la intervención educativa</strong>. El psicopedagogo no es un psicólogo clínico, sino un profesional que evalúa, diagnostica e interviene en dificultades de aprendizaje y promueve el desarrollo integral desde una mirada educativa. Se enfoca en la <strong>diversidad como norma</strong>, no como desviación, y su práctica está orientada a la inclusión, el bienestar socioemocional y el trabajo colaborativo con docentes, familias y otros profesionales.</p>
+</div>
+
+<div class="content-card border-t-8 border-rose-700">
+<h2 class="text-2xl font-bold mb-4 text-rose-900">🔑 Conceptos Clave</h2>
+<div class="overflow-x-auto">
+<table class="w-full text-sm border-collapse bg-white shadow-sm rounded-lg overflow-hidden">
+<thead><tr class="bg-rose-50 text-left"><th class="p-3 border">Concepto</th><th class="p-3 border">Definición precisa</th></tr></thead>
+<tbody class="text-slate-600">
+<tr><td class="p-3 border font-bold">Psicopedagogía</td><td class="p-3 border">Disciplina aplicada que integra psicología del desarrollo, pedagogía y neuroeducación para evaluar, prevenir e intervenir en procesos de aprendizaje y desarrollo humano.</td></tr>
+<tr><td class="p-3 border font-bold">ZDP (Vygotsky)</td><td class="p-3 border">Distancia entre el nivel de desarrollo real y el potencial (lo que se logra con ayuda de un mediador). Fundamento de la intervención psicopedagógica.</td></tr>
+<tr><td class="p-3 border font-bold">Modificabilidad cognitiva</td><td class="p-3 border">Principio de Feuerstein: la inteligencia no es fija, puede desarrollarse mediante una mediación adecuada.</td></tr>
+<tr><td class="p-3 border font-bold">Aprendizaje significativo</td><td class="p-3 border">Ausubel: aquel que se conecta con los conocimientos previos del estudiante de manera no arbitraria y sustantiva.</td></tr>
+<tr><td class="p-3 border font-bold">Funciones ejecutivas</td><td class="p-3 border">Procesos cognitivos superiores: planificar, organizar, inhibir impulsos, mantener la atención y regular la conducta.</td></tr>
+<tr><td class="p-3 border font-bold">Plasticidad cerebral</td><td class="p-3 border">Capacidad del cerebro para modificarse estructural y funcionalmente a lo largo de la vida en respuesta a la experiencia.</td></tr>
+<tr><td class="p-3 border font-bold">DEA</td><td class="p-3 border">Dificultad Específica de Aprendizaje: trastorno del neurodesarrollo que afecta áreas concretas: lectura (dislexia), escritura (disgrafía), matemáticas (discalculia).</td></tr>
+<tr><td class="p-3 border font-bold">Neurodiversidad</td><td class="p-3 border">Reconoce que las diferencias neurológicas (TDAH, autismo, dislexia) son variaciones naturales de la condición humana, no defectos.</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div class="content-card border-t-8 border-rose-600">
+<h2 class="text-2xl font-bold mb-4 text-rose-900">📘 Bloque 1: Fundamentos Teóricos</h2>
+<div class="grid md:grid-cols-2 gap-4 text-sm">
+<div class="bg-slate-50 p-4 rounded-lg border border-slate-200">
+<h4 class="font-bold text-rose-700 border-b pb-1 mb-2">Constructivismo y Mediación (Vygotsky y Feuerstein)</h4>
+<p><strong>Vygotsky:</strong> El aprendizaje es un proceso social mediado. La ZDP es el espacio donde actúa el psicopedagogo: brindar la ayuda justa para que el estudiante avance.</p>
+<p><strong>Feuerstein:</strong> La inteligencia se puede modificar. Propuso la <strong>Experiencia de Aprendizaje Mediado (EAM)</strong>: un adulto significativo filtra, organiza y da significado a los estímulos.</p>
+</div>
+<div class="bg-slate-50 p-4 rounded-lg border border-slate-200">
+<h4 class="font-bold text-rose-700 border-b pb-1 mb-2">Neuroeducación</h4>
+<p><strong>Plasticidad cerebral:</strong> El cerebro cambia con la experiencia. La intervención psicopedagógica estimula circuitos neuronales mediante actividades específicas.</p>
+<p><strong>Funciones ejecutivas:</strong> Atención selectiva, memoria de trabajo, control inhibitorio, flexibilidad cognitiva.</p>
+<p><strong>Sistema límbico y emoción:</strong> Las emociones modulan la memoria. El estrés crónico bloquea el aprendizaje.</p>
+</div>
+</div>
+</div>
+
+<div class="content-card border-t-8 border-rose-500">
+<h2 class="text-2xl font-bold mb-4 text-rose-900">📘 Bloque 2: Dificultades Específicas de Aprendizaje (DEA)</h2>
+<div class="grid md:grid-cols-2 gap-4 text-sm">
+<div class="bg-slate-50 p-4 rounded-lg border border-slate-200">
+<h4 class="font-bold text-rose-700 border-b pb-1 mb-2">Dislexia</h4>
+<p>Dificultad en la precisión y fluidez lectora, derivada de un déficit en el procesamiento fonológico. Señales: lectura lenta, errores de inversión (b/d), omisión de letras. Intervención: método multisensorial, trabajo fonológico sistemático.</p>
+</div>
+<div class="bg-slate-50 p-4 rounded-lg border border-slate-200">
+<h4 class="font-bold text-rose-700 border-b pb-1 mb-2">Disgrafía</h4>
+<p>Dificultad en la expresión escrita que afecta la caligrafía (motora) o la composición (ortográfica). Intervención: ejercicios grafomotores, uso del ordenador, enseñanza explícita de la estructura textual.</p>
+</div>
+<div class="bg-slate-50 p-4 rounded-lg border border-slate-200">
+<h4 class="font-bold text-rose-700 border-b pb-1 mb-2">Discalculia</h4>
+<p>Dificultad en el procesamiento numérico y el cálculo. Señales: no comprende el concepto de cantidad, invierte números (21 por 12). Intervención: material concreto (bloques, ábaco), enseñanza explícita de estrategias.</p>
+</div>
+<div class="bg-slate-50 p-4 rounded-lg border border-slate-200">
+<h4 class="font-bold text-rose-700 border-b pb-1 mb-2">TDAH</h4>
+<p>Dificultad en la regulación atencional, control inhibitorio y nivel de actividad. Intervención: ubicación cercana al docente, instrucciones cortas y claras, fragmentar tareas, reforzadores positivos frecuentes, pausas activas.</p>
+</div>
+</div>
+</div>
+
+<div class="content-card border-t-8 border-rose-400">
+<h2 class="text-2xl font-bold mb-4 text-rose-900">📘 Bloque 3: Intervención Psicopedagógica y DUA</h2>
+<h3 class="font-bold text-lg mb-2 text-rose-800">Diseño Universal para el Aprendizaje (DUA)</h3>
+<p class="text-sm text-slate-600 mb-4">Marco actual para garantizar la inclusión desde el diseño. Sus tres principios:</p>
+<ol class="list-decimal pl-5 space-y-2 text-sm text-slate-700 mb-4">
+<li><strong>Múltiples formas de representación (el QUÉ):</strong> Presentar la información en formatos variados (texto, audio, imágenes, video).</li>
+<li><strong>Múltiples formas de acción y expresión (el CÓMO):</strong> Permitir que los estudiantes demuestren lo aprendido de diferentes maneras.</li>
+<li><strong>Múltiples formas de motivación (el POR QUÉ):</strong> Ofrecer opciones para captar el interés, mantener el esfuerzo y autorregularse.</li>
+</ol>
+
+<h3 class="font-bold text-lg mb-2 text-rose-800">Adaptaciones curriculares</h3>
+<div class="overflow-x-auto">
+<table class="w-full text-sm border-collapse bg-white shadow-sm rounded-lg overflow-hidden">
+<thead><tr class="bg-rose-50 text-left"><th class="p-3 border">Tipo</th><th class="p-3 border">Descripción</th><th class="p-3 border">Ejemplo</th></tr></thead>
+<tbody class="text-slate-600">
+<tr><td class="p-3 border font-bold">De acceso</td><td class="p-3 border">Modifican los recursos o espacios.</td><td class="p-3 border">Atril, lupa, software lector de pantalla.</td></tr>
+<tr><td class="p-3 border font-bold">No significativas</td><td class="p-3 border">Modifican metodología, tiempo, actividades, pero no los objetivos.</td><td class="p-3 border">Más tiempo en examen, lectura oral de enunciados.</td></tr>
+<tr><td class="p-3 border font-bold">Significativas</td><td class="p-3 border">Modifican objetivos y contenidos del currículo.</td><td class="p-3 border">Reducir contenidos mínimos en matemáticas.</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div class="content-card border-t-8 border-rose-300">
+<h2 class="text-2xl font-bold mb-4 text-rose-900">📘 Bloque 4: Debates Contemporáneos</h2>
+<div class="space-y-4 text-sm text-slate-700">
+<div class="bg-rose-50 p-4 rounded-xl border border-rose-100">
+<h4 class="font-bold text-rose-800">Medicalización de la infancia</h4>
+<p>Aumento exponencial de diagnósticos de TDAH, ansiedad, depresión infantil. Crítica psicopedagógica: ¿son patologías reales o respuestas esperables a entornos escolares estresantes, currículos rígidos, falta de juego y movimiento? El psicopedagogo debe agotar primero las vías educativas antes de derivar a psiquiatría.</p>
+</div>
+<div class="bg-rose-50 p-4 rounded-xl border border-rose-100">
+<h4 class="font-bold text-rose-800">Neuromitos en educación</h4>
+<p>"Solo usamos el 10% del cerebro" (falso). "Hay personas de hemisferio derecho y de hemisferio izquierdo" (falso). "Existen estilos de aprendizaje VAK" (sin evidencia). El psicopedagogo debe formarse en neurociencia rigurosa.</p>
+</div>
+<div class="bg-rose-50 p-4 rounded-xl border border-rose-100">
+<h4 class="font-bold text-rose-800">Neurodiversidad</h4>
+<p>El autismo, el TDAH, la dislexia no son "enfermedades", son variaciones neurológicas que implican formas diferentes de percibir, pensar y aprender. El rol del psicopedagogo no es "normalizar", sino identificar las fortalezas de cada perfil y crear entornos que permitan florecer a todos los cerebros.</p>
+</div>
 </div>
 </div>
 </section>
@@ -534,8 +633,8 @@ section [id] { scroll-margin-top: 190px; } /* Ajuste para anclas */
 </main>
 
 <footer class="bg-slate-900 text-slate-400 py-12 text-center text-sm border-t border-slate-800">
-<p class="font-bold text-white mb-2">Guía Estricta de Certificación Técnica</p>
-<p>Diseño de Materiales Educativos | 2026</p>
+<p class="font-bold text-white mb-2">Guía Completa de Preparación</p>
+<p>Licenciatura en Pedagogía | 2026</p>
 </footer>
 
 <script>
@@ -546,28 +645,24 @@ function toggleSidebar() {
 }
 
 function switchTab(tab) {
-    const tabs = ['teoria', 'modelos', 'moodle', 'estrategico'];
+    const tabs = ['curricular', 'diagnostico', 'didactica', 'instruccional', 'psico'];
     tabs.forEach(t => {
         const section = document.getElementById('section-' + t);
         const btn = document.getElementById('tab-' + t);
-        
         if (t === tab) {
             section.style.display = 'block';
             btn.classList.add('tab-active-' + t);
-            btn.classList.remove('text-slate-500'); // Quita el gris para resaltar
-            
-            // Especiales por color según diseño original
-            if (t === 'estrategico') {
-                btn.classList.add('text-amber-700', 'bg-amber-50', 'border-amber-200');
+            btn.classList.remove('text-slate-500', 'bg-white', 'hover:bg-slate-100');
+            if (t === 'psico') {
+                btn.classList.add('text-rose-700', 'bg-rose-50', 'border-rose-200');
                 btn.classList.remove('border-transparent');
             }
         } else {
             section.style.display = 'none';
             btn.classList.remove('tab-active-' + t);
-            btn.classList.add('text-slate-500'); // Regresa el gris
-            
-            if (t === 'estrategico') {
-                btn.classList.remove('text-amber-700', 'bg-amber-50', 'border-amber-200');
+            btn.classList.add('text-slate-500');
+            if (t === 'psico') {
+                btn.classList.remove('text-rose-700', 'bg-rose-50', 'border-rose-200');
                 btn.classList.add('border-transparent');
             }
         }
