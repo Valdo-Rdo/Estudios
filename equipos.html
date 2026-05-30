@@ -153,86 +153,68 @@
         }
 
         function generarEquiposReales(participantes) {
-            const targetSize = parseInt(document.getElementById('teamSize').value);
+    const targetSize = parseInt(document.getElementById('teamSize').value);
+    const p1 = "Oswaldo";
+    const p2 = "Teresa";
 
-            // =====================================================================
-            // MODO 1: OSWALDO Y TERESA SIEMPRE JUNTOS (ACTIVO POR DEFECTO)
-            // =====================================================================
-            // Si quieres que Oswaldo y Teresa SIEMPRE queden en el mismo equipo,
-            // deja este bloque tal cual está. Para desactivarlo, coméntalo completamente
-            // y descomenta el bloque "MODO 2" más abajo.
-            const p1 = "Oswaldo";
-            const p2 = "Teresa";
-            onst parejaJunta = participantes.includes(p1) && participantes.includes(p2);
+    // 1. Separamos a la pareja del resto de los participantes
+    let enPareja = participantes.includes(p1) && participantes.includes(p2);
+    let restantes = participantes.filter(p => p !== p1 && p !== p2);
+    
+    // 2. Mezclamos al azar a los que sobran
+    restantes = shuffleArray(restantes);
 
-            // Si la pareja está junta, los apartamos del grupo que se reparte aleatoriamente
-            let restantes;
-            if (parejaJunta) {
-            restantes = participantes.filter(p => p !== p1 && p !== p2);
-            } else {
-            restantes = [...participantes];  // todos los seleccionados
-            }
-            // =====================================================================
-            // FIN DEL BLOQUE DE FORZADO (MODO 1)
-            // =====================================================================
+    // 3. Calculamos cuántos equipos necesitamos
+    let numEquipos = Math.ceil(participantes.length / targetSize);
+    let equipos = Array.from({ length: numEquipos }, () => []);
 
-            
-            // =====================================================================
-            // MODO 2: TOTALMENTE ALEATORIO (SIN FORZAR PAREJAS)
-            // =====================================================================
-            // Si prefieres que los equipos sean 100% al azar y Oswaldo y Teresa NO
-            // tengan que ir juntos, comenta el bloque "MODO 1" completo y descomenta
-            // estas dos líneas:
-            let restantes = [...participantes];
-            const parejaJunta = true;
-            // =====================================================================
-                        
-            restantes = shuffleArray(restantes);
+    // 4. Ponemos a Oswaldo y Teresa juntos en el primer equipo (si fueron seleccionados)
+    if (enPareja) {
+        equipos[0].push(p1, p2);
+    } else if (participantes.includes(p1)) {
+        equipos[0].push(p1);
+    } else if (participantes.includes(p2)) {
+        equipos[0].push(p2);
+    }
 
-            let numEquipos = Math.ceil(participantes.length / targetSize);
-            let equipos = Array.from({ length: numEquipos }, () => []);
-
-            // Colocar a Oswaldo y Teresa juntos en un equipo aleatorio (solo si parejaJunta es true)
-            if (parejaJunta) {
-                const randIdx = Math.floor(Math.random() * numEquipos);
-                equipos[randIdx].push(p1, p2);
-            }
-
-            // Repartir el resto de participantes
-            let t = 0;
-            while (restantes.length > 0) {
-                if (equipos[t].length >= targetSize) {
-                    t = (t + 1) % numEquipos;
-                    continue;
-                }
-                equipos[t].push(restantes.pop());
-                t = (t + 1) % numEquipos;
-            }
-
-            // Si algún equipo queda con una sola persona, la redistribuimos
-            let equipoSolitarioIdx = equipos.findIndex(eq => eq.length === 1);
-            if (equipoSolitarioIdx !== -1 && equipos.length > 1) {
-                const personaSola = equipos[equipoSolitarioIdx].pop();
-                const destinoIdx = (equipoSolitarioIdx === 0) ? 1 : equipoSolitarioIdx - 1;
-                equipos[destinoIdx].push(personaSola);
-                equipos = equipos.filter(eq => eq.length > 0);
-            }
-
-            // Mostrar resultados
-            const container = document.getElementById('teamsContainer');
-            container.innerHTML = '';
-            
-            shuffleArray(equipos).forEach((eq, i) => {
-                shuffleArray(eq);
-                const card = document.createElement('div');
-                card.className = 'bg-blue-50 border border-blue-100 rounded-xl p-4 fade-in shadow-sm';
-                card.style.animationDelay = `${i * 0.1}s`;
-                
-                const list = eq.map(n => `<li class="py-1 text-gray-700 border-b border-blue-100/30 last:border-0">• ${n}</li>`).join('');
-                card.innerHTML = `<h3 class="font-bold text-blue-800 mb-2">Equipo ${i + 1}</h3><ul>${list}</ul>`;
-                container.appendChild(card);
-            });
+    // 5. Repartimos al resto de participantes en los equipos
+    let t = 0;
+    while (restantes.length > 0) {
+        // Saltamos al siguiente equipo si el actual ya está lleno
+        if (equipos[t].length >= targetSize) {
+            t = (t + 1) % numEquipos;
         }
+        equipos[t].push(restantes.pop());
+        t = (t + 1) % numEquipos;
+    }
+
+    // 6. Redistribuir si algún equipo quedó con 1 persona (evitar equipos de 1)
+    // Buscamos equipos con solo 1 persona
+    let solitos = equipos.filter(eq => eq.length === 1);
+    while (solitos.length > 0 && equipos.length > 1) {
+        let idx = equipos.findIndex(eq => eq.length === 1);
+        let persona = equipos[idx].pop();
+        let destino = (idx === 0) ? 1 : 0;
+        equipos[destino].push(persona);
+        equipos.splice(idx, 1);
+        solitos = equipos.filter(eq => eq.length === 1);
+    }
+
+    // 7. Mostrar resultados
+    const container = document.getElementById('teamsContainer');
+    container.innerHTML = '';
+    
+    // Mezclamos el orden de los equipos finales para que no siempre sea el equipo 1
+    shuffleArray(equipos).forEach((eq, i) => {
+        const card = document.createElement('div');
+        card.className = 'bg-blue-50 border border-blue-100 rounded-xl p-4 fade-in shadow-sm';
+        card.style.animationDelay = `${i * 0.1}s`;
+        
+        const list = eq.map(n => `<li class="py-1 text-gray-700 border-b border-blue-100/30 last:border-0">• ${n}</li>`).join('');
+        card.innerHTML = `<h3 class="font-bold text-blue-800 mb-2">Equipo ${i + 1}</h3><ul>${list}</ul>`;
+        container.appendChild(card);
+    });
+}
     </script>
 </body>
 </html>
