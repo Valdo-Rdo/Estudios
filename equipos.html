@@ -161,17 +161,17 @@
             // Si quieres que Oswaldo y Teresa SIEMPRE queden en el mismo equipo,
             // deja este bloque tal cual está. Para desactivarlo, coméntalo completamente
             // y descomenta el bloque "MODO 2" más abajo.
-            //const p1 = "Oswaldo";
-            //const p2 = "Teresa";
-            //const parejaJunta = participantes.includes(p1) && participantes.includes(p2);
+            const p1 = "Oswaldo";
+            const p2 = "Teresa";
+            onst parejaJunta = participantes.includes(p1) && participantes.includes(p2);
 
             // Si la pareja está junta, los apartamos del grupo que se reparte aleatoriamente
-            //let restantes;
-            //if (parejaJunta) {
-            //  restantes = participantes.filter(p => p !== p1 && p !== p2);
-            //} else {
-            //  restantes = [...participantes];  // todos los seleccionados
-            //}
+            let restantes;
+            if (parejaJunta) {
+            restantes = participantes.filter(p => p !== p1 && p !== p2);
+            } else {
+            restantes = [...participantes];  // todos los seleccionados
+            }
             // =====================================================================
             // FIN DEL BLOQUE DE FORZADO (MODO 1)
             // =====================================================================
@@ -183,8 +183,8 @@
             // Si prefieres que los equipos sean 100% al azar y Oswaldo y Teresa NO
             // tengan que ir juntos, comenta el bloque "MODO 1" completo y descomenta
             // estas dos líneas:
-            let restantes = [...participantes];
-            const parejaJunta = false;
+            //let restantes = [...participantes];
+            //const parejaJunta = false;
             // =====================================================================
                         
             restantes = shuffleArray(restantes);
