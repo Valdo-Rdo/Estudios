@@ -34,7 +34,7 @@
             <div class="bg-white rounded-2xl shadow-lg p-6 md:col-span-1 border border-gray-100">
                 <div class="flex justify-between items-center mb-4 border-b pb-2">
                     <h2 class="text-xl font-bold text-gray-700">👥 Participantes</h2>
-                    <span id="countDisplay" onclick="toggleReglaSecreta()" class="text-xs bg-gray-100 text-gray-500 px-2 py-1 rounded-full font-bold select-none cursor-default">11 Seleccionados</span>
+                    <span id="countDisplay" onclick="toggleReglaSecreta()" class="text-xs bg-gray-100 text-gray-500 px-2 py-1 rounded-full font-bold select-none cursor-default" title="Contador de participantes">11 Seleccionados</span>
                 </div>
                 
                 <form id="participantsForm" class="space-y-1 mb-6 max-h-[400px] overflow-y-auto pr-2">
@@ -124,7 +124,6 @@
         // FUNCIÓN SECRETA
         function toggleReglaSecreta() {
             parejaFija = !parejaFija;
-            // No ponemos alertas ni cambios de color para mantenerlo 100% oculto
         }
 
         // Actualizar el contador visual de checkboxes
@@ -135,11 +134,12 @@
 
         // Función matemática para revolver arreglos
         function shuffleArray(array) {
-            for (let i = array.length - 1; i > 0; i--) {
+            let arrCopy = [...array]; // Copia para no mutar el original
+            for (let i = arrCopy.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
-                [array[i], array[j]] = [array[j], array[i]];
+                [arrCopy[i], arrCopy[j]] = [arrCopy[j], arrCopy[i]];
             }
-            return array;
+            return arrCopy;
         }
 
         // Simular la carga y llamar a la lógica
@@ -185,7 +185,7 @@
                 // Si ambos están y la regla está activa, van directo al equipo base
                 equipos[0].push(p1, p2);
             } else {
-                // Si la regla se desactivó con el clic secreto, o falta alguno de los dos, se mezclan normal
+                // Si la regla se desactivó con el clic secreto, o falta alguno, se mezclan normal
                 if (participantes.includes(p1)) restantes.push(p1);
                 if (participantes.includes(p2)) restantes.push(p2);
             }
@@ -200,7 +200,7 @@
                 equipos[targetIdx].push(restantes.pop());
             }
 
-            // 6. Evitar que existan equipos de 1 sola persona
+            // 6. Evitar que existan equipos de 1 sola persona (si hay más de 1 equipo)
             let solitos = equipos.filter(eq => eq.length === 1);
             while (solitos.length > 0 && equipos.length > 1) {
                 let idx = equipos.findIndex(eq => eq.length === 1);
@@ -219,78 +219,17 @@
             const container = document.getElementById('teamsContainer');
             container.innerHTML = '';
             
-            // Revolvemos el orden de los equipos para que Oswaldo y Teresa no sean siempre el "Equipo 1"
-            shuffleArray(equipos).forEach((eq, i) => {
-                // Revolvemos los nombres dentro del equipo para que no aparezcan siempre arriba
-                shuffleArray(eq);
-                
-                const card = document.createElement('div');
-                card.className = 'bg-blue-50 border border-blue-100 rounded-xl p-4 fade-in shadow-sm';
-                card.style.animationDelay = `${i * 0.1}s`;
-                
-                const list = eq.map(n => `<li class="py-1 text-gray-700 border-b border-blue-100/30 last:border-0">• ${n}</li>`).join('');
-                card.innerHTML = `<h3 class="font-bold text-blue-800 mb-2">Equipo ${i + 1}</h3><ul>${list}</ul>`;
-                container.appendChild(card);
-            });
-        }
-    </script>
-</body>
-</html>
-       let restantes = participantes.filter(p => p !== p1 && p !== p2);
-
-            // 3. Crear los equipos vacíos
-            let numEquipos = Math.ceil(participantes.length / targetSize);
-            let equipos = Array.from({ length: numEquipos }, () => []);
-
-            // 4. Lógica de la Pareja
-            if (enPareja) {
-                // Si ambos están, van directo al equipo base
-                equipos[0].push(p1, p2);
-            } else {
-                // Si falta alguno, el que sí vino se mezcla de forma normal con los demás
-                if (participantes.includes(p1)) restantes.push(p1);
-                if (participantes.includes(p2)) restantes.push(p2);
-            }
-
-            // Revolvemos a todos los participantes restantes de forma totalmente aleatoria
-            restantes = shuffleArray(restantes);
-
-            // 5. Repartir de forma inteligente buscando el equipo más vacío
-            while (restantes.length > 0) {
-                let minSize = Math.min(...equipos.map(eq => eq.length));
-                let targetIdx = equipos.findIndex(eq => eq.length === minSize);
-                equipos[targetIdx].push(restantes.pop());
-            }
-
-            // 6. Evitar que existan equipos de 1 sola persona
-            let solitos = equipos.filter(eq => eq.length === 1);
-            while (solitos.length > 0 && equipos.length > 1) {
-                let idx = equipos.findIndex(eq => eq.length === 1);
-                let persona = equipos[idx].pop();
-                
-                // Pasamos a la persona al equipo anterior para equilibrar
-                let destino = (idx === 0) ? 1 : idx - 1;
-                equipos[destino].push(persona);
-                
-                // Borramos el equipo que se quedó vacío
-                equipos.splice(idx, 1);
-                solitos = equipos.filter(eq => eq.length === 1);
-            }
-
-            // 7. Renderizar en la pantalla
-            const container = document.getElementById('teamsContainer');
-            container.innerHTML = '';
+            // Revolvemos el orden de los equipos y a los integrantes dentro de cada uno
+            let equiposFinales = shuffleArray(equipos);
             
-            // Revolvemos el orden de los equipos para que Oswaldo y Teresa no sean siempre el "Equipo 1"
-            shuffleArray(equipos).forEach((eq, i) => {
-                // Revolvemos los nombres dentro del equipo para que no aparezcan siempre arriba
-                shuffleArray(eq);
+            equiposFinales.forEach((eq, i) => {
+                let equipoMezclado = shuffleArray(eq);
                 
                 const card = document.createElement('div');
                 card.className = 'bg-blue-50 border border-blue-100 rounded-xl p-4 fade-in shadow-sm';
                 card.style.animationDelay = `${i * 0.1}s`;
                 
-                const list = eq.map(n => `<li class="py-1 text-gray-700 border-b border-blue-100/30 last:border-0">• ${n}</li>`).join('');
+                const list = equipoMezclado.map(n => `<li class="py-1 text-gray-700 border-b border-blue-100/30 last:border-0">• ${n}</li>`).join('');
                 card.innerHTML = `<h3 class="font-bold text-blue-800 mb-2">Equipo ${i + 1}</h3><ul>${list}</ul>`;
                 container.appendChild(card);
             });
