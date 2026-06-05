@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generador de Horarios Universitarios (Ultra Rápido)</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/inter@5.0.16/400.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/inter@5.0.16/600.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/inter@5.0.16/700.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'] },
+                    colors: {
+                        primary: { 50: '#eff6ff', 100: '#dbeafe', 500: '#3b82f6', 600: '#2563eb', 700: '#1d4ed8' },
+                        success: { 50: '#f0fdf4', 100: '#dcfce7', 500: '#22c55e', 600: '#16a34a' },
+                        warning: { 50: '#fffbeb', 100: '#fef3c7', 500: '#f59e0b', 600: '#d97706' },
+                        danger: { 50: '#fef2f2', 100: '#fee2e2', 500: '#ef4444', 600: '#dc2626' }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #f8fafc; }
+        .tab-active { border-bottom: 3px solid #2563eb; color: #2563eb; background-color: #ffffff; }
+        .tab-inactive { color: #64748b; }
+        .tab-inactive:hover { color: #334155; background-color: #f1f5f9; }
+        .grid-container { max-height: 450px; overflow: auto; border: 1px solid #e2e8f0; border-radius: 0.5rem; }
+        .grid-container th { position: sticky; top: 0; z-index: 10; background-color: #f8fafc; }
+        .grid-container td:first-child, .grid-container th:first-child { position: sticky; left: 0; z-index: 20; background-color: #f8fafc; }
+        .fade-in { animation: fadeIn 0.3s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .checkbox-custom { accent-color: #2563eb; width: 1.25rem; height: 1.25rem; cursor: pointer; transition: transform 0.1s; }
+        .checkbox-custom:active { transform: scale(0.9); }
+        .day-header-btn { font-size: 0.75rem; padding: 2px 6px; border-radius: 4px; cursor: pointer; transition: all 0.2s; }
+        .day-header-btn:hover { background-color: #e2e8f0; }
+        .modal-overlay { background-color: rgba(15, 23, 42, 0.6); backdrop-filter: blur(4px); }
+        .modal-content { animation: slideUp 0.3s ease-out; }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(20px) scale(0.95); } to { opacity: 1; transform: translateY(0) scale(1); } }
+        
+        /* Estilos para el acordeón nativo */
+        details > summary { list-style: none; cursor: pointer; }
+        details > summary::-webkit-details-marker { display: none; }
+        details[open] summary ~ * { animation: sweep .3s ease-in-out; }
+        @keyframes sweep { 0% { opacity: 0; transform: translateY(-10px); } 100% { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body class="text-slate-800 antialiased p-4 md:p-8">
+
+<div class="max-w-7xl mx-auto bg-white rounded-xl shadow-lg overflow-hidden fade-in">
+    <div class="bg-slate-900 text-white p-6 flex items-center justify-between">
+        <div>
+            <h1 class="text-2xl font-bold tracking-tight">Generador de Horarios Universitarios</h1>
+            <p class="text-slate-400 text-sm mt-1">Automatización inteligente con herramientas de edición ultra rápidas</p>
+        </div>
+        <div class="hidden md:block">
+            <svg class="w-12 h-12 text-primary-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+        </div>
+    </div>
+
+    <div class="flex border-b border-slate-200 bg-slate-50">
+        <button onclick="switchTab('tab1')" id="btn-tab1" class="flex-1 py-4 px-6 text-sm font-semibold tab-active transition-colors duration-200">1. Carga de Datos</button>
+        <button onclick="switchTab('tab2')" id="btn-tab2" class="flex-1 py-4 px-6 text-sm font-semibold tab-inactive transition-colors duration-200">2. Disponibilidad (Rápida)</button>
+        <button onclick="switchTab('tab3')" id="btn-tab3" class="flex-1 py-4 px-6 text-sm font-semibold tab-inactive transition-colors duration-200">3. Requerimientos por Grupo</button>
+        <button onclick="switchTab('tab4')" id="btn-tab4" class="flex-1 py-4 px-6 text-sm font-semibold tab-inactive transition-colors duration-200">4. Calendario Generado</button>
+    </div>
+
+    <!-- Tab 1: Carga de Datos y Formulario Manual -->
+    <div id="tab1" class="p-6 md:p-8 tab-content">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+            <div class="bg-primary-50 border border-primary-100 rounded-lg p-6">
+                <h2 class="text-lg font-bold text-primary-700 mb-2 flex items-center gap-2">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path></svg>
+                    Carga Masiva (CSV)
+                </h2>
+                <p class="text-sm text-primary-600 mb-4">Sube el archivo "Docentes 2026 - Asignación.csv" para extraer todos los datos automáticamente.</p>
+                <div class="flex flex-col sm:flex-row gap-4 items-start">
+                    <label class="relative cursor-pointer bg-primary-600 hover:bg-primary-700 text-white font-semibold py-2.5 px-6 rounded-lg shadow-sm transition-colors flex items-center gap-2 w-full sm:w-auto justify-center">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                        Seleccionar archivo CSV
+                        <input type="file" id="csvInput" accept=".csv" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" onchange="procesarCSV(this)">
+                    </label>
+                    <span id="fileName" class="text-sm text-slate-500 self-center italic truncate max-w-[200px]">Ningún archivo seleccionado</span>
+                </div>
+            </div>
+
+            <div class="bg-slate-50 border border-slate-200 rounded-lg p-6 flex flex-col justify-center">
+                <h2 class="text-lg font-bold text-slate-700 mb-2 flex items-center gap-2">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"></path></svg>
+                    Agregar Docente Manualmente
+                </h2>
+                <p class="text-sm text-slate-500 mb-4">¿Necesitas agregar un profesor que no está en el CSV? Hazlo aquí.</p>
+                <button onclick="abrirModalDocente()" class="w-full bg-white hover:bg-slate-50 text-slate-700 font-semibold py-3 px-6 rounded-lg border border-slate-300 shadow-sm transition-colors flex items-center justify-center gap-2 group">
+                    <span class="bg-primary-100 text-primary-700 rounded-full w-6 h-6 flex items-center justify-center text-lg font-bold group-hover:bg-primary-200 transition-colors">+</span>
+                    Nuevo Formulario de Docente
+                </button>
+            </div>
+        </div>
+
+        <div id="statsPanel" class="hidden grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+            <div class="bg-white border border-slate-200 rounded-lg p-4 shadow-sm">
+                <div class="text-slate-500 text-xs font-semibold uppercase tracking-wider">Docentes Registrados</div>
+                <div class="text-3xl font-bold text-slate-800 mt-1" id="statDocentes">0</div>
+            </div>
+            <div class="bg-white border border-slate-200 rounded-lg p-4 shadow-sm">
+                <div class="text-slate-500 text-xs font-semibold uppercase tracking-wider">Grupos (Semestres)</div>
+                <div class="text-3xl font-bold text-slate-800 mt-1" id="statGrupos">0</div>
+            </div>
+            <div class="bg-white border border-slate-200 rounded-lg p-4 shadow-sm">
+                <div class="text-slate-500 text-xs font-semibold uppercase tracking-wider">Total Materias</div>
+                <div class="text-3xl font-bold text-slate-800 mt-1" id="statMaterias">0</div>
+            </div>
+        </div>
+
+        <div class="flex justify-end">
+            <button onclick="switchTab('tab2')" class="bg-slate-800 hover:bg-slate-900 text-white font-semibold py-2.5 px-6 rounded-lg transition-colors flex items-center gap-2">
+                Continuar a Disponibilidad
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+            </button>
+        </div>
+    </div>
+
+    <!-- Tab 2: Disponibilidad Docentes -->
+    <div id="tab2" class="p-6 md:p-8 tab-content hidden">
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-4 gap-4">
+            <div>
+                <h2 class="text-xl font-bold text-slate-800">Gestión de Disponibilidad (Edición Rápida)</h2>
+                <p class="text-sm text-slate-500">💡 <strong>Tip:</strong> Haz clic y arrastra el mouse sobre las casillas para marcar/desmarcar en bloque.</p>
+            </div>
+            <div class="flex flex-wrap gap-2 w-full md:w-auto">
+                <select id="selectDocente" onchange="cargarGridDisponibilidad()" class="flex-1 md:w-64 border border-slate-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-primary-500 outline-none">
+                    <option value="">-- Selecciona un docente --</option>
+                </select>
+            </div>
+        </div>
+
+        <div id="presetButtons" class="hidden flex flex-wrap gap-2 mb-4 p-3 bg-slate-50 rounded-lg border border-slate-200">
+            <span class="text-xs font-bold text-slate-500 uppercase self-center mr-2">Aplicar rápido:</span>
+            <button onclick="aplicarPreset('LV')" class="day-header-btn bg-primary-100 text-primary-700 hover:bg-primary-200 font-semibold px-3 py-1">Lunes a Viernes (07:00 - 14:00)</button>
+            <button onclick="aplicarPreset('Sabado')" class="day-header-btn bg-slate-200 text-slate-700 hover:bg-slate-300 font-semibold px-3 py-1">Solo Sábados</button>
+            <button onclick="limpiarTodo()" class="day-header-btn bg-danger-100 text-danger-700 hover:bg-danger-200 font-semibold px-3 py-1">Limpiar Todo</button>
+        </div>
+
+        <div id="gridContainer" class="grid-container mb-6 hidden select-none">
+            <table class="w-full text-sm text-left border-collapse">
+                <thead id="gridHead"></thead>
+                <tbody id="gridBody"></tbody>
+            </table>
+        </div>
+
+        <div id="noSelectionMsg" class="text-center py-12 text-slate-400 bg-slate-50 rounded-lg border border-dashed border-slate-300">
+            Selecciona un docente del menú desplegable para editar su horario.
+        </div>
+
+        <div class="flex justify-between mt-6">
+            <button onclick="switchTab('tab1')" class="text-slate-600 hover:text-slate-800 font-semibold py-2 px-4 transition-colors">← Volver</button>
+            <div class="flex gap-3">
+                <button onclick="guardarDisponibilidad()" class="bg-primary-600 hover:bg-primary-700 text-white font-semibold py-2.5 px-6 rounded-lg shadow-sm transition-colors flex items-center gap-2">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                    Guardar Cambios
+                </button>
+                <button onclick="switchTab('tab3')" class="bg-slate-800 hover:bg-slate-900 text-white font-semibold py-2.5 px-6 rounded-lg transition-colors">Siguiente →</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tab 3: Requerimientos (ACORDEÓN MEJORADO) -->
+    <div id="tab3" class="p-6 md:p-8 tab-content hidden">
+        <div class="mb-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+            <div>
+                <h2 class="text-xl font-bold text-slate-800">Requerimientos por Grupo</h2>
+                <p class="text-sm text-slate-500">Organiza las materias por semestre. Haz clic en el grupo para expandir y agregar/editar materias.</p>
+            </div>
+            <button onclick="crearNuevoGrupo()" class="bg-primary-600 hover:bg-primary-700 text-white font-semibold py-2 px-4 rounded-lg shadow-sm transition-colors flex items-center gap-2 text-sm">
+                <span class="text-lg">+</span> Crear Nuevo Grupo
+            </button>
+        </div>
+
+        <div id="contenedorGrupos" class="space-y-3 max-h-[600px] overflow-y-auto pr-2">
+            <!-- Aquí se renderizarán los acordeones de grupos -->
+        </div>
+
+        <div class="flex justify-between mt-8 pt-4 border-t border-slate-200">
+            <button onclick="switchTab('tab2')" class="text-slate-600 hover:text-slate-800 font-semibold py-2 px-4 transition-colors">← Volver</button>
+            <button onclick="switchTab('tab4')" class="bg-slate-800 hover:bg-slate-900 text-white font-semibold py-2.5 px-6 rounded-lg transition-colors">Ir al Calendario →</button>
+        </div>
+    </div>
+
+    <!-- Tab 4: Calendario -->
+    <div id="tab4" class="p-6 md:p-8 tab-content hidden">
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
+            <div>
+                <h2 class="text-xl font-bold text-slate-800">Calendario Semanal Automatizado</h2>
+                <p class="text-sm text-slate-500">Regla activa: Máximo 2 horas de la misma materia por día para un mismo grupo.</p>
+            </div>
+            <button onclick="generarHorario()" class="bg-success-600 hover:bg-success-500 text-white font-bold py-3 px-8 rounded-lg shadow-md transition-all transform hover:scale-105 flex items-center gap-2">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                Generar Horario
+            </button>
+        </div>
+
+        <div id="alertContainer" class="mb-6 hidden"></div>
+        <div id="calendarioResultado" class="space-y-8"></div>
+
+        <div class="flex justify-start mt-8">
+            <button onclick="switchTab('tab3')" class="text-slate-600 hover:text-slate-800 font-semibold py-2 px-4 transition-colors">← Volver a Requerimientos</button>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL: Agregar Docente -->
+<div id="modalDocente" class="fixed inset-0 modal-overlay z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-xl shadow-2xl w-full max-w-md modal-content overflow-hidden">
+        <div class="bg-primary-600 p-4 flex justify-between items-center">
+            <h3 class="text-white font-bold text-lg flex items-center gap-2">Nuevo Docente</h3>
+            <button onclick="cerrarModalDocente()" class="text-primary-100 hover:text-white transition-colors"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg></button>
+        </div>
+        <div class="p-6 space-y-4">
+            <div>
+                <label class="block text-sm font-semibold text-slate-700 mb-1">Nombre Completo</label>
+                <input type="text" id="modalDocNombre" class="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-primary-500 outline-none" placeholder="Ej: Mtro. Juan Pérez">
+            </div>
+            <div>
+                <label class="block text-sm font-semibold text-slate-700 mb-1">Materias (separadas por coma)</label>
+                <input type="text" id="modalDocMaterias" class="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-primary-500 outline-none" placeholder="Ej: Psicología, Estadística">
+            </div>
+        </div>
+        <div class="bg-slate-50 p-4 flex justify-end gap-3 border-t border-slate-200">
+            <button onclick="cerrarModalDocente()" class="px-4 py-2 text-sm font-semibold text-slate-600 hover:bg-slate-200 rounded-lg transition-colors">Cancelar</button>
+            <button onclick="guardarDocenteManual()" class="px-4 py-2 text-sm font-semibold text-white bg-primary-600 hover:bg-primary-700 rounded-lg shadow-sm transition-colors">Guardar</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    // --- CONSTANTES ---
+    const DIAS = ['LUNES', 'MARTES', 'MIÉRCOLES', 'JUEVES', 'VIERNES', 'SÁBADO'];
+    const HORAS = ['07:00-08:00', '08:00-09:00', '09:00-10:00', '10:00-11:00', '11:00-12:00', '12:00-13:00', '13:00-14:00', '14:00-15:00', '15:00-16:00'];
+
+    let docentes = [];
+    // Nueva estructura anidada para requerimientos
+    let gruposRequerimientos = []; 
+    let docenteActualId = null;
+    let isDragging = false;
+    let dragTargetValue = true;
+
+    // --- UTILIDADES ---
+    function switchTab(tabId) {
+        document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+        document.getElementById(tabId).classList.remove('hidden');
+        document.getElementById(tabId).classList.add('fade-in');
+        document.querySelectorAll('[id^="btn-"]').forEach(btn => {
+            btn.classList.remove('tab-active');
+            btn.classList.add('tab-inactive');
+        });
+        document.getElementById(`btn-${tabId}`).classList.remove('tab-inactive');
+        document.getElementById(`btn-${tabId}`).classList.add('tab-active');
+        if (tabId === 'tab3') renderGrupos();
+    }
+
+    function parseCSVLine(text, delimiter = ',') {
+        const result = [];
+        let startValueIndex = 0, insideQuotes = false;
+        for (let i = 0; i < text.length; i++) {
+            if (text[i] === '"') { insideQuotes = !insideQuotes; }
+            else if (text[i] === delimiter && !insideQuotes) {
+                let val = text.substring(startValueIndex, i).trim().replace(/^"|"$/g, '');
+                result.push(val);
+                startValueIndex = i + 1;
+            }
+        }
+        result.push(text.substring(startValueIndex).trim().replace(/^"|"$/g, ''));
+        return result;
+    }
+
+    // --- MODALES ---
+    function abrirModalDocente() {
+        document.getElementById('modalDocente').classList.remove('hidden');
+        document.getElementById('modalDocNombre').value = '';
+        document.getElementById('modalDocMaterias').value = '';
+        document.getElementById('modalDocNombre').focus();
+    }
+    function cerrarModalDocente() { document.getElementById('modalDocente').classList.add('hidden'); }
+
+    // --- PROCESAMIENTO CSV ---
+    function procesarCSV(input) {
+        const file = input.files[0];
+        if (!file) return;
+        document.getElementById('fileName').textContent = file.name;
+
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const texto = e.target.result;
+            const lineas = texto.split(/\r?\n/).filter(l => l.trim() !== '');
+            if (lineas.length < 2) { alert("Archivo vacío o formato incorrecto."); return; }
+            
+            const delimitador = lineas[0].includes(';') ? ';' : ',';
+            const teachersMap = new Map();
+            const gruposMap = new Map();
+
+            for (let i = 1; i < lineas.length; i++) {
+                const row = parseCSVLine(lineas[i], delimitador);
+                if (!row || row.length < 6) continue;
+
+                const materia = row[0]?.trim();
+                const grupo = row[2]?.trim(); 
+                const profesor = row[5]?.trim(); 
+
+                if (materia && grupo && profesor && profesor !== '' && !materia.includes('UNIDAD DE APRENDIZAJE')) {
+                    if (!teachersMap.has(profesor)) teachersMap.set(profesor, new Set());
+                    teachersMap.get(profesor).add(materia);
+
+                    if (!gruposMap.has(grupo)) {
+                        gruposMap.set(grupo, { nombre: grupo, materias: [] });
+                    }
+                    // Evitar duplicados exactos en el mismo grupo
+                    const existe = gruposMap.get(grupo).materias.some(m => m.nombre === materia);
+                    if (!existe) {
+                        gruposMap.get(grupo).materias.push({ id: Date.now() + Math.random(), nombre: materia, horas: 4 });
+                    }
+                }
+            }
+
+            docentes = [];
+            let teacherId = 1;
+            const selectDocente = document.getElementById('selectDocente');
+            selectDocente.innerHTML = '<option value="">-- Selecciona un docente --</option>';
+
+            teachersMap.forEach((materiasSet, nombre) => {
+                const disponibilidad = {};
+                DIAS.forEach(dia => { disponibilidad[dia] = [...HORAS]; });
+                docentes.push({ id: teacherId, nombre, materias: Array.from(materiasSet), disponibilidad });
+                const option = document.createElement('option');
+                option.value = teacherId; option.textContent = nombre;
+                selectDocente.appendChild(option);
+                teacherId++;
+            });
+
+            gruposRequerimientos = Array.from(gruposMap.values());
+            actualizarEstadisticas();
+            alert(`¡Carga exitosa!\n\n• ${docentes.length} Docentes\n• ${gruposRequerimientos.length} Grupos\n\nVe a la Pestaña 3 para revisar las materias de cada grupo.`);
+            input.value = '';
+        };
+        reader.readAsText(file);
+    }
+
+    function actualizarEstadisticas() {
+        document.getElementById('statDocentes').textContent = docentes.length;
+        document.getElementById('statGrupos').textContent = gruposRequerimientos.length;
+        const totalMaterias = gruposRequerimientos.reduce((acc, g) => acc + g.materias.length, 0);
+        document.getElementById('statMaterias').textContent = totalMaterias;
+        document.getElementById('statsPanel').classList.remove('hidden');
+    }
+
+    // --- GESTIÓN MANUAL DE DATOS ---
+    function guardarDocenteManual() {
+        const nombre = document.getElementById('modalDocNombre').value.trim();
+        const materiasStr = document.getElementById('modalDocMaterias').value.trim();
+        if (!nombre || !materiasStr) { alert("Completa nombre y materias."); return; }
+
+        const disponibilidad = {};
+        DIAS.forEach(dia => { disponibilidad[dia] = [...HORAS]; });
+
+        docentes.push({ id: Date.now(), nombre, materias: materiasStr.split(',').map(m => m.trim()).filter(m => m !== ''), disponibilidad });
+        
+        const selectDocente = document.getElementById('selectDocente');
+        const option = document.createElement('option');
+        option.value = Date.now(); option.textContent = nombre;
+        selectDocente.appendChild(option);
+
+        actualizarEstadisticas();
+        cerrarModalDocente();
+    }
+
+    function crearNuevoGrupo() {
+        const nombre = prompt("Nombre del nuevo grupo (ej. 7A-LPS):");
+        if (nombre && nombre.trim() !== "") {
+            if (gruposRequerimientos.some(g => g.nombre.toUpperCase() === nombre.trim().toUpperCase())) {
+                alert("Este grupo ya existe.");
+                return;
+            }
+            gruposRequerimientos.push({ nombre: nombre.trim(), materias: [] });
+            renderGrupos();
+            actualizarEstadisticas();
+        }
+    }
+
+    function agregarMateriaAGrupo(nombreGrupo) {
+        const materiaInput = document.getElementById(`input-materia-${nombreGrupo.replace(/\s/g, '')}`);
+        const horasInput = document.getElementById(`input-horas-${nombreGrupo.replace(/\s/g, '')}`);
+        
+        const materia = materiaInput.value.trim();
+        const horas = parseInt(horasInput.value);
+
+        if (!materia || !horas) { alert("Completa la materia y las horas."); return; }
+
+        const grupo = gruposRequerimientos.find(g => g.nombre === nombreGrupo);
+        if (grupo) {
+            grupo.materias.push({ id: Date.now(), nombre: materia, horas: horas });
+            renderGrupos();
+            actualizarEstadisticas();
+            // Mantener el acordeón abierto (truco simple: el render lo cierra, pero es rápido)
+        }
+    }
+
+    function eliminarMateria(nombreGrupo, materiaId) {
+        const grupo = gruposRequerimientos.find(g => g.nombre === nombreGrupo);
+        if (grupo) {
+            grupo.materias = grupo.materias.filter(m => m.id !== materiaId);
+            renderGrupos();
+            actualizarEstadisticas();
+        }
+    }
+
+    function actualizarHorasMateria(nombreGrupo, materiaId, nuevasHoras) {
+        const grupo = gruposRequerimientos.find(g => g.nombre === nombreGrupo);
+        if (grupo) {
+            const materia = grupo.materias.find(m => m.id === materiaId);
+            if (materia) materia.horas = parseInt(nuevasHoras) || 1;
+        }
+    }
+
+    // --- RENDERIZADO DE ACORDEÓN (TAB 3) ---
+    function renderGrupos() {
+        const container = document.getElementById('contenedorGrupos');
+        if (gruposRequerimientos.length === 0) {
+            container.innerHTML = `<div class="text-center py-12 text-slate-400 bg-slate-50 rounded-lg border border-dashed border-slate-300">No hay grupos registrados. Carga un CSV o crea uno nuevo.</div>`;
+            return;
+        }
+
+        let html = '';
+        // Ordenar grupos alfabéticamente
+        const gruposOrdenados = [...gruposRequerimientos].sort((a, b) => a.nombre.localeCompare(b.nombre));
+
+        gruposOrdenados.forEach(grupo => {
+            const totalHoras = grupo.materias.reduce((acc, m) => acc + m.horas, 0);
+            const safeName = grupo.nombre.replace(/\s/g, '');
+
+            html += `
+                <details class="border border-slate-200 rounded-lg bg-white shadow-sm group">
+                    <summary class="p-4 font-bold cursor-pointer flex justify-between items-center hover:bg-slate-50 transition-colors rounded-lg">
+                        <div class="flex items-center gap-3">
+                            <svg class="w-5 h-5 text-slate-400 group-open:rotate-90 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                            <span class="text-lg text-slate-800">${grupo.nombre}</span>
+                        </div>
+                        <span class="text-sm font-semibold bg-primary-100 text-primary-700 px-3 py-1 rounded-full">
+                            ${grupo.materias.length} materias | ${totalHoras} hrs/sem
+                        </span>
+                    </summary>
+                    
+                    <div class="p-4 pt-0 border-t border-slate-100 mt-2">
+                        <table class="w-full text-sm mt-4">
+                            <thead class="text-slate-500 border-b border-slate-200">
+                                <tr>
+                                    <th class="text-left py-2 font-semibold">Unidad de Aprendizaje (Materia)</th>
+                                    <th class="text-center py-2 font-semibold w-32">Horas/Semana</th>
+                                    <th class="text-center py-2 font-semibold w-20">Acción</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-100">
+            `;
+
+            grupo.materias.forEach(materia => {
+                html += `
+                    <tr class="hover:bg-slate-50">
+                        <td class="py-3 text-slate-700">${materia.nombre}</td>
+                        <td class="py-3 text-center">
+                            <input type="number" value="${materia.horas}" min="1" max="12" 
+                            onchange="actualizarHorasMateria('${grupo.nombre}', ${materia.id}, this.value)" 
+                            class="w-16 text-center border border-slate-300 rounded px-2 py-1 text-sm focus:ring-2 focus:ring-primary-500 outline-none">
+                        </td>
+                        <td class="py-3 text-center">
+                            <button onclick="eliminarMateria('${grupo.nombre}', ${materia.id})" class="text-danger-600 hover:text-danger-800 font-semibold text-xs uppercase tracking-wide">Eliminar</button>
+                        </td>
+                    </tr>
+                `;
+            });
+
+            html += `
+                            </tbody>
+                        </table>
+                        
+                        <!-- Mini formulario para agregar materia a este grupo -->
+                        <div class="mt-4 p-3 bg-slate-50 rounded-lg border border-slate-200 flex flex-col sm:flex-row gap-3 items-end">
+                            <div class="flex-1 w-full">
+                                <label class="block text-xs font-semibold text-slate-500 mb-1">Nueva Materia</label>
+                                <input type="text" id="input-materia-${safeName}" class="w-full border border-slate-300 rounded px-3 py-2 text-sm focus:ring-2 focus:ring-primary-500 outline-none" placeholder="Ej: Epistemología">
+                            </div>
+                            <div class="w-24">
+                                <label class="block text-xs font-semibold text-slate-500 mb-1">Horas</label>
+                                <input type="number" id="input-horas-${safeName}" value="4" min="1" max="12" class="w-full border border-slate-300 rounded px-3 py-2 text-sm text-center focus:ring-2 focus:ring-primary-500 outline-none">
+                            </div>
+                            <button onclick="agregarMateriaAGrupo('${grupo.nombre}')" class="bg-primary-600 hover:bg-primary-700 text-white font-semibold py-2 px-4 rounded text-sm transition-colors w-full sm:w-auto">
+                                + Agregar
+                            </button>
+                        </div>
+                    </div>
+                </details>
+            `;
+        });
+        container.innerHTML = html;
+    }
+
+    // --- GESTIÓN DE DISPONIBILIDAD (TAB 2) ---
+    function initGrid() {
+        const thead = document.getElementById('gridHead');
+        const tbody = document.getElementById('gridBody');
+        
+        let htmlHead = '<tr><th class="px-4 py-3 border-b border-r font-semibold text-slate-700 bg-slate-50 min-w-[100px]">Hora</th>';
+        DIAS.forEach(dia => {
+            htmlHead += `
+                <th class="px-2 py-3 border-b border-r font-semibold text-slate-700 bg-slate-50 min-w-[110px]">
+                    <div class="flex flex-col items-center gap-1">
+                        <span>${dia}</span>
+                        <div class="flex gap-1">
+                            <button onclick="toggleDia('${dia}', true)" class="day-header-btn bg-primary-100 text-primary-700 hover:bg-primary-200 text-[10px] px-1 py-0.5 rounded" title="Marcar todo">✅</button>
+                            <button onclick="toggleDia('${dia}', false)" class="day-header-btn bg-slate-200 text-slate-600 hover:bg-slate-300 text-[10px] px-1 py-0.5 rounded" title="Desmarcar todo">❌</button>
+                        </div>
+                    </div>
+                </th>`;
+        });
+        htmlHead += '</tr>';
+        thead.innerHTML = htmlHead;
+
+        let htmlBody = '';
+        HORAS.forEach(hora => {
+            htmlBody += `<tr><td class="px-4 py-2 border-b border-r font-medium text-slate-600 bg-slate-50 whitespace-nowrap">${hora}</td>`;
+            DIAS.forEach(dia => {
+                const safeId = `chk_${dia}_${hora.replace(/[^a-zA-Z0-9]/g, '')}`;
+                htmlBody += `<td class="px-2 py-2 border-b border-r text-center"><input type="checkbox" id="${safeId}" class="checkbox-custom" data-dia="${dia}" data-hora="${hora}"></td>`;
+            });
+            htmlBody += '</tr>';
+        });
+        tbody.innerHTML = htmlBody;
+
+        tbody.addEventListener('mousedown', (e) => {
+            if (e.target.type === 'checkbox') {
+                isDragging = true;
+                dragTargetValue = !e.target.checked;
+                e.target.checked = dragTargetValue;
+                e.preventDefault();
+            }
+        });
+        tbody.addEventListener('mouseover', (e) => {
+            if (isDragging && e.target.type === 'checkbox') e.target.checked = dragTargetValue;
+        });
+        document.addEventListener('mouseup', () => { isDragging = false; });
+    }
+
+    function toggleDia(dia, valor) {
+        if (!docenteActualId) return;
+        document.querySelectorAll(`.checkbox-custom[data-dia="${dia}"]`).forEach(cb => cb.checked = valor);
+    }
+
+    function aplicarPreset(tipo) {
+        if (!docenteActualId) { alert("Selecciona un docente primero."); return; }
+        limpiarTodo(false);
+        if (tipo === 'LV') {
+            ['LUNES', 'MARTES', 'MIÉRCOLES', 'JUEVES', 'VIERNES'].forEach(dia => {
+                ['07:00-08:00', '08:00-09:00', '09:00-10:00', '10:00-11:00', '11:00-12:00', '12:00-13:00', '13:00-14:00'].forEach(hora => {
+                    const cb = document.getElementById(`chk_${dia}_${hora.replace(/[^a-zA-Z0-9]/g, '')}`);
+                    if (cb) cb.checked = true;
+                });
+            });
+        } else if (tipo === 'Sabado') {
+            HORAS.forEach(hora => {
+                const cb = document.getElementById(`chk_SÁBADO_${hora.replace(/[^a-zA-Z0-9]/g, '')}`);
+                if (cb) cb.checked = true;
+            });
+        }
+    }
+
+    function limpiarTodo(actualizar = true) {
+        if (!docenteActualId && actualizar) { alert("Selecciona un docente primero."); return; }
+        document.querySelectorAll('.checkbox-custom').forEach(cb => cb.checked = false);
+        if (actualizar) guardarDisponibilidad();
+    }
+
+    function cargarGridDisponibilidad() {
+        const id = parseInt(document.getElementById('selectDocente').value);
+        if (!id) {
+            document.getElementById('gridContainer').classList.add('hidden');
+            document.getElementById('presetButtons').classList.add('hidden');
+            document.getElementById('noSelectionMsg').classList.remove('hidden');
+            docenteActualId = null;
+            return;
+        }
+        
+        docenteActualId = id;
+        document.getElementById('gridContainer').classList.remove('hidden');
+        document.getElementById('presetButtons').classList.remove('hidden');
+        document.getElementById('noSelectionMsg').classList.add('hidden');
+
+        const docente = docentes.find(d => d.id === id);
+        document.querySelectorAll('.checkbox-custom').forEach(cb => cb.checked = false);
+
+        if (docente && docente.disponibilidad) {
+            for (const dia in docente.disponibilidad) {
+                docente.disponibilidad[dia].forEach(hora => {
+                    const safeId = `chk_${dia}_${hora.replace(/[^a-zA-Z0-9]/g, '')}`;
+                    const cb = document.getElementById(safeId);
+                    if (cb) cb.checked = true;
+                });
+            }
+        }
+    }
+
+    function guardarDisponibilidad() {
+        if (!docenteActualId) { alert("Selecciona un docente primero."); return; }
+        const docente = docentes.find(d => d.id === docenteActualId);
+        const nuevaDisp = {};
+        DIAS.forEach(dia => { nuevaDisp[dia] = []; });
+
+        document.querySelectorAll('.checkbox-custom').forEach(cb => {
+            if (cb.checked) {
+                nuevaDisp[cb.getAttribute('data-dia')].push(cb.getAttribute('data-hora'));
+            }
+        });
+        docente.disponibilidad = nuevaDisp;
+        
+        const btn = event.target.closest('button');
+        const originalHTML = btn.innerHTML;
+        btn.innerHTML = `<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Guardado`;
+        btn.classList.add('bg-success-600');
+        setTimeout(() => { btn.innerHTML = originalHTML; btn.classList.remove('bg-success-600'); }, 1500);
+    }
+
+    // --- ALGORITMO DE GENERACIÓN ---
+    function generarHorario() {
+        if (docentes.length === 0 || gruposRequerimientos.length === 0) { 
+            alert("Carga los datos primero en la Pestaña 1."); 
+            return; 
+        }
+
+        // Aplanar la estructura de grupos para el algoritmo
+        const requerimientos = [];
+        gruposRequerimientos.forEach(g => {
+            g.materias.forEach(m => {
+                requerimientos.push({ grupo: g.nombre, materia: m.nombre, horasSemanales: m.horas });
+            });
+        });
+
+        let calendario = {};
+        let ocupacionProfesor = {};
+        const gruposUnicos = [...new Set(requerimientos.map(r => r.grupo))];
+        
+        gruposUnicos.forEach(grupo => {
+            calendario[grupo] = {};
+            DIAS.forEach(dia => {
+                calendario[grupo][dia] = {};
+                HORAS.forEach(hora => calendario[grupo][dia][hora] = null);
+            });
+        });
+
+        docentes.forEach(d => {
+            ocupacionProfesor[d.nombre] = {};
+            DIAS.forEach(dia => {
+                ocupacionProfesor[d.nombre][dia] = {};
+                HORAS.forEach(hora => ocupacionProfesor[d.nombre][dia][hora] = false);
+            });
+        });
+
+        let noAsignados = [];
+        let reqsOrdenados = [...requerimientos].sort((a, b) => b.horasSemanales - a.horasSemanales);
+
+        for (let req of reqsOrdenados) {
+            let horasPorAsignar = req.horasSemanales;
+            let intentosFallidos = 0;
+
+            while (horasPorAsignar > 0 && intentosFallidos < 500) {
+                let asignado = false;
+                let candidatos = docentes.filter(d => d.materias.includes(req.materia));
+
+                for (let docente of candidatos) {
+                    for (let dia of DIAS) {
+                        let horasYaAsignadasHoy = 0;
+                        HORAS.forEach(h => {
+                            if (calendario[req.grupo][dia][h] && calendario[req.grupo][dia][h].materia === req.materia) {
+                                horasYaAsignadasHoy++;
+                            }
+                        });
+
+                        if (horasYaAsignadasHoy >= 2) continue;
+
+                        for (let hora of HORAS) {
+                            if (calendario[req.grupo][dia][hora] !== null) continue;
+                            if (!docente.disponibilidad[dia] || !docente.disponibilidad[dia].includes(hora)) continue;
+                            if (ocupacionProfesor[docente.nombre][dia][hora]) continue;
+
+                            calendario[req.grupo][dia][hora] = { materia: req.materia, docente: docente.nombre };
+                            ocupacionProfesor[docente.nombre][dia][hora] = true;
+                            horasPorAsignar--;
+                            asignado = true;
+                            break; 
+                        }
+                        if (asignado) break; 
+                    }
+                    if (asignado) break; 
+                }
+
+                if (!asignado) {
+                    intentosFallidos++;
+                    if (intentosFallidos >= 500) {
+                        noAsignados.push(`Faltan ${horasPorAsignar}h de <strong>${req.materia}</strong> en <strong>${req.grupo}</strong>. (Revisa disponibilidad)`);
+                        break;
+                    }
+                } else {
+                    intentosFallidos = 0; 
+                }
+            }
+        }
+
+        renderizarCalendario(calendario, gruposUnicos);
+        mostrarAlertas(noAsignados);
+    }
+
+    function renderizarCalendario(calendario, grupos) {
+        const container = document.getElementById('calendarioResultado');
+        let html = '';
+
+        grupos.forEach(grupo => {
+            html += `
+                <div class="bg-white border border-slate-200 rounded-lg shadow-sm overflow-hidden fade-in">
+                    <div class="bg-slate-50 px-6 py-3 border-b border-slate-200 flex justify-between items-center">
+                        <h3 class="font-bold text-lg text-slate-800">GRUPO: ${grupo}</h3>
+                        <span class="text-xs font-semibold bg-primary-100 text-primary-700 px-2 py-1 rounded-full">Vista Semanal</span>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-sm text-left border-collapse">
+                            <thead>
+                                <tr>
+                                    <th class="px-4 py-3 border-b border-r font-semibold text-slate-700 bg-slate-50 min-w-[100px]">Hora</th>
+                                    ${DIAS.map(dia => `<th class="px-4 py-3 border-b border-r font-semibold text-slate-700 bg-slate-50 min-w-[140px]">${dia}</th>`).join('')}
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-100">
+            `;
+
+            HORAS.forEach(hora => {
+                html += `<tr class="hover:bg-slate-50/50"><td class="px-4 py-3 border-r font-medium text-slate-600 bg-slate-50 whitespace-nowrap">${hora}</td>`;
+                DIAS.forEach(dia => {
+                    const clase = calendario[grupo][dia][hora];
+                    if (clase) {
+                        html += `
+                            <td class="px-2 py-2 border-r">
+                                <div class="bg-primary-50 border-l-4 border-primary-500 p-3 rounded-r-md shadow-sm">
+                                    <span class="font-bold text-primary-800 text-xs block leading-tight mb-1">${clase.materia}</span>
+                                    <span class="text-slate-500 text-[11px] flex items-center gap-1">
+                                        👤 ${clase.docente}
+                                    </span>
+                                </div>
+                            </td>
+                        `;
+                    } else {
+                        html += `<td class="px-2 py-2 border-r text-center text-slate-300 text-xs">-</td>`;
+                    }
+                });
+                html += '</tr>';
+            });
+            html += '</tbody></table></div></div>';
+        });
+        container.innerHTML = html;
+    }
+
+    function mostrarAlertas(noAsignados) {
+        const alertDiv = document.getElementById('alertContainer');
+        alertDiv.classList.remove('hidden');
+        if (noAsignados.length > 0) {
+            alertDiv.innerHTML = `
+                <div class="bg-warning-50 border border-warning-200 text-warning-800 rounded-lg p-4 flex gap-3">
+                    <svg class="w-6 h-6 flex-shrink-0 text-warning-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                    <div>
+                        <h4 class="font-bold text-sm uppercase tracking-wide mb-1">Atención: Asignación Incompleta</h4>
+                        <ul class="list-disc list-inside text-sm space-y-1 mt-2">
+                            ${noAsignados.map(n => `<li>${n}</li>`).join('')}
+                        </ul>
+                    </div>
+                </div>
+            `;
+        } else {
+            alertDiv.innerHTML = `
+                <div class="bg-success-50 border border-success-200 text-success-800 rounded-lg p-4 flex gap-3 items-center">
+                    <svg class="w-6 h-6 flex-shrink-0 text-success-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    <div>
+                        <h4 class="font-bold text-sm uppercase tracking-wide">¡Éxito Total!</h4>
+                        <p class="text-sm mt-1">Todas las materias fueron asignadas respetando las reglas.</p>
+                    </div>
+                </div>
+            `;
+        }
+    }
+
+    window.onload = function() {
+        initGrid();
+    };
+</script>
+</body>
+</html>
+
