@@ -420,6 +420,8 @@
         if (grupo) {
             const materia = grupo.materias.find(m => m.id === materiaId);
             if (materia) materia.horas = parseInt(nuevasHoras) || 1;
+            renderGrupos();
+            actualizarEstadisticas();
         }
     }
 
@@ -795,6 +797,7 @@
 
     window.onload = function() {
         initGrid();
+        renderGrupos(); // Inicializar la vista de grupos al cargar
     };
 </script>
 </body>
