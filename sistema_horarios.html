@@ -46,6 +46,17 @@
         details > summary::-webkit-details-marker { display: none; }
         details[open] summary ~ * { animation: sweep .3s ease-in-out; }
         @keyframes sweep { 0% { opacity: 0; transform: translateY(-10px); } 100% { opacity: 1; transform: translateY(0); } }
+      /* Estilos para selección rectangular */
+        .selection-box {
+            position: absolute;
+            background-color: rgba(37, 99, 235, 0.2);
+            border: 2px solid #2563eb;
+            pointer-events: none;
+            z-index: 100;
+        }
+        td.selecting {
+            background-color: rgba(37, 99, 235, 0.1);
+        }
     </style>
 </head>
 <body class="text-slate-800 antialiased p-4 md:p-8">
@@ -537,19 +548,113 @@
             htmlBody += '</tr>';
         });
         tbody.innerHTML = htmlBody;
+        // Variables para selección rectangular
+        let isSelecting = false;
+        let startX, startY, endX, endY;
+        let selectionBox = null;
+        let startCell = null;
 
         tbody.addEventListener('mousedown', (e) => {
-            if (e.target.type === 'checkbox') {
+                 const cell = e.target.closest('td');
+                    if (cell && e.target.type !== 'checkbox') {
+                isSelecting = true;
+                const rect = tbody.getBoundingClientRect();
+
+                startX = e.clientX - rect.left;
+                startY = e.clientY - rect.top;
+                startCell = cell;
+
+                // Crear caja de selección
+                selectionBox = document.createElement('div');
+                selectionBox.className = 'selection-box';
+                selectionBox.style.left = startX + 'px';
+                selectionBox.style.top = startY + 'px';
+                selectionBox.style.width = '0px';
+                selectionBox.style.height = '0px';
+                tbody.appendChild(selectionBox);
+
+                e.preventDefault();
+            } else if (e.target.type === 'checkbox') {
                 isDragging = true;
                 dragTargetValue = !e.target.checked;
                 e.target.checked = dragTargetValue;
                 e.preventDefault();
             }
         });
+        tbody.addEventListener('mousemove', (e) => {
+            if (!isSelecting || !selectionBox) return;
+
+            const rect = tbody.getBoundingClientRect();
+            endX = e.clientX - rect.left;
+            endY = e.clientY - rect.top;
+
+            const left = Math.min(startX, endX);
+            const top = Math.min(startY, endY);
+            const width = Math.abs(endX - startX);
+            const height = Math.abs(endY - startY);
+
+            selectionBox.style.left = left + 'px';
+            selectionBox.style.top = top + 'px';
+            selectionBox.style.width = width + 'px';
+            selectionBox.style.height = height + 'px';
+
+            // Seleccionar celdas dentro del área
+            const cells = tbody.querySelectorAll('td');
+            cells.forEach(cell => {
+                const cellRect = cell.getBoundingClientRect();
+                const tbodyRect = tbody.getBoundingClientRect();
+
+                const cellLeft = cellRect.left - tbodyRect.left;
+                const cellTop = cellRect.top - tbodyRect.top;
+                const cellRight = cellLeft + cellRect.width;
+                const cellBottom = cellTop + cellRect.height;
+
+                const selectLeft = Math.min(startX, endX);
+                const selectTop = Math.min(startY, endY);
+                const selectRight = Math.max(startX, endX);
+                const selectBottom = Math.max(startY, endY);
+
+                if (cellRight >= selectLeft && cellLeft <= selectRight &&
+                    cellBottom >= selectTop && cellTop <= selectBottom) {
+                    cell.classList.add('selecting');
+                } else {
+                    cell.classList.remove('selecting');
+                }
+            });
+        });
+
+        tbody.addEventListener('mouseup', (e) => {
+            if (isSelecting && selectionBox) {
+                // Aplicar selección a los checkboxes
+                const cells = tbody.querySelectorAll('td.selecting');
+                const firstCheckbox = startCell ? startCell.querySelector('input[type="checkbox"]') : null;
+                const newValue = firstCheckbox ? !firstCheckbox.checked : true;
+
+                cells.forEach(cell => {
+                    const checkbox = cell.querySelector('input[type="checkbox"]');
+                    if (checkbox) checkbox.checked = newValue;
+                    cell.classList.remove('selecting');
+                });
+
+                // Remover caja de selección
+                selectionBox.remove();
+                selectionBox = null;
+                isSelecting = false;
+            }
+        });
         tbody.addEventListener('mouseover', (e) => {
             if (isDragging && e.target.type === 'checkbox') e.target.checked = dragTargetValue;
         });
         document.addEventListener('mouseup', () => { isDragging = false; });
+        document.addEventListener('mouseup', () => {
+            isDragging = false;
+            if (isSelecting && selectionBox) {
+                selectionBox.remove();
+                selectionBox = null;
+                isSelecting = false;
+                tbody.querySelectorAll('td.selecting').forEach(td => td.classList.remove('selecting'));
+            }
+        });
     }
 
     function toggleDia(dia, valor) {
