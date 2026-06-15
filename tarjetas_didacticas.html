@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tarjetas Didácticas - Energía</title>
+    <style>
+        body { margin: 0; padding: 20px; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f8f9fa; }
+        .flashcard-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; }
+        .flashcard { background-color: transparent; width: 100%; height: 160px; perspective: 1000px; }
+        .flashcard-inner { position: relative; width: 100%; height: 100%; text-align: center; transition: transform 0.6s; transform-style: preserve-3d; cursor: pointer; }
+        .flashcard:hover .flashcard-inner { transform: rotateY(180deg); }
+        .flashcard-front, .flashcard-back { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 15px; box-sizing: border-box; border-radius: 12px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+        .flashcard-front { background-color: #f1f8e9; color: #2e7d32; border: 2px solid #a5d6a7; }
+        .flashcard-back { background-color: #2e7d32; color: #ffffff; transform: rotateY(180deg); }
+        .card-text { font-size: 1.1em; font-weight: 600; line-height: 1.3; }
+        .card-title { font-size: 0.75em; text-transform: uppercase; letter-spacing: 1px; position: absolute; top: 12px; opacity: 0.7; }
+    </style>
+</head>
+<body>
+
+<div class="flashcard-grid">
+  <div class="flashcard"><div class="flashcard-inner"><div class="flashcard-front"><span class="card-title">Concepto 1</span><span class="card-text">¿Qué tipo de energía nos llega directamente del Sol?</span></div><div class="flashcard-back"><span class="card-text">Energía Lumínica</span></div></div></div>
+  <div class="flashcard"><div class="flashcard-inner"><div class="flashcard-front"><span class="card-title">Concepto 2</span><span class="card-text">Partículas liberadas en un panel solar para crear corriente</span></div><div class="flashcard-back"><span class="card-text">Electrones</span></div></div></div>
+  <div class="flashcard"><div class="flashcard-inner"><div class="flashcard-front"><span class="card-title">Concepto 3</span><span class="card-text">Energía que tiene el viento al moverse</span></div><div class="flashcard-back"><span class="card-text">Energía Cinética</span></div></div></div>
+  <div class="flashcard"><div class="flashcard-inner"><div class="flashcard-front"><span class="card-title">Concepto 4</span><span class="card-text">Dispositivo que transforma el giro en electricidad</span></div><div class="flashcard-back"><span class="card-text">El Generador</span></div></div></div>
+  <div class="flashcard"><div class="flashcard-inner"><div class="flashcard-front"><span class="card-title">Concepto 5</span><span class="card-text">"La energía no se crea ni se destruye, solo se..."</span></div><div class="flashcard-back"><span class="card-text">Transforma</span></div></div></div>
+  <div class="flashcard"><div class="flashcard-inner"><div class="flashcard-front"><span class="card-title">Concepto 6</span><span class="card-text">Material semiconductor de los paneles solares</span></div><div class="flashcard-back"><span class="card-text">Silicio</span></div></div></div>
+  <div class="flashcard"><div class="flashcard-inner"><div class="flashcard-front"><span class="card-title">Concepto 7</span><span class="card-text">Mito o Realidad: Los paneles necesitan el calor del sol.</span></div><div class="flashcard-back"><span class="card-text">Mito. Funcionan con luz.</span></div></div></div>
+  <div class="flashcard"><div class="flashcard-inner"><div class="flashcard-front"><span class="card-title">Concepto 8</span><span class="card-text">Fenómeno físico clave en el aerogenerador</span></div><div class="flashcard-back"><span class="card-text">Inducción Electromagnética</span></div></div></div>
+</div>
+
+</body>
+</html>
