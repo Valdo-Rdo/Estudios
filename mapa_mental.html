@@ -6,13 +6,13 @@
     <title>Mapa Mental - El Viaje de la Energía</title>
     <style>
         :root {
-            --bg-color: #0f172a; /* Azul muy oscuro */
-            --line-color: #38bdf8; /* Azul claro brillante */
+            --bg-color: #0f172a;
+            --line-color: #38bdf8;
             --node-bg: #1e293b;
             --node-border: #0ea5e9;
             --text-color: #f8fafc;
-            --accent: #10b981; /* Verde esmeralda para renovables */
-            --accent-ley: #f59e0b; /* Naranja para la ley */
+            --accent: #10b981;
+            --accent-ley: #f59e0b;
         }
 
         body {
@@ -21,7 +21,10 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: var(--bg-color);
             color: var(--text-color);
-            overflow-x: auto; /* Permite scroll en celulares */
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         .titulo-mapa {
@@ -33,21 +36,16 @@
             text-transform: uppercase;
             letter-spacing: 2px;
             text-shadow: 0 0 10px rgba(56, 189, 248, 0.5);
-            position: sticky;
-            top: 0;
-            z-index: 10;
         }
 
-        /* Contenedor del mapa con tamaño mínimo para evitar que se aplaste en móviles */
         .map-container {
             position: relative;
             width: 100%;
-            min-width: 800px; /* En móviles se hará scroll horizontal */
-            height: 500px;
-            margin: 0 auto;
+            max-width: 600px;
+            height: 800px;
+            overflow: hidden;
         }
 
-        /* SVG para las líneas conectoras */
         svg {
             position: absolute;
             top: 0;
@@ -55,7 +53,6 @@
             width: 100%;
             height: 100%;
             z-index: 1;
-            pointer-events: none; /* Para que los clics pasen a través del SVG */
         }
 
         line {
@@ -70,7 +67,6 @@
             to { stroke-dashoffset: -1000; }
         }
 
-        /* Nodos (Burbujas del mapa) */
         .node {
             position: absolute;
             transform: translate(-50%, -50%);
@@ -94,17 +90,10 @@
             background-color: #2c3e50;
         }
 
-        /* Nodos específicos para darles color diferente */
-        .node.root {
-            font-size: 1.4em;
-            padding: 15px 35px;
-            border-color: #f1c40f;
-            box-shadow: 0 0 20px rgba(241, 196, 15, 0.5);
-        }
-        .node.renovables { border-color: var(--accent); box-shadow: 0 0 15px rgba(16, 185, 129, 0.4); }
-        .node.ley { border-color: var(--accent-ley); box-shadow: 0 0 15px rgba(245, 158, 11, 0.4); }
+        .node.root { border-color: #f1c40f; box-shadow: 0 0 20px rgba(241, 196, 15, 0.5); }
+        .node.renovables { border-color: var(--accent); }
+        .node.ley { border-color: var(--accent-ley); }
 
-        /* Modal (Ventana emergente de información) */
         .modal-overlay {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -116,13 +105,9 @@
             opacity: 0;
             visibility: hidden;
             transition: all 0.3s ease;
-            backdrop-filter: blur(5px);
         }
 
-        .modal-overlay.active {
-            opacity: 1;
-            visibility: visible;
-        }
+        .modal-overlay.active { opacity: 1; visibility: visible; }
 
         .modal-box {
             background: #1e293b;
@@ -132,32 +117,7 @@
             max-width: 400px;
             width: 90%;
             text-align: center;
-            transform: translateY(20px);
-            transition: all 0.3s ease;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
-
-        .modal-overlay.active .modal-box {
-            transform: translateY(0);
-        }
-
-        .modal-icon { font-size: 3.5em; margin-bottom: 10px; }
-        .modal-title { font-size: 1.5em; margin-bottom: 15px; color: var(--line-color); text-transform: uppercase; }
-        .modal-text { font-size: 1.1em; line-height: 1.5; margin-bottom: 25px; color: #cbd5e1; }
-        
-        .close-btn {
-            background: var(--line-color);
-            color: #0f172a;
-            border: none;
-            padding: 10px 25px;
-            border-radius: 20px;
-            font-size: 1em;
-            font-weight: bold;
-            cursor: pointer;
-            transition: background 0.3s;
-        }
-        .close-btn:hover { background: #7dd3fc; }
-
     </style>
 </head>
 <body>
@@ -165,123 +125,58 @@
     <h2 class="titulo-mapa">🗺️ Red Conceptual: Energía</h2>
 
     <div class="map-container">
-        
-        <!-- LÍNEAS CONECTORAS (Usando porcentajes para adaptarse) -->
         <svg>
-            <!-- Centro a Fuentes -->
-            <line x1="50%" y1="40%" x2="25%" y2="25%" />
-            <!-- Fuentes a Solar/Eólica -->
-            <line x1="25%" y1="25%" x2="15%" y2="55%" />
-            <line x1="25%" y1="25%" x2="35%" y2="55%" />
-            
-            <!-- Centro a Tipos -->
-            <line x1="50%" y1="40%" x2="75%" y2="25%" />
-            <!-- Tipos a Cinética/Lumínica/Eléctrica -->
-            <line x1="75%" y1="25%" x2="65%" y2="55%" />
-            <line x1="75%" y1="25%" x2="85%" y2="55%" />
-            <line x1="75%" y1="25%" x2="90%" y2="80%" />
-            
-            <!-- Centro a Ley -->
-            <line x1="50%" y1="40%" x2="50%" y2="80%" />
+            <line x1="50%" y1="50%" x2="50%" y2="28%" />
+            <line x1="50%" y1="28%" x2="25%" y2="12%" />
+            <line x1="50%" y1="28%" x2="75%" y2="12%" />
+            <line x1="50%" y1="50%" x2="50%" y2="70%" />
+            <line x1="50%" y1="70%" x2="20%" y2="88%" />
+            <line x1="50%" y1="70%" x2="50%" y2="88%" />
+            <line x1="50%" y1="70%" x2="80%" y2="88%" />
+            <line x1="50%" y1="50%" x2="22%" y2="50%" />
         </svg>
 
-        <!-- NODOS INTERACTIVOS (Posicionados sobre las líneas) -->
-        
-        <!-- Nodo Central -->
-        <div class="node root" style="top: 40%; left: 50%;" onclick="abrirModal('energia')">⚡ ENERGÍA</div>
-
-        <!-- Rama Izquierda: Fuentes -->
-        <div class="node renovables" style="top: 25%; left: 25%;" onclick="abrirModal('renovables')">🌱 Fuentes Renovables</div>
-        <div class="node renovables" style="top: 55%; left: 15%;" onclick="abrirModal('eolica')">💨 Energía Eólica</div>
-        <div class="node renovables" style="top: 55%; left: 35%;" onclick="abrirModal('solar')">☀️ Energía Solar</div>
-
-        <!-- Rama Derecha: Tipos -->
-        <div class="node" style="top: 25%; left: 75%;" onclick="abrirModal('tipos')">💡 Tipos de Energía</div>
-        <div class="node" style="top: 55%; left: 65%;" onclick="abrirModal('cinetica')">🏃 Cinética</div>
-        <div class="node" style="top: 55%; left: 85%;" onclick="abrirModal('luminica')">🔦 Lumínica</div>
-        <div class="node" style="top: 80%; left: 90%;" onclick="abrirModal('electrica')">🔌 Eléctrica</div>
-
-        <!-- Rama Inferior: Ley de Conservación -->
-        <div class="node ley" style="top: 80%; left: 50%;" onclick="abrirModal('ley')">⚖️ Conservación</div>
-
+        <div class="node root" style="top: 50%; left: 50%;" onclick="abrirModal('energia')">⚡ ENERGÍA</div>
+        <div class="node renovables" style="top: 28%; left: 50%;" onclick="abrirModal('renovables')">🌱 Fuentes Renovables</div>
+        <div class="node renovables" style="top: 12%; left: 25%;" onclick="abrirModal('eolica')">💨 Energía Eólica</div>
+        <div class="node renovables" style="top: 12%; left: 75%;" onclick="abrirModal('solar')">☀️ Energía Solar</div>
+        <div class="node" style="top: 70%; left: 50%;" onclick="abrirModal('tipos')">💡 Tipos de Energía</div>
+        <div class="node" style="top: 88%; left: 20%;" onclick="abrirModal('cinetica')">🏃 Cinética</div>
+        <div class="node" style="top: 88%; left: 50%;" onclick="abrirModal('luminica')">🔦 Lumínica</div>
+        <div class="node" style="top: 88%; left: 80%;" onclick="abrirModal('electrica')">🔌 Eléctrica</div>
+        <div class="node ley" style="top: 50%; left: 22%;" onclick="abrirModal('ley')">⚖️ Conservación</div>
     </div>
 
-    <!-- VENTANA EMERGENTE (Modal) -->
     <div class="modal-overlay" id="modal">
         <div class="modal-box">
-            <div class="modal-icon" id="modal-icon">⚡</div>
-            <div class="modal-title" id="modal-title">Título</div>
-            <div class="modal-text" id="modal-text">Aquí va la explicación detallada del concepto para que el alumno lo lea con calma.</div>
-            <button class="close-btn" onclick="cerrarModal()">Entendido</button>
+            <div id="modal-title" style="color: #38bdf8; font-size: 1.5em; margin-bottom: 10px;">Título</div>
+            <div id="modal-text" style="color: white; margin-bottom: 20px;">Texto aquí</div>
+            <button onclick="cerrarModal()" style="padding: 10px 20px; border-radius: 20px; border: none; background: #38bdf8; cursor: pointer;">Entendido</button>
         </div>
     </div>
 
-    <!-- SCRIPTS DE INTERACCIÓN -->
     <script>
-        // Base de datos de conceptos (Fácil de editar si necesitas cambiar textos)
         const diccionario = {
-            'energia': {
-                icon: '⚡', title: 'La Energía',
-                text: 'Es el "motor" del universo. Se define como la capacidad que tienen los cuerpos para realizar un trabajo, producir movimiento o generar cambios en su entorno.'
-            },
-            'renovables': {
-                icon: '🌱', title: 'Renovables',
-                text: 'Son recursos que la naturaleza repone constantemente y no se agotan con su uso. Además, son clave para detener el calentamiento global.'
-            },
-            'eolica': {
-                icon: '💨', title: 'Energía Eólica',
-                text: 'Aprovecha la fuerza del viento. Las corrientes de aire hacen girar las enormes aspas de los aerogeneradores para producir electricidad.'
-            },
-            'solar': {
-                icon: '☀️', title: 'Energía Solar',
-                text: 'Captura los fotones (partículas de luz) del sol mediante paneles de silicio. El impacto de la luz libera electrones, creando una corriente eléctrica.'
-            },
-            'tipos': {
-                icon: '💡', title: 'Transformaciones',
-                text: 'La energía es como un actor con muchos disfraces. Dependiendo de cómo se manifieste en la naturaleza, le damos un nombre distinto.'
-            },
-            'cinetica': {
-                icon: '🏃', title: 'Energía Cinética',
-                text: 'Es la energía del movimiento. Cualquier objeto que se esté moviendo (el viento, el agua de un río, tú corriendo) tiene energía cinética.'
-            },
-            'luminica': {
-                icon: '🔦', title: 'Energía Lumínica',
-                text: 'Es la energía transportada por la luz. ¡Es la única forma de energía que podemos ver directamente con nuestros propios ojos!'
-            },
-            'electrica': {
-                icon: '🔌', title: 'Energía Eléctrica',
-                text: 'Ocurre cuando los electrones viajan de forma ordenada a través de un material conductor, como un cable de cobre. Es la que usamos en casa.'
-            },
-            'ley': {
-                icon: '⚖️', title: 'Ley de Conservación',
-                text: '"La energía no se crea ni se destruye, solo se transforma". Es la regla fundamental de la Física. Toda la energía del universo es constante.'
-            }
+            'energia': { title: 'Energía', text: 'Capacidad para realizar un trabajo.' },
+            'renovables': { title: 'Renovables', text: 'Recursos inagotables.' },
+            'eolica': { title: 'Eólica', text: 'Energía del viento.' },
+            'solar': { title: 'Solar', text: 'Energía del sol.' },
+            'tipos': { title: 'Transformaciones', text: 'Diferentes formas de energía.' },
+            'cinetica': { title: 'Cinética', text: 'Energía del movimiento.' },
+            'luminica': { title: 'Lumínica', text: 'Energía de la luz.' },
+            'electrica': { title: 'Eléctrica', text: 'Flujo de electrones.' },
+            'ley': { title: 'Conservación', text: 'La energía no se crea ni se destruye.' }
         };
 
-        const modal = document.getElementById('modal');
-        const mIcon = document.getElementById('modal-icon');
-        const mTitle = document.getElementById('modal-title');
-        const mText = document.getElementById('modal-text');
-
-        // Función para abrir la ventana
         function abrirModal(id) {
-            const data = diccionario[id];
-            mIcon.innerText = data.icon;
-            mTitle.innerText = data.title;
-            mText.innerText = data.text;
-            modal.classList.add('active');
+            document.getElementById('modal-title').innerText = diccionario[id].title;
+            document.getElementById('modal-text').innerText = diccionario[id].text;
+            document.getElementById('modal').classList.add('active');
         }
 
-        // Función para cerrar la ventana
         function cerrarModal() {
-            modal.classList.remove('active');
+            document.getElementById('modal').classList.remove('active');
         }
-
-        // Cerrar si se hace clic fuera de la caja
-        modal.addEventListener('click', function(e) {
-            if(e.target === modal) { cerrarModal(); }
-        });
     </script>
-
 </body>
 </html>
