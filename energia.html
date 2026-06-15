@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simuladores de Energía Renovable</title>
+    <style>
+        :root {
+            --sky-top: #4facfe;
+            --sky-bottom: #00f2fe;
+            --grass-top: #a8e063;
+            --grass-bottom: #56ab2f;
+            --ui-bg: rgba(255, 255, 255, 0.9);
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow: hidden;
+            background: #333;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            color: #333;
+        }
+
+        /* --- PESTAÑAS (TABS) --- */
+        .tabs-header {
+            display: flex;
+            background: #2c3e50;
+            height: 50px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+            z-index: 20;
+        }
+        .tab-btn {
+            flex: 1;
+            background: #34495e;
+            color: #bdc3c7;
+            border: none;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-bottom: 4px solid transparent;
+        }
+        .tab-btn:hover {
+            background: #3d566e;
+            color: white;
+        }
+        .tab-btn.active {
+            background: #2980b9;
+            color: white;
+            border-bottom: 4px solid #f1c40f;
+        }
+
+        /* --- CONTENEDORES DE PESTAÑAS --- */
+        .tab-content {
+            display: none; /* Oculto por defecto */
+            flex: 1;
+            flex-direction: column;
+            background: linear-gradient(to bottom, var(--sky-top), var(--sky-bottom));
+            position: relative;
+        }
+        .tab-content.active {
+            display: flex; /* Se muestra si está activo */
+        }
+
+        /* Escenario principal */
+        .escenario {
+            flex: 1;
+            position: relative;
+            overflow: hidden;
+            transition: filter 0.5s ease; /* Para oscurecer el cielo solar */
+        }
+
+        /* Suelo / Pasto (Compartido) */
+        .suelo {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 25%;
+            background: linear-gradient(to bottom, var(--grass-top), var(--grass-bottom));
+            border-top: 4px solid #4ca12c;
+            z-index: 2;
+        }
+
+        /* Casa (Compartida) */
+        .casa-container {
+            position: absolute;
+            bottom: 22%;
+            right: 20%;
+            z-index: 3;
+            text-align: center;
+        }
+        .casa {
+            width: 80px;
+            height: 60px;
+            background: #fcfcfc;
+            border: 2px solid #555;
+            border-bottom: none;
+            position: relative;
+            box-shadow: inset -5px -5px 10px rgba(0,0,0,0.1);
+        }
+        .techo {
+            width: 0;
+            height: 0;
+            border-left: 50px solid transparent;
+            border-right: 50px solid transparent;
+            border-bottom: 40px solid #d32f2f;
+            position: absolute;
+            top: -40px;
+            left: -10px;
+        }
+        .puerta {
+            width: 20px;
+            height: 35px;
+            background: #795548;
+            position: absolute;
+            bottom: 0;
+            left: 30px;
+        }
+        .foco-contenedor {
+            position: absolute;
+            top: -70px;
+            left: 15px;
+            font-size: 50px;
+            width: 50px;
+            height: 50px;
+            z-index: 10;
+        }
+        .foco-off {
+            position: absolute;
+            top: 0;
+            left: 0;
+            filter: grayscale(100%);
+            opacity: 0.6;
+        }
+        .foco-on {
+            position: absolute;
+            top: 0;
+            left: 0;
+            opacity: 0;
+            filter: drop-shadow(0 0 10px #ffeb3b) drop-shadow(0 0 20px #ffeb3b);
+            transition: opacity 0.3s;
+        }
+        .cable {
+            position: absolute;
+            bottom: 22%;
+            left: 25%;
+            width: 55%;
+            height: 40px;
+            border-bottom: 3px dashed rgba(50, 50, 50, 0.5);
+            border-radius: 50%;
+            z-index: 1;
+        }
+        .etiqueta-cable {
+            position: absolute;
+            bottom: -25px;
+            left: 40%;
+            font-size: 0.8em;
+            background: var(--ui-bg);
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-weight: bold;
+            color: #555;
+        }
+
+        /* --- ELEMENTOS EÓLICOS --- */
+        .nube {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 50px;
+            animation: flotar linear infinite;
+        }
+        .nube::before, .nube::after {
+            content: '';
+            position: absolute;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+        }
+        .nube1 { width: 100px; height: 30px; top: 15%; left: -120px; animation-duration: 20s; }
+        .nube1::before { width: 50px; height: 50px; top: -20px; left: 15px; }
+        .nube1::after { width: 40px; height: 40px; top: -10px; left: 50px; }
+        .nube2 { width: 140px; height: 40px; top: 30%; left: -160px; animation-duration: 25s; animation-delay: 5s; }
+        .nube2::before { width: 70px; height: 70px; top: -30px; left: 20px; }
+        .nube2::after { width: 50px; height: 50px; top: -20px; left: 70px; }
+
+        @keyframes flotar { 0% { transform: translateX(-150px); } 100% { transform: translateX(110vw); } }
+
+        .turbina-container {
+            position: absolute;
+            bottom: 20%;
+            left: 20%;
+            z-index: 3;
+            transform: scale(1.2);
+        }
+        .poste {
+            width: 12px;
+            height: 180px;
+            background: linear-gradient(to right, #ccc, #fff, #999);
+            border-radius: 5px 5px 0 0;
+            position: absolute;
+            bottom: 0;
+            left: -6px;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.2);
+        }
+        .rotor {
+            position: absolute;
+            bottom: 175px;
+            left: 0;
+            width: 0;
+            height: 0;
+            z-index: 4;
+            animation: giro linear infinite;
+            animation-play-state: paused; 
+        }
+        .centro {
+            width: 20px;
+            height: 20px;
+            background: #e0e0e0;
+            border-radius: 50%;
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            z-index: 5;
+            box-shadow: inset -2px -2px 4px rgba(0,0,0,0.3);
+        }
+        .aspa {
+            position: absolute;
+            width: 8px;
+            height: 110px;
+            background: rgba(255, 255, 255, 0.9);
+            top: -10px;
+            left: -4px;
+            border-radius: 50% 50% 2px 2px;
+            transform-origin: 4px 10px;
+            box-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+        }
+        .aspa:nth-child(2) { transform: rotate(120deg); }
+        .aspa:nth-child(3) { transform: rotate(240deg); }
+
+        @keyframes giro { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        /* --- ELEMENTOS SOLARES --- */
+        #cielo-solar {
+            filter: brightness(0.4) grayscale(0.5); /* Empieza oscuro/nublado */
+        }
+        .sol-container {
+            position: absolute;
+            top: 15%;
+            left: 15%;
+            width: 100px;
+            height: 100px;
+            z-index: 1;
+        }
+        .sol {
+            width: 100%;
+            height: 100%;
+            background: #ffeb3b;
+            border-radius: 50%;
+            box-shadow: 0 0 20px #ff9800;
+            transform: scale(0.5); /* Empieza pequeño/débil */
+            opacity: 0.5;
+            transition: all 0.3s;
+        }
+        .rayos-solares {
+            position: absolute;
+            top: 50px;
+            left: 50px;
+            width: 150px;
+            height: 200px;
+            background: linear-gradient(to bottom right, rgba(255,235,59,0.5) 0%, transparent 80%);
+            transform-origin: 0 0;
+            transform: rotate(35deg);
+            opacity: 0; /* JS controla esto */
+            transition: opacity 0.3s;
+            clip-path: polygon(0 0, 100% 0, 60% 100%, 0% 100%);
+            pointer-events: none;
+        }
+
+        .panel-solar-container {
+            position: absolute;
+            bottom: 20%;
+            left: 20%;
+            z-index: 3;
+            transform: scale(1.2);
+        }
+        .panel-stand {
+            width: 8px;
+            height: 80px;
+            background: #7f8c8d;
+            position: absolute;
+            bottom: 0;
+            left: 50px;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.2);
+        }
+        .panel-base {
+            width: 40px;
+            height: 6px;
+            background: #34495e;
+            position: absolute;
+            bottom: 0;
+            left: 34px;
+            border-radius: 3px;
+        }
+        .panel-board {
+            width: 120px;
+            height: 70px;
+            background: #1abc9c;
+            border: 4px solid #ecf0f1;
+            border-radius: 4px;
+            position: absolute;
+            bottom: 70px;
+            left: -5px;
+            transform: rotate(-30deg); /* Apuntando al sol */
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-template-rows: repeat(2, 1fr);
+            gap: 2px;
+            padding: 2px;
+            box-sizing: border-box;
+            box-shadow: 2px 5px 10px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        .celda {
+            background: #2980b9;
+            border: 1px solid #3498db;
+            position: relative;
+            overflow: hidden;
+        }
+        /* Efecto de brillo (fotones) pasando por el panel */
+        .panel-board::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(to right, transparent, rgba(255,255,255,0.4), transparent);
+            transform: rotate(45deg) translateX(-100%);
+            animation: brillo 2s infinite;
+            display: none; /* Se activa con JS */
+        }
+        @keyframes brillo {
+            0% { transform: rotate(45deg) translateX(-100%); }
+            100% { transform: rotate(45deg) translateX(100%); }
+        }
+
+
+        /* --- CONTROLES COMUNES --- */
+        .panel-control {
+            background: var(--ui-bg);
+            padding: 15px 30px;
+            border-top: 2px solid #ddd;
+            box-shadow: 0 -4px 10px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 10;
+        }
+        .control-grupo {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 40%;
+        }
+        .titulo-control {
+            font-size: 1.1em;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: #2c3e50;
+            text-transform: uppercase;
+        }
+        input[type=range] {
+            -webkit-appearance: none;
+            width: 100%;
+            background: transparent;
+        }
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 24px;
+            width: 24px;
+            border-radius: 50%;
+            background: #2196f3;
+            cursor: pointer;
+            margin-top: -8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+        }
+        /* Color del botón deslizador solar */
+        #solarSlider::-webkit-slider-thumb { background: #f1c40f; }
+
+        input[type=range]::-webkit-slider-runnable-track {
+            width: 100%;
+            height: 8px;
+            cursor: pointer;
+            background: #b0bec5;
+            border-radius: 4px;
+        }
+        .tablero {
+            display: flex;
+            gap: 20px;
+            background: #fff;
+            padding: 10px 20px;
+            border-radius: 12px;
+            border: 2px solid #e0e0e0;
+        }
+        .dato {
+            text-align: center;
+            min-width: 90px;
+        }
+        .dato span {
+            display: block;
+            font-size: 0.75em;
+            color: #777;
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+        .dato strong {
+            font-size: 1.4em;
+            color: #d32f2f;
+            font-family: monospace;
+        }
+        .dato strong.verde { color: #2e7d32; }
+
+        @media (max-width: 768px) {
+            .panel-control { flex-direction: column; gap: 15px; padding: 10px; }
+            .control-grupo { width: 100%; }
+            .turbina-container, .panel-solar-container { left: 10%; transform: scale(0.9); }
+            .casa-container { right: 10%; transform: scale(0.9); }
+            .cable { left: 15%; width: 70%; }
+            .tabs-header { height: 45px; }
+            .tab-btn { font-size: 0.9em; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVEGACIÓN DE PESTAÑAS -->
+    <div class="tabs-header">
+        <button class="tab-btn active" onclick="cambiarPestana('eolica')">🌬️ Energía Eólica</button>
+        <button class="tab-btn" onclick="cambiarPestana('solar')">☀️ Energía Solar</button>
+    </div>
+
+    <!-- ==============================================
+         PESTAÑA 1: ENERGÍA EÓLICA 
+         ============================================== -->
+    <div id="tab-eolica" class="tab-content active">
+        <div class="escenario">
+            <div class="nube nube1" id="nube1"></div>
+            <div class="nube nube2" id="nube2"></div>
+
+            <div class="cable"><div class="etiqueta-cable">Cable Eléctrico ⚡</div></div>
+
+            <div class="turbina-container">
+                <div class="poste"></div>
+                <div class="rotor" id="rotor">
+                    <div class="centro"></div>
+                    <div class="aspa"></div>
+                    <div class="aspa"></div>
+                    <div class="aspa"></div>
+                </div>
+            </div>
+
+            <div class="casa-container">
+                <div class="foco-contenedor">
+                    <div class="foco-off">💡</div>
+                    <div class="foco-on" id="focoEolico">💡</div>
+                </div>
+                <div class="casa"><div class="techo"></div><div class="puerta"></div></div>
+            </div>
+            <div class="suelo"></div>
+        </div>
+
+        <div class="panel-control">
+            <div class="control-grupo">
+                <div class="titulo-control">🌬️ Fuerza del Viento (km/h)</div>
+                <input type="range" id="vientoSlider" min="0" max="100" value="0">
+            </div>
+            <div class="tablero">
+                <div class="dato"><span>Viento</span><strong id="datoViento">0</strong></div>
+                <div class="dato"><span>Giro (RPM)</span><strong id="datoRpm">0</strong></div>
+                <div class="dato"><span>Potencia</span><strong id="datoWattsEolico" class="verde">0 W</strong></div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- ==============================================
+         PESTAÑA 2: ENERGÍA SOLAR
+         ============================================== -->
+    <div id="tab-solar" class="tab-content">
+        <div class="escenario" id="cielo-solar">
+            
+            <div class="sol-container">
+                <div class="sol" id="sol"></div>
+                <div class="rayos-solares" id="rayos"></div>
+            </div>
+
+            <div class="cable"><div class="etiqueta-cable">Cable Eléctrico ⚡</div></div>
+
+            <div class="panel-solar-container">
+                <div class="panel-stand"></div>
+                <div class="panel-base"></div>
+                <div class="panel-board" id="panel-board">
+                    <div class="celda"></div><div class="celda"></div><div class="celda"></div><div class="celda"></div>
+                    <div class="celda"></div><div class="celda"></div><div class="celda"></div><div class="celda"></div>
+                </div>
+            </div>
+
+            <div class="casa-container">
+                <div class="foco-contenedor">
+                    <div class="foco-off">💡</div>
+                    <div class="foco-on" id="focoSolar">💡</div>
+                </div>
+                <div class="casa"><div class="techo"></div><div class="puerta"></div></div>
+            </div>
+            <div class="suelo"></div>
+        </div>
+
+        <div class="panel-control">
+            <div class="control-grupo">
+                <div class="titulo-control">☀️ Intensidad del Sol (%)</div>
+                <input type="range" id="solarSlider" min="0" max="100" value="0">
+            </div>
+            <div class="tablero">
+                <div class="dato"><span>Radiación</span><strong id="datoRadiacion">0%</strong></div>
+                <div class="dato"><span>Fotones</span><strong id="datoFotones">Bajo</strong></div>
+                <div class="dato"><span>Potencia</span><strong id="datoWattsSolar" class="verde">0 W</strong></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- --- LÓGICA JAVASCRIPT --- -->
+    <script>
+        // ------------------------------------
+        // Lógica de Pestañas (Tabs)
+        // ------------------------------------
+        function cambiarPestana(pestana) {
+            // Quitar clase activa de todos los botones y contenidos
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+            
+            // Activar solo el seleccionado
+            if(pestana === 'eolica') {
+                document.querySelectorAll('.tab-btn')[0].classList.add('active');
+                document.getElementById('tab-eolica').classList.add('active');
+            } else {
+                document.querySelectorAll('.tab-btn')[1].classList.add('active');
+                document.getElementById('tab-solar').classList.add('active');
+            }
+        }
+
+        // ------------------------------------
+        // Lógica: Simulación Eólica
+        // ------------------------------------
+        const sViento = document.getElementById('vientoSlider');
+        const rotor = document.getElementById('rotor');
+        const focoEolico = document.getElementById('focoEolico');
+        const nube1 = document.getElementById('nube1');
+        const nube2 = document.getElementById('nube2');
+
+        sViento.addEventListener('input', function() {
+            let viento = parseInt(this.value);
+            document.getElementById('datoViento').innerText = viento;
+            
+            if (viento > 5) {
+                let rpm = Math.round(viento * 0.8);
+                let watts = Math.round((viento * viento) / 2.5); 
+                
+                document.getElementById('datoRpm').innerText = rpm;
+                document.getElementById('datoWattsEolico').innerText = watts + " W";
+
+                rotor.style.animationPlayState = 'running';
+                let duracionGiro = 4 - (viento * 0.035); 
+                if(duracionGiro < 0.2) duracionGiro = 0.2; 
+                rotor.style.animationDuration = duracionGiro + 's';
+
+                focoEolico.style.opacity = viento / 100;
+                nube1.style.animationDuration = (20 - (viento * 0.15)) + 's';
+                nube2.style.animationDuration = (25 - (viento * 0.15)) + 's';
+            } else {
+                rotor.style.animationPlayState = 'paused';
+                focoEolico.style.opacity = 0;
+                document.getElementById('datoRpm').innerText = "0";
+                document.getElementById('datoWattsEolico').innerText = "0 W";
+                nube1.style.animationDuration = '20s';
+                nube2.style.animationDuration = '25s';
+            }
+        });
+
+        // ------------------------------------
+        // Lógica: Simulación Solar
+        // ------------------------------------
+        const sSolar = document.getElementById('solarSlider');
+        const sol = document.getElementById('sol');
+        const cieloSolar = document.getElementById('cielo-solar');
+        const rayos = document.getElementById('rayos');
+        const panelBoard = document.getElementById('panel-board');
+        const focoSolar = document.getElementById('focoSolar');
+
+        sSolar.addEventListener('input', function() {
+            let luz = parseInt(this.value); // 0 a 100
+            document.getElementById('datoRadiacion').innerText = luz + "%";
+            
+            // 1. Modificar el cielo (despejando las nubes/oscuridad)
+            // Cuando es 0, filter es brightness(0.4) grayscale(0.5)
+            // Cuando es 100, filter es brightness(1) grayscale(0)
+            let brightness = 0.4 + (luz * 0.006);
+            let grayscale = 0.5 - (luz * 0.005);
+            cieloSolar.style.filter = `brightness(${brightness}) grayscale(${grayscale})`;
+
+            // 2. Animar el Sol y Rayos
+            let escalaSol = 0.5 + (luz * 0.005); // Crece de 0.5 a 1.0
+            sol.style.transform = `scale(${escalaSol})`;
+            sol.style.opacity = 0.5 + (luz * 0.005);
+            sol.style.boxShadow = `0 0 ${luz/2}px #ff9800`;
+            
+            rayos.style.opacity = luz / 150; // Hasta 0.66 de opacidad
+
+            if (luz > 10) {
+                // Cálculo de Potencia (Lineal para solar)
+                let watts = Math.round(luz * 3.5); 
+                document.getElementById('datoWattsSolar').innerText = watts + " W";
+                
+                // Nivel de fotones
+                let estadoFotones = "Bajo";
+                if(luz > 40) estadoFotones = "Medio";
+                if(luz > 80) estadoFotones = "Alto";
+                document.getElementById('datoFotones').innerText = estadoFotones;
+
+                // Enciende el foco
+                focoSolar.style.opacity = luz / 100;
+                
+                // Efecto de fotones pasando por el panel (CSS Pseudo-element)
+                panelBoard.style.display = 'grid'; // Truco para forzar reflow si es necesario
+                panelBoard.style.boxShadow = `0 0 ${luz/5}px #1abc9c`;
+            } else {
+                document.getElementById('datoWattsSolar').innerText = "0 W";
+                document.getElementById('datoFotones').innerText = "Nulo";
+                focoSolar.style.opacity = 0;
+                panelBoard.style.boxShadow = `2px 5px 10px rgba(0,0,0,0.3)`;
+            }
+        });
+
+    </script>
+</body>
+</html>
